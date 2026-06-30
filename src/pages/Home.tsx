@@ -18,72 +18,90 @@ export default function Home() {
   const featuredBlogs = BLOGS.slice(0, 2);
 
   React.useEffect(() => {
-    let mm = gsap.matchMedia();
+    let ctx = gsap.context(() => {
+      let mm = gsap.matchMedia();
 
-    mm.add(
-      {
-        isMobile: "(max-width: 767px)",
-        isTablet: "(min-width: 768px) and (max-width: 1199px)",
-        isDesktop: "(min-width: 1200px)",
-      },
-      (context) => {
-        let { isMobile, isTablet } = context?.conditions || {};
+      mm.add(
+        {
+          isMobile: "(max-width: 767px)",
+          isTablet: "(min-width: 768px) and (max-width: 1199px)",
+          isDesktop: "(min-width: 1200px)",
+        },
+        (context) => {
+          let { isMobile, isTablet } = context?.conditions || {};
 
-        let xMove = isMobile ? "-30vw" : isTablet ? "-15vw" : "-8vw";
-        let yMove = isMobile ? "10vh" : "5vh";
+          let xMove = isMobile ? "-30vw" : isTablet ? "-15vw" : "-8vw";
+          let yMove = isMobile ? "10vh" : "5vh";
 
-        gsap.timeline({
+          gsap.timeline({
+            scrollTrigger: {
+              trigger: ".section-2",
+              start: "top top",
+              end: "+=100%",
+              scrub: 1,
+              pin: true,
+              invalidateOnRefresh: true, // recalcs vw/vh values on resize
+            },
+          })
+          .to(".panel", { xPercent: -100, ease: "none" }) // %-based, not px
+          .to(".asset", { x: xMove, y: yMove, scale: isMobile ? 0.8 : 1, ease: "none" }, "<");
+
+          return () => {}; // cleanup auto-handled by matchMedia on breakpoint change
+        }
+      );
+
+      // Pinning and horizontal timeline step/card reveal for methodology
+      mm.add("(min-width: 601px)", () => {
+        let steps = gsap.utils.toArray(".step-item") as any[];
+        let cards = gsap.utils.toArray(".step-card") as any[];
+
+        let tl = gsap.timeline({
           scrollTrigger: {
-            trigger: ".section-2",
+            trigger: ".steps-track",
             start: "top top",
-            end: "+=100%",
+            end: "+=300%",
             scrub: 1,
             pin: true,
-            invalidateOnRefresh: true, // recalcs vw/vh values on resize
+            invalidateOnRefresh: true,
           },
-        })
-        .to(".panel", { xPercent: -100, ease: "none" }) // %-based, not px
-        .to(".asset", { x: xMove, y: yMove, scale: isMobile ? 0.8 : 1, ease: "none" }, "<");
+        });
 
-        return () => {}; // cleanup auto-handled by matchMedia on breakpoint change
-      }
-    );
+        steps.forEach((step: any, i: number) => {
+          tl.to(".track-fill", { scaleX: (i + 1) * 0.25, ease: "none" }, i)
+            .fromTo(cards[i], { autoAlpha: 0, yPercent: 10 }, { autoAlpha: 1, yPercent: 0, ease: "none" }, i)
+            .to(cards[i], { autoAlpha: 0, yPercent: -10, ease: "none" }, i + 0.8);
+        });
 
-    // Pinning and horizontal timeline step/card reveal for methodology
-    mm.add("(min-width: 601px)", () => {
-      let steps = gsap.utils.toArray(".step-item") as any[];
-      let cards = gsap.utils.toArray(".step-card") as any[];
-
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".steps-track",
-          start: "top top",
-          end: "+=300%",
-          scrub: 1,
-          pin: true,
-          invalidateOnRefresh: true,
-        },
+        return () => {
+          tl.kill();
+        };
       });
 
-      steps.forEach((step: any, i: number) => {
-        tl.to(".track-fill", { scaleX: (i + 1) * 0.25, ease: "none" }, i)
-          .fromTo(cards[i], { autoAlpha: 0, yPercent: 10 }, { autoAlpha: 1, yPercent: 0, ease: "none" }, i)
-          .to(cards[i], { autoAlpha: 0, yPercent: -10, ease: "none" }, i + 0.8);
+      mm.add("(max-width: 600px)", () => {
+        let steps = gsap.utils.toArray(".step-item");
+        steps.forEach((step: any) => {
+          gsap.from(step, {
+            autoAlpha: 0,
+            x: "-5vw",
+            scrollTrigger: { 
+              trigger: step, 
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            },
+          });
+        });
       });
 
-      return () => {
-        tl.kill();
-      };
-    });
-
-    mm.add("(max-width: 600px)", () => {
-      let steps = gsap.utils.toArray(".step-item");
-      steps.forEach((step: any) => {
-        gsap.from(step, {
+      // GSAP row reveal
+      let systemRows = gsap.utils.toArray(".system-row") as HTMLElement[];
+      systemRows.forEach((row) => {
+        gsap.from(row, {
           autoAlpha: 0,
-          x: "-5vw",
+          yPercent: 8,
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: { 
-            trigger: step, 
+            trigger: row, 
             start: "top 85%",
             toggleActions: "play none none reverse"
           },
@@ -91,23 +109,9 @@ export default function Home() {
       });
     });
 
-    // GSAP row reveal + CTA animation
-    let systemRows = gsap.utils.toArray(".system-row") as HTMLElement[];
     let hoverCleanups: Array<() => void> = [];
-
+    let systemRows = gsap.utils.toArray(".system-row") as HTMLElement[];
     systemRows.forEach((row) => {
-      gsap.from(row, {
-        autoAlpha: 0,
-        yPercent: 8,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: { 
-          trigger: row, 
-          start: "top 85%",
-          toggleActions: "play none none reverse"
-        },
-      });
-
       let cta = row.querySelector(".system-cta");
       if (cta) {
         const onEnter = () => gsap.to(cta, { xPercent: 5, duration: 0.3 });
@@ -142,7 +146,7 @@ export default function Home() {
     window.addEventListener("orientationchange", handleOrientationChange);
 
     return () => {
-      mm.revert();
+      ctx.revert();
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleOrientationChange);
       clearTimeout(resizeTimer);
@@ -281,21 +285,10 @@ export default function Home() {
       </section>
 
       {/* 3. SELECTED WORK SHOWCASE */}
-      <motion.section 
-        initial={{ y: 80, opacity: 0.9 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true, amount: 0.05 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+      <section 
         className="section bg-[#fdfcf9] text-brand-dark border-b border-brand-border/30 relative z-20"
       >
-        <motion.div 
-          animate={{ y: [0, -6, 0] }}
-          transition={{ 
-            duration: 6, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
-          }}
-        >
+        <div>
           
           {/* Header Row exactly matching the video style */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-[var(--gap-scale)] mb-[clamp(3rem,6vw,8rem)]">
@@ -395,8 +388,8 @@ export default function Home() {
             })}
           </div>
 
-        </motion.div>
-      </motion.section>
+        </div>
+      </section>
 
       {/* 4. SERVICES SNAPSHOT */}
       <section 
