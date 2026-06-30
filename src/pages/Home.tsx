@@ -2,17 +2,76 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Sparkles, TrendingUp, Monitor, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SEO from "../components/SEO";
 import ScrollReveal from "../components/ScrollReveal";
 import Marquee from "../components/Marquee";
 import WorkCard from "../components/WorkCard";
 import { PROJECTS, TESTIMONIALS, BLOGS, SERVICES } from "../data";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Home() {
   const navigate = useNavigate();
   const selectedProjects = PROJECTS.slice(0, 3);
   const featuredBlogs = BLOGS.slice(0, 2);
   const [activeStep, setActiveStep] = React.useState(0);
+
+  React.useEffect(() => {
+    let mm = gsap.matchMedia();
+
+    mm.add(
+      {
+        isMobile: "(max-width: 767px)",
+        isTablet: "(min-width: 768px) and (max-width: 1199px)",
+        isDesktop: "(min-width: 1200px)",
+      },
+      (context) => {
+        let { isMobile, isTablet } = context?.conditions || {};
+
+        let xMove = isMobile ? "-30vw" : isTablet ? "-15vw" : "-8vw";
+        let yMove = isMobile ? "10vh" : "5vh";
+
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: ".section-2",
+            start: "top top",
+            end: "+=100%",
+            scrub: 1,
+            pin: true,
+            invalidateOnRefresh: true, // recalcs vw/vh values on resize
+          },
+        })
+        .to(".panel", { xPercent: -100, ease: "none" }) // %-based, not px
+        .to(".asset", { x: xMove, y: yMove, scale: isMobile ? 0.8 : 1, ease: "none" }, "<");
+
+        return () => {}; // cleanup auto-handled by matchMedia on breakpoint change
+      }
+    );
+
+    let resizeTimer: any;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        ScrollTrigger.refresh(); // recalcs all triggers + matchMedia
+      }, 150);
+    };
+
+    const handleOrientationChange = () => {
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleOrientationChange);
+
+    return () => {
+      mm.revert();
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleOrientationChange);
+      clearTimeout(resizeTimer);
+    };
+  }, []);
 
   return (
     <div className="w-full">
@@ -23,7 +82,7 @@ export default function Home() {
       />
 
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-24 sm:py-32">
+      <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-[clamp(4rem,10vw,12rem)]">
         {/* Background Image of Profile Portrait */}
         <div 
           className="absolute inset-0 z-0 bg-no-repeat bg-cover bg-right md:bg-right opacity-90"
@@ -38,7 +97,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full relative z-10">
           <div className="max-w-3xl">
             <ScrollReveal y={40} delay={0.1}>
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white leading-[1.08] mb-8 uppercase">
+              <h1 className="hero-title font-display font-normal tracking-tight text-white leading-[1.08] uppercase mb-[clamp(1.5rem,4vw,3.5rem)]">
                 Web Design <br />
                 & Meta Ads <br />
                 <span className="text-[#bda881]">using AI</span>
@@ -46,7 +105,7 @@ export default function Home() {
             </ScrollReveal>
 
             <ScrollReveal y={30} delay={0.25}>
-              <p className="font-sans text-lg sm:text-xl text-zinc-400 font-light leading-relaxed max-w-lg">
+              <p className="font-sans text-[clamp(1rem,1.5vw+0.5rem,1.35rem)] text-zinc-400 font-light leading-relaxed max-w-[clamp(20rem,50vw,40rem)]">
                 High-converting digital experiences and precision Meta Ads campaigns, optimized with AI to scale local businesses and maximize your ROI.
               </p>
             </ScrollReveal>
@@ -57,13 +116,99 @@ export default function Home() {
       {/* 2. AUTO-SCROLL LOGO TICKER */}
       <Marquee />
 
+      {/* GSAP Interactive Horizontal Panel Section */}
+      <section className="section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-screen flex flex-col justify-between">
+        <div className="absolute inset-0 z-0 bg-radial-gradient from-zinc-900 via-[#0a0a0a] to-[#0a0a0a] opacity-60 pointer-events-none" />
+        
+        {/* Horizontal scroll panels wrapper */}
+        <div className="flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
+          
+          {/* Panel 1 */}
+          <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-center px-[clamp(1.5rem,5vw,6rem)] relative">
+            <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
+              <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
+                01 // DESIGN & ARCHITECTURE
+              </span>
+              <h2 className="font-display text-[clamp(2.25rem,5.5vw,5rem)] font-bold tracking-tight uppercase leading-[1.1] text-white">
+                AI-Optimized <br />
+                Web Design
+              </h2>
+              <p className="font-sans text-[clamp(0.9rem,1.4vw,1.2rem)] text-zinc-400 font-light leading-relaxed max-w-xl">
+                We craft hyper-fast, React-based web experiences built on high-fidelity designs. Millisecond loading speed ensures maximum engagement and frictionless user paths.
+              </p>
+            </div>
+          </div>
+
+          {/* Panel 2 */}
+          <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-center px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
+            <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
+              <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
+                02 // TRAFFIC & META ADS
+              </span>
+              <h2 className="font-display text-[clamp(2.25rem,5.5vw,5rem)] font-bold tracking-tight uppercase leading-[1.1] text-white">
+                High-ROAS <br />
+                AI-Driven Ads
+              </h2>
+              <p className="font-sans text-[clamp(0.9rem,1.4vw,1.2rem)] text-zinc-400 font-light leading-relaxed max-w-xl">
+                Precision Meta Ads combined with real-time conversion monitoring. We write psychology-backed creatives and employ smart interest-targeting to scale your pipeline.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Dynamic Shared Asset Floating */}
+        <div className="asset absolute left-1/2 -translate-x-1/2 bottom-[4vh] md:bottom-auto md:left-auto md:translate-x-0 md:right-[clamp(2rem,8vw,12rem)] md:top-1/2 md:-translate-y-1/2 z-20 w-[90vw] sm:w-[80vw] md:w-[clamp(20rem,35vw,32rem)]">
+          <div className="backdrop-blur-xl bg-zinc-900/60 border border-white/10 p-[clamp(1.5rem,3vw,3rem)] rounded-[clamp(1.25rem,2.5vw,2rem)] shadow-[0_30px_100px_rgba(0,0,0,0.8)] flex flex-col gap-[clamp(1rem,2vw,2.5rem)] text-left">
+            <div className="flex justify-between items-center border-b border-white/10 pb-[clamp(0.75rem,1.5vw,1.5rem)]">
+              <span className="font-mono text-xs text-[#bda881] tracking-widest font-bold">LIVE CONVERSION ENGINE</span>
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold tracking-wider animate-pulse border border-emerald-500/20">
+                ● ACTIVE
+              </span>
+            </div>
+            
+            <div className="flex flex-col gap-[clamp(0.75rem,1.5vw,1.5rem)]">
+              {/* Stat 1 */}
+              <div className="flex justify-between items-end">
+                <span className="text-zinc-400 text-sm font-light">Conversion Lift</span>
+                <span className="font-display text-3xl font-normal text-white">+142%</span>
+              </div>
+              {/* Mini Chart */}
+              <div className="h-6 w-full flex items-end gap-1.5">
+                <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 w-[40%]" />
+                </div>
+                <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 w-[78%]" />
+                </div>
+                <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-[#bda881] to-yellow-500 w-[95%]" />
+                </div>
+              </div>
+              
+              {/* Stat 2 */}
+              <div className="flex justify-between items-end border-t border-white/5 pt-[clamp(0.75rem,1.5vw,1.5rem)]">
+                <span className="text-zinc-400 text-sm font-light">Meta Pixel Match Rate</span>
+                <span className="font-display text-3xl font-normal text-white">99.8%</span>
+              </div>
+              
+              {/* Stat 3 */}
+              <div className="flex justify-between items-end border-t border-white/5 pt-[clamp(0.75rem,1.5vw,1.5rem)]">
+                <span className="text-zinc-400 text-sm font-light">Cost Per Acquisition</span>
+                <span className="font-display text-3xl font-normal text-[#bda881]">-48%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 3. SELECTED WORK SHOWCASE */}
       <motion.section 
         initial={{ y: 80, opacity: 0.9 }}
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true, amount: 0.05 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="py-28 bg-[#fdfcf9] text-brand-dark border-b border-brand-border/30 relative z-20"
+        className="section bg-[#fdfcf9] text-brand-dark border-b border-brand-border/30 relative z-20"
       >
         <motion.div 
           animate={{ y: [0, -6, 0] }}
@@ -72,33 +217,32 @@ export default function Home() {
             repeat: Infinity, 
             ease: "easeInOut" 
           }}
-          className="max-w-7xl mx-auto px-6 sm:px-8"
         >
           
           {/* Header Row exactly matching the video style */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-20">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-[var(--gap-scale)] mb-[clamp(3rem,6vw,8rem)]">
             <ScrollReveal y={20} className="max-w-xl">
-              <span className="font-mono text-[10px] font-bold tracking-widest text-[#bda881] uppercase block mb-4">
+              <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block mb-[clamp(0.4rem,1vw,0.8rem)]">
                 SELECTED WORK SHOWCASE // 2025-2026
               </span>
-              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal text-brand-dark uppercase tracking-tight">
+              <h2 className="font-display text-[clamp(2rem,5vw,4.5rem)] font-normal text-brand-dark uppercase tracking-tight">
                 Selected Work
               </h2>
             </ScrollReveal>
             
             <Link
               to="/work"
-              className="group flex items-center gap-3 px-6 py-3 border border-brand-border rounded-full text-[11px] font-bold tracking-widest text-brand-dark hover:bg-brand-dark hover:text-white hover:border-brand-dark transition-all duration-500 uppercase self-start"
+              className="group flex items-center gap-[clamp(0.5rem,1vw,1rem)] px-[clamp(1rem,2vw,2.5rem)] py-[clamp(0.5rem,1vw,1.25rem)] border border-brand-border rounded-full text-[clamp(0.65rem,0.8vw,0.8rem)] font-bold tracking-widest text-brand-dark hover:bg-brand-dark hover:text-white hover:border-brand-dark transition-all duration-500 uppercase self-start"
             >
               <span>SEE ALL</span>
-              <span className="h-6 w-6 rounded-full bg-brand-cream group-hover:bg-brand-accent group-hover:text-white text-brand-dark/70 flex items-center justify-center text-[10px] transition-colors border border-brand-border/30">
-                <ArrowUpRight className="h-3.5 w-3.5" />
+              <span className="h-[clamp(1.25rem,2vw,2rem)] w-[clamp(1.25rem,2vw,2rem)] rounded-full bg-brand-cream group-hover:bg-brand-accent group-hover:text-white text-brand-dark/70 flex items-center justify-center transition-colors border border-brand-border/30">
+                <ArrowUpRight className="h-4 w-4" />
               </span>
             </Link>
           </div>
 
           {/* Stacking Staggered Slides - Pure CSS Smooth Scroll Stack */}
-          <div className="relative flex flex-col gap-24 md:gap-32 pb-12">
+          <div className="relative flex flex-col gap-[clamp(4rem,8vw,12rem)] pb-[clamp(2rem,5vw,6rem)]">
             {PROJECTS.map((project, idx) => {
               const num = String(idx + 1).padStart(2, '0');
               const gradients = [
@@ -113,23 +257,23 @@ export default function Home() {
               return (
                 <div 
                   key={project.id}
-                  className={`sticky top-28 w-full min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] rounded-3xl overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-6 md:p-12 flex flex-col justify-between`}
+                  className={`sticky top-[clamp(4.5rem,12vh,9rem)] w-full min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between`}
                   style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
                 >
                   {/* Subtle background element */}
                   <div className="absolute inset-0 z-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:20px_20px]" />
                   
                   {/* Card Header Detail */}
-                  <div className="relative z-10 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-zinc-500">
+                  <div className="relative z-10 flex justify-between items-center text-[clamp(0.6rem,0.8vw,0.75rem)] font-mono uppercase tracking-widest text-zinc-500">
                     <span>{num} // {project.category}</span>
                     <span>CLIENT: {project.client}</span>
                   </div>
 
                   {/* Central Laptop Device Mockup */}
-                  <div className="relative z-10 w-full flex flex-col justify-center items-center py-6">
+                  <div className="relative z-10 w-full flex flex-col justify-center items-center py-[clamp(1.25rem,3vw,3.5rem)]">
                     
                     {/* CSS Laptop Frame */}
-                    <div className="w-[85%] md:w-[70%] max-w-2xl aspect-[16/10] bg-zinc-950 border-[6px] md:border-[10px] border-zinc-800 rounded-t-2xl shadow-2xl overflow-hidden relative">
+                    <div className="w-[85%] md:w-[70%] max-w-[clamp(24rem,55vw,52rem)] aspect-[16/10] bg-zinc-950 border-[clamp(4px,0.8vw,10px)] border-zinc-800 rounded-t-[clamp(0.5rem,1.2vw,1.25rem)] shadow-2xl overflow-hidden relative">
                       {/* High-Fidelity Website Mockup Image */}
                       <img 
                         src={project.image} 
@@ -140,29 +284,29 @@ export default function Home() {
                     </div>
 
                     {/* CSS Laptop Base */}
-                    <div className="w-[95%] md:w-[80%] max-w-3xl h-2 bg-zinc-700 rounded-b-xl shadow-md relative" />
-                    <div className="w-12 h-0.5 bg-zinc-800 mx-auto rounded-b-sm relative" />
+                    <div className="w-[95%] md:w-[80%] max-w-[clamp(27rem,60vw,57rem)] h-[clamp(6px,0.6vw,10px)] bg-zinc-700 rounded-b-[clamp(0.35rem,1vw,0.8rem)] shadow-md relative" />
+                    <div className="w-[clamp(2.5rem,5vw,5rem)] h-[clamp(2px,0.25vw,4px)] bg-zinc-800 mx-auto rounded-b-sm relative" />
                   </div>
 
                   {/* Bottom-Left Glassmorphic Floating Information Card */}
                   {idx !== 4 && (
-                    <div className="relative z-20 self-start max-w-sm backdrop-blur-xl bg-black/40 border border-white/10 p-6 rounded-2xl flex flex-col gap-4 text-left shadow-lg mt-4 sm:mt-0">
-                      <div className="flex flex-col gap-1.5">
-                        <h3 className="font-display text-xl sm:text-2xl font-bold uppercase text-white tracking-tight">
+                    <div className="relative z-20 self-start max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/40 border border-white/10 p-[clamp(1rem,2.2vw,2.5rem)] rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
+                      <div className="flex flex-col gap-[clamp(0.4rem,1vw,1rem)]">
+                        <h3 className="font-display text-[clamp(1.15rem,2.4vw,2.25rem)] font-bold uppercase text-white tracking-tight leading-[1.1]">
                           {project.title}
                         </h3>
-                        <p className="font-sans text-xs text-zinc-400 font-light leading-relaxed">
+                        <p className="font-sans text-[clamp(0.7rem,1.05vw,0.9rem)] text-zinc-400 font-light leading-relaxed">
                           {project.description}
                         </p>
                       </div>
                       
                       <Link
                         to={`/work/${project.id}`}
-                        className="flex items-center gap-3 px-4 py-2 border border-white/10 text-white rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 uppercase self-start"
+                        className="flex items-center gap-[clamp(0.5rem,1vw,1rem)] px-[clamp(0.8rem,2vw,2rem)] py-[clamp(0.4rem,1vw,1rem)] border border-white/10 text-white rounded-full text-[clamp(0.6rem,0.8vw,0.75rem)] font-bold tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 uppercase self-start"
                       >
                         <span>DISCOVER</span>
-                        <span className="h-4 w-4 rounded-full bg-white/10 text-white flex items-center justify-center text-[10px] transition-colors">
-                          <ArrowUpRight className="h-3 w-3" />
+                        <span className="h-[clamp(1.25rem,2.5vw,2.25rem)] w-[clamp(1.25rem,2.5vw,2.25rem)] rounded-full bg-white/10 text-white flex items-center justify-center transition-colors">
+                          <ArrowUpRight className="h-[clamp(0.75rem,1.5vw,1.25rem)] w-[clamp(0.75rem,1.5vw,1.25rem)]" />
                         </span>
                       </Link>
                     </div>

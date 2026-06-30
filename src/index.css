@@ -13,6 +13,49 @@
   --font-display: "Space Grotesk", system-ui, -apple-system, sans-serif;
 }
 
+:root {
+  --section-pad: clamp(1.5rem, 6vw, 6rem);
+  --hero-scale: clamp(2rem, 7vw + 1rem, 8rem);
+  --h1-scale: clamp(1.75rem, 5vw + 0.5rem, 4.5rem);
+  --h2-scale: clamp(1.5rem, 4vw + 0.5rem, 3.5rem);
+  --h3-scale: clamp(1.25rem, 3vw + 0.25rem, 2.25rem);
+  --body-scale: clamp(0.875rem, 1.2vw + 0.5rem, 1.125rem);
+  --text-xs-scale: clamp(0.75rem, 0.8vw + 0.2rem, 0.875rem);
+  --gap-scale: clamp(1rem, 3vw, 3rem);
+  --card-pad: clamp(1rem, 2.5vw, 2.5rem);
+  --img-h: clamp(300px, 45vh, 600px);
+}
+
+.section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min(92vw, 1400px) minmax(0, 1fr);
+  padding-block: var(--section-pad);
+  container-type: inline-size;
+  container-name: section;
+}
+
+.section > * { grid-column: 2; }
+
+.hero-title {
+  font-size: var(--hero-scale);
+  line-height: 1.1;
+}
+
+@container section (aspect-ratio < 1) {
+  /* portrait/mobile-landscape variant */
+  .hero-grid { grid-template-rows: auto 1fr; grid-template-columns: 1fr; }
+}
+
+@container section (min-width: 768px) and (aspect-ratio > 1.2) {
+  .hero-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.section, .panel, .asset {
+  will-change: transform;
+  transform: translate3d(0, 0, 0); /* forces own layer pre-animation */
+  backface-visibility: hidden;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
