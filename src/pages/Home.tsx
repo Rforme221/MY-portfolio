@@ -16,7 +16,6 @@ export default function Home() {
   const navigate = useNavigate();
   const selectedProjects = PROJECTS.slice(0, 3);
   const featuredBlogs = BLOGS.slice(0, 2);
-  const [activeStep, setActiveStep] = React.useState(0);
 
   React.useEffect(() => {
     let mm = gsap.matchMedia();
@@ -50,6 +49,83 @@ export default function Home() {
       }
     );
 
+    // Pinning and horizontal timeline step/card reveal for methodology
+    mm.add("(min-width: 601px)", () => {
+      let steps = gsap.utils.toArray(".step-item") as any[];
+      let cards = gsap.utils.toArray(".step-card") as any[];
+
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".steps-track",
+          start: "top top",
+          end: "+=300%",
+          scrub: 1,
+          pin: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      steps.forEach((step: any, i: number) => {
+        tl.to(".track-fill", { scaleX: (i + 1) * 0.25, ease: "none" }, i)
+          .fromTo(cards[i], { autoAlpha: 0, yPercent: 10 }, { autoAlpha: 1, yPercent: 0, ease: "none" }, i)
+          .to(cards[i], { autoAlpha: 0, yPercent: -10, ease: "none" }, i + 0.8);
+      });
+
+      return () => {
+        tl.kill();
+      };
+    });
+
+    mm.add("(max-width: 600px)", () => {
+      let steps = gsap.utils.toArray(".step-item");
+      steps.forEach((step: any) => {
+        gsap.from(step, {
+          autoAlpha: 0,
+          x: "-5vw",
+          scrollTrigger: { 
+            trigger: step, 
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          },
+        });
+      });
+    });
+
+    // GSAP row reveal + CTA animation
+    let systemRows = gsap.utils.toArray(".system-row") as HTMLElement[];
+    let hoverCleanups: Array<() => void> = [];
+
+    systemRows.forEach((row) => {
+      gsap.from(row, {
+        autoAlpha: 0,
+        yPercent: 8,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: { 
+          trigger: row, 
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        },
+      });
+
+      let cta = row.querySelector(".system-cta");
+      if (cta) {
+        const onEnter = () => gsap.to(cta, { xPercent: 5, duration: 0.3 });
+        const onLeave = () => gsap.to(cta, { xPercent: 0, duration: 0.3 });
+        row.addEventListener("mouseenter", onEnter);
+        row.addEventListener("mouseleave", onLeave);
+        hoverCleanups.push(() => {
+          row.removeEventListener("mouseenter", onEnter);
+          row.removeEventListener("mouseleave", onLeave);
+        });
+      }
+    });
+
+    // Trigger initial refresh after render to ensure correct placement calculations
+    const mountRefreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
     let resizeTimer: any;
     const handleResize = () => {
       clearTimeout(resizeTimer);
@@ -70,6 +146,8 @@ export default function Home() {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleOrientationChange);
       clearTimeout(resizeTimer);
+      clearTimeout(mountRefreshTimer);
+      hoverCleanups.forEach((cleanup) => cleanup());
     };
   }, []);
 
@@ -321,11 +399,7 @@ export default function Home() {
       </motion.section>
 
       {/* 4. SERVICES SNAPSHOT */}
-      <motion.section 
-        initial={{ y: 80, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+      <section 
         className="py-24 sm:py-32 bg-brand-cream/30 border-b border-brand-border/20"
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
@@ -341,38 +415,37 @@ export default function Home() {
           </ScrollReveal>
 
           {/* Numbered Row List */}
-          <div className="flex flex-col gap-1">
-            {SERVICES.map((service, index) => (
-              <ScrollReveal 
+          <div className="flex flex-col">
+            {SERVICES.map((service) => (
+              <div 
                 key={service.id}
-                y={20}
-                delay={index * 0.1}
-                className="group border-b border-brand-border/40 py-10 flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-10 hover:bg-brand-cream/40 px-4 rounded-2xl transition-all duration-300 cursor-pointer"
+                onClick={() => navigate("/services")}
+                className="system-row group cursor-pointer hover:bg-brand-cream/40 px-4 rounded-2xl transition-all duration-300"
               >
-                {/* 01 / Number */}
-                <div className="lg:col-span-1 font-display text-2xl font-bold text-brand-accent/40 group-hover:text-brand-accent transition-colors">
+                {/* Number */}
+                <div className="system-num font-display font-bold text-brand-accent/40 group-hover:text-brand-accent transition-colors">
                   {service.number}
                 </div>
 
                 {/* Title */}
-                <div className="lg:col-span-4 flex flex-col gap-2">
-                  <h3 className="font-display text-xl sm:text-2xl font-bold uppercase text-brand-dark">
+                <div className="system-title flex flex-col gap-2">
+                  <h3 className="font-display font-bold uppercase text-brand-dark">
                     {service.title}
                   </h3>
-                  <span className="font-mono text-[9px] text-brand-accent uppercase tracking-widest">
+                  <span className="font-mono text-[9px] text-brand-accent uppercase tracking-widest block">
                     SYSTEM OPERATIVE STATUS: ONLINE
                   </span>
                 </div>
 
                 {/* Desc */}
-                <div className="lg:col-span-5">
-                  <p className="font-sans text-sm sm:text-base text-brand-dark/70 leading-relaxed">
+                <div className="system-desc">
+                  <p className="font-sans text-brand-dark/70 leading-relaxed font-light">
                     {service.description}
                   </p>
                 </div>
 
                 {/* CTA Link Icon */}
-                <div className="lg:col-span-2 flex items-center lg:justify-end">
+                <div className="system-cta flex items-center">
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
@@ -381,19 +454,19 @@ export default function Home() {
                     className="flex items-center gap-2 font-display text-[10px] font-bold tracking-widest text-brand-dark uppercase group-hover:text-brand-accent transition-colors"
                   >
                     <span>CONFIG ENGINE</span>
-                    <ArrowUpRight className="h-4 w-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    <ArrowUpRight className="h-4 w-4" />
                   </button>
                 </div>
-              </ScrollReveal>
+              </div>
             ))}
           </div>
 
         </div>
-      </motion.section>
+      </section>
 
       {/* 5. WORK PROCESS */}
-      <section className="py-24 sm:py-32 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="steps-track border-b border-brand-border/20 py-24 sm:py-32 bg-[#fdfcf9]">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 h-full flex flex-col justify-center">
           
           <ScrollReveal y={20} className="max-w-xl mb-16">
             <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
@@ -404,171 +477,58 @@ export default function Home() {
             </h2>
           </ScrollReveal>
 
-          {/* Mobile & Tablet Layout: Stacking Vertical Connected Timeline */}
-          <div className="relative lg:hidden pl-8 border-l-2 border-brand-border/30 flex flex-col gap-12">
+          {/* Connected Timeline Row */}
+          <div className="steps-row mb-16">
+            {/* Real DOM line proxy for animating fill */}
+            <div className="track-line">
+              <div className="track-fill" />
+            </div>
+
             {[
               { num: "01", title: "Discovery & Audit", desc: "We deep-dive into your existing analytics, current sales metrics, and market competitors in Kathmandu or overseas to uncover the leaks." },
               { num: "02", title: "AI Blueprinting", desc: "We draft a unified visual interface blueprint, write high-converting copy using proven psychological models, and structure our ad funnel." },
               { num: "03", title: "Launch Pad Setup", desc: "Our team writes lightweight React code and configures Meta Conversions API to establish pristine tracking and millisecond loads." },
               { num: "04", title: "The Scale Engine", desc: "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS." }
-            ].map((step, idx) => (
-              <ScrollReveal 
-                key={step.num}
-                y={20}
-                delay={idx * 0.1}
-                className="relative"
-              >
-                {/* Visual node on vertical line */}
-                <div className="absolute -left-[41px] top-1.5 h-4 w-4 rounded-full border-2 border-brand-accent bg-[#fdfcf9] flex items-center justify-center">
-                  <div className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
+            ].map((step) => (
+              <div key={step.num} className="step-item flex flex-col items-center justify-center relative z-10">
+                <div className="step-dot border-2 border-[#bda881] bg-[#fdfcf9] flex items-center justify-center">
+                  <div className="h-1.5 w-1.5 rounded-full bg-[#bda881]" />
                 </div>
-                
-                <div className="flex flex-col gap-3 bg-white p-6 rounded-2xl border border-brand-border/30 shadow-sm">
-                  <span className="font-display text-2xl font-bold text-brand-accent/40">
-                    {step.num}
-                  </span>
-                  <h3 className="font-display text-lg font-bold uppercase text-brand-dark">
-                    {step.title}
-                  </h3>
-                  <p className="font-sans text-xs sm:text-sm text-brand-dark/70 leading-relaxed font-light">
+                <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-2">
+                  <span className="block text-[10px] font-mono text-brand-accent mb-0.5">Phase {step.num}</span>
+                  {step.title}
+                  <p className="block sm:hidden font-sans text-xs text-brand-dark/70 font-light mt-2 normal-case leading-relaxed max-w-sm">
                     {step.desc}
                   </p>
                 </div>
-              </ScrollReveal>
+              </div>
             ))}
           </div>
 
-          {/* Desktop Layout: Interactive Horizontal Timeline */}
-          <div className="hidden lg:block relative py-12">
-            {/* Horizontal Timeline Track Base Line */}
-            <div className="absolute top-[84px] left-[12%] right-[12%] h-[2px] bg-brand-border/30 z-0">
-              {/* Active filled line with spring/cubic bezier transition */}
-              <motion.div 
-                className="absolute top-0 left-0 h-full bg-[#bda881] origin-left"
-                initial={{ width: "0%" }}
-                animate={{ width: `${(activeStep / 3) * 100}%` }}
-                transition={{ type: "spring", stiffness: 80, damping: 15 }}
-              />
-            </div>
-
-            <motion.div 
-              className="grid grid-cols-4 relative z-10 mb-12"
-              variants={{
-                hidden: { opacity: 0 },
-                show: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: 0.18,
-                    delayChildren: 0.1
-                  }
-                }
-              }}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.15 }}
-            >
-              {[
-                { num: "01", title: "Discovery & Audit" },
-                { num: "02", title: "AI Blueprinting" },
-                { num: "03", title: "Launch Pad Setup" },
-                { num: "04", title: "The Scale Engine" }
-              ].map((step, idx) => {
-                const isActive = idx <= activeStep;
-                const isCurrent = idx === activeStep;
-                return (
-                  <motion.div 
-                    key={step.num} 
-                    variants={{
-                      hidden: { opacity: 0, y: 30 },
-                      show: { 
-                        opacity: 1, 
-                        y: 0, 
-                        transition: { type: "spring", stiffness: 100, damping: 16 } 
-                      }
-                    }}
-                    className="flex flex-col items-center group cursor-pointer px-4 text-center"
-                    onMouseEnter={() => setActiveStep(idx)}
-                    onClick={() => setActiveStep(idx)}
-                  >
-                    {/* Step Badge / Number Header */}
-                    <div className="mb-4">
-                      <span className={`font-mono text-xs font-bold transition-colors duration-300 ${
-                        isCurrent ? "text-[#bda881]" : "text-brand-dark/30"
-                      }`}>
-                        STEP {step.num}
-                      </span>
-                    </div>
-
-                    {/* Timeline Node centered perfectly on track line */}
-                    <div className="h-10 flex items-center justify-center mb-2 relative">
-                      {/* Animated pulse ring around node */}
-                      {isCurrent && (
-                        <motion.div 
-                          className="absolute h-8 w-8 rounded-full border border-[#bda881]/40 bg-[#bda881]/5"
-                          initial={{ scale: 0.8, opacity: 0.5 }}
-                          animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0.1, 0.6] }}
-                          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                        />
-                      )}
-                      {/* Core circle */}
-                      <div className={`h-4 w-4 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
-                        isActive 
-                          ? "border-[#bda881] bg-[#fdfcf9]" 
-                          : "border-brand-border/60 bg-[#fdfcf9]"
-                      }`}>
-                        <div className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
-                          isActive ? "bg-[#bda881] scale-100" : "bg-transparent scale-0"
-                        }`} />
-                      </div>
-                    </div>
-
-                    <span className={`font-display text-[13px] font-bold tracking-wider transition-colors duration-300 uppercase mt-2 ${
-                      isCurrent ? "text-[#bda881]" : "text-brand-dark/40 group-hover:text-brand-dark/70"
-                    }`}>
-                      {step.title}
-                    </span>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-
-            {/* Displaying one refined card at a time with subtle scale, shadow, and AnimatePresence */}
-            <div className="max-w-2xl mx-auto relative min-h-[160px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeStep}
-                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="border p-8 rounded-3xl bg-[#fdfcf9] border-[#bda881] shadow-[0_25px_50px_rgba(189,168,129,0.12)] ring-1 ring-[#bda881]/15 text-center flex flex-col gap-3 relative overflow-hidden"
-                >
-                  <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#bda881] to-transparent" />
-                  
-                  <span className="font-mono text-[9px] font-bold text-[#bda881] tracking-widest uppercase block">
-                    METHODOLOGY PHASE 0{activeStep + 1}
-                  </span>
-                  
-                  <h3 className="font-display text-xl font-bold uppercase text-brand-dark tracking-tight">
-                    {[
-                      "Discovery & Audit",
-                      "AI Blueprinting",
-                      "Launch Pad Setup",
-                      "The Scale Engine"
-                    ][activeStep]}
-                  </h3>
-                  
-                  <p className="font-sans text-xs sm:text-sm text-brand-dark/75 leading-relaxed font-light max-w-xl mx-auto">
-                    {[
-                      "We deep-dive into your existing analytics, current sales metrics, and market competitors in Kathmandu or overseas to uncover the leaks.",
-                      "We draft a unified visual interface blueprint, write high-converting copy using proven psychological models, and structure our ad funnel.",
-                      "Our team writes lightweight React code and configures Meta Conversions API to establish pristine tracking and millisecond loads.",
-                      "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS."
-                    ][activeStep]}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+          {/* Cards container: stacked cards */}
+          <div className="hidden sm:block relative max-w-2xl mx-auto w-full min-h-[220px]">
+            {[
+              { num: "01", title: "Discovery & Audit", desc: "We deep-dive into your existing analytics, current sales metrics, and market competitors in Kathmandu or overseas to uncover the leaks." },
+              { num: "02", title: "AI Blueprinting", desc: "We draft a unified visual interface blueprint, write high-converting copy using proven psychological models, and structure our ad funnel." },
+              { num: "03", title: "Launch Pad Setup", desc: "Our team writes lightweight React code and configures Meta Conversions API to establish pristine tracking and millisecond loads." },
+              { num: "04", title: "The Scale Engine", desc: "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS." }
+            ].map((step) => (
+              <div 
+                key={step.num}
+                className="step-card absolute inset-0 border p-8 rounded-3xl bg-white border-[#bda881] shadow-[0_25px_50px_rgba(189,168,129,0.12)] ring-1 ring-[#bda881]/15 text-center flex flex-col gap-3 overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#bda881] to-transparent" />
+                <span className="font-mono text-[9px] font-bold text-[#bda881] tracking-widest uppercase block">
+                  METHODOLOGY PHASE {step.num}
+                </span>
+                <h3 className="font-display text-xl font-bold uppercase text-brand-dark tracking-tight">
+                  {step.title}
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-brand-dark/75 leading-relaxed font-light max-w-xl mx-auto">
+                  {step.desc}
+                </p>
+              </div>
+            ))}
           </div>
 
         </div>
