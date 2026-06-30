@@ -1,0 +1,8 @@
+{
+  "name": "Raj Shrestha Portfolio",
+  "description": "Minimal agency-portfolio of Raj Shrestha, AI Marketing Expert (Kathmandu) offering Web Design and Meta Ads.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

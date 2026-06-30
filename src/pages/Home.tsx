@@ -1,0 +1,612 @@
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, Sparkles, TrendingUp, Monitor, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import SEO from "../components/SEO";
+import ScrollReveal from "../components/ScrollReveal";
+import Marquee from "../components/Marquee";
+import WorkCard from "../components/WorkCard";
+import { PROJECTS, TESTIMONIALS, BLOGS, SERVICES } from "../data";
+
+export default function Home() {
+  const navigate = useNavigate();
+  const selectedProjects = PROJECTS.slice(0, 3);
+  const featuredBlogs = BLOGS.slice(0, 2);
+  const [activeStep, setActiveStep] = React.useState(0);
+
+  return (
+    <div className="w-full">
+      {/* On-Page & Technical SEO Setup */}
+      <SEO 
+        title="Raj Shrestha — AI Marketing Expert & Web Designer (Kathmandu)"
+        description="Senior AI Marketing Expert and Web Developer based in Kathmandu, Nepal. Custom React design and high-converting Meta Ads campaigns that scale local businesses."
+      />
+
+      {/* 1. HERO SECTION */}
+      <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-24 sm:py-32">
+        {/* Background Image of Profile Portrait */}
+        <div 
+          className="absolute inset-0 z-0 bg-no-repeat bg-cover bg-right md:bg-right opacity-90"
+          style={{
+            backgroundImage: "url('/image/hero.png')",
+          }}
+        />
+        {/* Gradient overlays to blend portrait image seamlessly into pitch-black background */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent lg:via-[#0a0a0a]/50 lg:to-transparent" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:hidden" />
+
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full relative z-10">
+          <div className="max-w-3xl">
+            <ScrollReveal y={40} delay={0.1}>
+              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white leading-[1.08] mb-8 uppercase">
+                Web Design <br />
+                & Meta Ads <br />
+                <span className="text-[#bda881]">using AI</span>
+              </h1>
+            </ScrollReveal>
+
+            <ScrollReveal y={30} delay={0.25}>
+              <p className="font-sans text-lg sm:text-xl text-zinc-400 font-light leading-relaxed max-w-lg">
+                High-converting digital experiences and precision Meta Ads campaigns, optimized with AI to scale local businesses and maximize your ROI.
+              </p>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. AUTO-SCROLL LOGO TICKER */}
+      <Marquee />
+
+      {/* 3. SELECTED WORK SHOWCASE */}
+      <motion.section 
+        initial={{ y: 80, opacity: 0.9 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true, amount: 0.05 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="py-28 bg-[#fdfcf9] text-brand-dark border-b border-brand-border/30 relative z-20"
+      >
+        <motion.div 
+          animate={{ y: [0, -6, 0] }}
+          transition={{ 
+            duration: 6, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }}
+          className="max-w-7xl mx-auto px-6 sm:px-8"
+        >
+          
+          {/* Header Row exactly matching the video style */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-20">
+            <ScrollReveal y={20} className="max-w-xl">
+              <span className="font-mono text-[10px] font-bold tracking-widest text-[#bda881] uppercase block mb-4">
+                SELECTED WORK SHOWCASE // 2025-2026
+              </span>
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal text-brand-dark uppercase tracking-tight">
+                Selected Work
+              </h2>
+            </ScrollReveal>
+            
+            <Link
+              to="/work"
+              className="group flex items-center gap-3 px-6 py-3 border border-brand-border rounded-full text-[11px] font-bold tracking-widest text-brand-dark hover:bg-brand-dark hover:text-white hover:border-brand-dark transition-all duration-500 uppercase self-start"
+            >
+              <span>SEE ALL</span>
+              <span className="h-6 w-6 rounded-full bg-brand-cream group-hover:bg-brand-accent group-hover:text-white text-brand-dark/70 flex items-center justify-center text-[10px] transition-colors border border-brand-border/30">
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </span>
+            </Link>
+          </div>
+
+          {/* Stacking Staggered Slides - Pure CSS Smooth Scroll Stack */}
+          <div className="relative flex flex-col gap-24 md:gap-32 pb-12">
+            {PROJECTS.map((project, idx) => {
+              const num = String(idx + 1).padStart(2, '0');
+              const gradients = [
+                "from-[#1c1d1e] to-[#121314]", // Newari
+                "from-[#111827] to-[#090d16]", // Thakali
+                "from-[#0a1515] to-[#040909]", // Hotel
+                "from-[#18181b] to-[#09090b]", // Photography
+                "from-[#1c1614] to-[#100c0a]"  // Unique
+              ];
+              const gradient = gradients[idx] || "from-[#1c1d1e] to-[#121314]";
+
+              return (
+                <div 
+                  key={project.id}
+                  className={`sticky top-28 w-full min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] rounded-3xl overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-6 md:p-12 flex flex-col justify-between`}
+                  style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
+                >
+                  {/* Subtle background element */}
+                  <div className="absolute inset-0 z-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:20px_20px]" />
+                  
+                  {/* Card Header Detail */}
+                  <div className="relative z-10 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-zinc-500">
+                    <span>{num} // {project.category}</span>
+                    <span>CLIENT: {project.client}</span>
+                  </div>
+
+                  {/* Central Laptop Device Mockup */}
+                  <div className="relative z-10 w-full flex flex-col justify-center items-center py-6">
+                    
+                    {/* CSS Laptop Frame */}
+                    <div className="w-[85%] md:w-[70%] max-w-2xl aspect-[16/10] bg-zinc-950 border-[6px] md:border-[10px] border-zinc-800 rounded-t-2xl shadow-2xl overflow-hidden relative">
+                      {/* High-Fidelity Website Mockup Image */}
+                      <img 
+                        src={project.image} 
+                        alt={project.title} 
+                        referrerPolicy="no-referrer"
+                        className="absolute inset-0 w-full h-full object-cover select-none"
+                      />
+                    </div>
+
+                    {/* CSS Laptop Base */}
+                    <div className="w-[95%] md:w-[80%] max-w-3xl h-2 bg-zinc-700 rounded-b-xl shadow-md relative" />
+                    <div className="w-12 h-0.5 bg-zinc-800 mx-auto rounded-b-sm relative" />
+                  </div>
+
+                  {/* Bottom-Left Glassmorphic Floating Information Card */}
+                  {idx !== 4 && (
+                    <div className="relative z-20 self-start max-w-sm backdrop-blur-xl bg-black/40 border border-white/10 p-6 rounded-2xl flex flex-col gap-4 text-left shadow-lg mt-4 sm:mt-0">
+                      <div className="flex flex-col gap-1.5">
+                        <h3 className="font-display text-xl sm:text-2xl font-bold uppercase text-white tracking-tight">
+                          {project.title}
+                        </h3>
+                        <p className="font-sans text-xs text-zinc-400 font-light leading-relaxed">
+                          {project.description}
+                        </p>
+                      </div>
+                      
+                      <Link
+                        to={`/work/${project.id}`}
+                        className="flex items-center gap-3 px-4 py-2 border border-white/10 text-white rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 uppercase self-start"
+                      >
+                        <span>DISCOVER</span>
+                        <span className="h-4 w-4 rounded-full bg-white/10 text-white flex items-center justify-center text-[10px] transition-colors">
+                          <ArrowUpRight className="h-3 w-3" />
+                        </span>
+                      </Link>
+                    </div>
+                  )}
+
+                </div>
+              );
+            })}
+          </div>
+
+        </motion.div>
+      </motion.section>
+
+      {/* 4. SERVICES SNAPSHOT */}
+      <motion.section 
+        initial={{ y: 80, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="py-24 sm:py-32 bg-brand-cream/30 border-b border-brand-border/20"
+      >
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          
+          {/* Section header */}
+          <ScrollReveal y={20} className="max-w-xl mb-20">
+            <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
+              WHAT I DO // CORE SYSTEMS
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase">
+              GROWTH PLUGINS FOR MODERN ENTERPRISES
+            </h2>
+          </ScrollReveal>
+
+          {/* Numbered Row List */}
+          <div className="flex flex-col gap-1">
+            {SERVICES.map((service, index) => (
+              <ScrollReveal 
+                key={service.id}
+                y={20}
+                delay={index * 0.1}
+                className="group border-b border-brand-border/40 py-10 flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-10 hover:bg-brand-cream/40 px-4 rounded-2xl transition-all duration-300 cursor-pointer"
+              >
+                {/* 01 / Number */}
+                <div className="lg:col-span-1 font-display text-2xl font-bold text-brand-accent/40 group-hover:text-brand-accent transition-colors">
+                  {service.number}
+                </div>
+
+                {/* Title */}
+                <div className="lg:col-span-4 flex flex-col gap-2">
+                  <h3 className="font-display text-xl sm:text-2xl font-bold uppercase text-brand-dark">
+                    {service.title}
+                  </h3>
+                  <span className="font-mono text-[9px] text-brand-accent uppercase tracking-widest">
+                    SYSTEM OPERATIVE STATUS: ONLINE
+                  </span>
+                </div>
+
+                {/* Desc */}
+                <div className="lg:col-span-5">
+                  <p className="font-sans text-sm sm:text-base text-brand-dark/70 leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
+
+                {/* CTA Link Icon */}
+                <div className="lg:col-span-2 flex items-center lg:justify-end">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate("/services");
+                    }}
+                    className="flex items-center gap-2 font-display text-[10px] font-bold tracking-widest text-brand-dark uppercase group-hover:text-brand-accent transition-colors"
+                  >
+                    <span>CONFIG ENGINE</span>
+                    <ArrowUpRight className="h-4 w-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </button>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+        </div>
+      </motion.section>
+
+      {/* 5. WORK PROCESS */}
+      <section className="py-24 sm:py-32 border-b border-brand-border/20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          
+          <ScrollReveal y={20} className="max-w-xl mb-16">
+            <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
+              METHODOLOGY // STEP-BY-STEP
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase leading-tight">
+              A Systematic Process Designed For Predictable Scale
+            </h2>
+          </ScrollReveal>
+
+          {/* Mobile & Tablet Layout: Stacking Vertical Connected Timeline */}
+          <div className="relative lg:hidden pl-8 border-l-2 border-brand-border/30 flex flex-col gap-12">
+            {[
+              { num: "01", title: "Discovery & Audit", desc: "We deep-dive into your existing analytics, current sales metrics, and market competitors in Kathmandu or overseas to uncover the leaks." },
+              { num: "02", title: "AI Blueprinting", desc: "We draft a unified visual interface blueprint, write high-converting copy using proven psychological models, and structure our ad funnel." },
+              { num: "03", title: "Launch Pad Setup", desc: "Our team writes lightweight React code and configures Meta Conversions API to establish pristine tracking and millisecond loads." },
+              { num: "04", title: "The Scale Engine", desc: "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS." }
+            ].map((step, idx) => (
+              <ScrollReveal 
+                key={step.num}
+                y={20}
+                delay={idx * 0.1}
+                className="relative"
+              >
+                {/* Visual node on vertical line */}
+                <div className="absolute -left-[41px] top-1.5 h-4 w-4 rounded-full border-2 border-brand-accent bg-[#fdfcf9] flex items-center justify-center">
+                  <div className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
+                </div>
+                
+                <div className="flex flex-col gap-3 bg-white p-6 rounded-2xl border border-brand-border/30 shadow-sm">
+                  <span className="font-display text-2xl font-bold text-brand-accent/40">
+                    {step.num}
+                  </span>
+                  <h3 className="font-display text-lg font-bold uppercase text-brand-dark">
+                    {step.title}
+                  </h3>
+                  <p className="font-sans text-xs sm:text-sm text-brand-dark/70 leading-relaxed font-light">
+                    {step.desc}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          {/* Desktop Layout: Interactive Horizontal Timeline */}
+          <div className="hidden lg:block relative py-12">
+            {/* Horizontal Timeline Track Base Line */}
+            <div className="absolute top-[84px] left-[12%] right-[12%] h-[2px] bg-brand-border/30 z-0">
+              {/* Active filled line with spring/cubic bezier transition */}
+              <motion.div 
+                className="absolute top-0 left-0 h-full bg-[#bda881] origin-left"
+                initial={{ width: "0%" }}
+                animate={{ width: `${(activeStep / 3) * 100}%` }}
+                transition={{ type: "spring", stiffness: 80, damping: 15 }}
+              />
+            </div>
+
+            <motion.div 
+              className="grid grid-cols-4 relative z-10 mb-12"
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.18,
+                    delayChildren: 0.1
+                  }
+                }
+              }}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+            >
+              {[
+                { num: "01", title: "Discovery & Audit" },
+                { num: "02", title: "AI Blueprinting" },
+                { num: "03", title: "Launch Pad Setup" },
+                { num: "04", title: "The Scale Engine" }
+              ].map((step, idx) => {
+                const isActive = idx <= activeStep;
+                const isCurrent = idx === activeStep;
+                return (
+                  <motion.div 
+                    key={step.num} 
+                    variants={{
+                      hidden: { opacity: 0, y: 30 },
+                      show: { 
+                        opacity: 1, 
+                        y: 0, 
+                        transition: { type: "spring", stiffness: 100, damping: 16 } 
+                      }
+                    }}
+                    className="flex flex-col items-center group cursor-pointer px-4 text-center"
+                    onMouseEnter={() => setActiveStep(idx)}
+                    onClick={() => setActiveStep(idx)}
+                  >
+                    {/* Step Badge / Number Header */}
+                    <div className="mb-4">
+                      <span className={`font-mono text-xs font-bold transition-colors duration-300 ${
+                        isCurrent ? "text-[#bda881]" : "text-brand-dark/30"
+                      }`}>
+                        STEP {step.num}
+                      </span>
+                    </div>
+
+                    {/* Timeline Node centered perfectly on track line */}
+                    <div className="h-10 flex items-center justify-center mb-2 relative">
+                      {/* Animated pulse ring around node */}
+                      {isCurrent && (
+                        <motion.div 
+                          className="absolute h-8 w-8 rounded-full border border-[#bda881]/40 bg-[#bda881]/5"
+                          initial={{ scale: 0.8, opacity: 0.5 }}
+                          animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0.1, 0.6] }}
+                          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                        />
+                      )}
+                      {/* Core circle */}
+                      <div className={`h-4 w-4 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
+                        isActive 
+                          ? "border-[#bda881] bg-[#fdfcf9]" 
+                          : "border-brand-border/60 bg-[#fdfcf9]"
+                      }`}>
+                        <div className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                          isActive ? "bg-[#bda881] scale-100" : "bg-transparent scale-0"
+                        }`} />
+                      </div>
+                    </div>
+
+                    <span className={`font-display text-[13px] font-bold tracking-wider transition-colors duration-300 uppercase mt-2 ${
+                      isCurrent ? "text-[#bda881]" : "text-brand-dark/40 group-hover:text-brand-dark/70"
+                    }`}>
+                      {step.title}
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+
+            {/* Displaying one refined card at a time with subtle scale, shadow, and AnimatePresence */}
+            <div className="max-w-2xl mx-auto relative min-h-[160px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStep}
+                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="border p-8 rounded-3xl bg-[#fdfcf9] border-[#bda881] shadow-[0_25px_50px_rgba(189,168,129,0.12)] ring-1 ring-[#bda881]/15 text-center flex flex-col gap-3 relative overflow-hidden"
+                >
+                  <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#bda881] to-transparent" />
+                  
+                  <span className="font-mono text-[9px] font-bold text-[#bda881] tracking-widest uppercase block">
+                    METHODOLOGY PHASE 0{activeStep + 1}
+                  </span>
+                  
+                  <h3 className="font-display text-xl font-bold uppercase text-brand-dark tracking-tight">
+                    {[
+                      "Discovery & Audit",
+                      "AI Blueprinting",
+                      "Launch Pad Setup",
+                      "The Scale Engine"
+                    ][activeStep]}
+                  </h3>
+                  
+                  <p className="font-sans text-xs sm:text-sm text-brand-dark/75 leading-relaxed font-light max-w-xl mx-auto">
+                    {[
+                      "We deep-dive into your existing analytics, current sales metrics, and market competitors in Kathmandu or overseas to uncover the leaks.",
+                      "We draft a unified visual interface blueprint, write high-converting copy using proven psychological models, and structure our ad funnel.",
+                      "Our team writes lightweight React code and configures Meta Conversions API to establish pristine tracking and millisecond loads.",
+                      "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS."
+                    ][activeStep]}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 6. TESTIMONIALS */}
+      <section className="py-24 sm:py-32 bg-brand-cream/10 border-b border-brand-border/20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          
+          <ScrollReveal y={20} className="max-w-xl mb-20">
+            <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
+              CLIENT TESTIMONIALS // REAL RESULTS
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase leading-tight">
+              Trusted By Dynamic Business Leaders
+            </h2>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {TESTIMONIALS.map((testimonial, idx) => (
+              <ScrollReveal 
+                key={testimonial.id}
+                y={30}
+                delay={idx * 0.15}
+                className="flex flex-col justify-between border border-brand-border/30 bg-brand-bg p-8 rounded-2xl relative shadow-sm"
+              >
+                <div className="flex flex-col gap-6">
+                  {/* Glowing visual emblem */}
+                  <div className="flex gap-1.5">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <span key={s} className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
+                    ))}
+                  </div>
+                  <p className="font-sans text-sm sm:text-base leading-relaxed text-brand-dark/80 italic">
+                    "{testimonial.quote}"
+                  </p>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-brand-border/20 flex flex-col">
+                  <span className="font-display text-sm font-bold text-brand-dark uppercase">
+                    {testimonial.author}
+                  </span>
+                  <span className="font-mono text-[9px] text-brand-accent uppercase tracking-widest mt-1">
+                    {testimonial.role} // {testimonial.company}
+                  </span>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 7. ABOUT TEASER */}
+      <section className="py-24 sm:py-32 border-b border-brand-border/20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Visual Portrait block */}
+            <div className="lg:col-span-5">
+              <ScrollReveal y={30} className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-brand-border bg-brand-cream shadow-md flex items-center justify-center p-8">
+                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#000000_1px,transparent_1px)] bg-[size:16px_16px]" />
+                
+                {/* Simulated portrait wireframe */}
+                <div className="h-full w-full rounded-2xl border border-brand-border flex flex-col justify-between p-6 bg-brand-bg/60">
+                  <span className="font-mono text-[8px] text-brand-dark/40 tracking-widest block uppercase">LOCAL_COORD: KTM_NEPAL</span>
+                  
+                  {/* Stylized face avatar placeholder */}
+                  <div className="h-32 w-32 rounded-full border border-brand-accent/20 flex items-center justify-center mx-auto my-auto relative">
+                    <div className="h-24 w-24 rounded-full border border-brand-accent flex items-center justify-center">
+                      <span className="font-display text-4xl font-black text-brand-accent">RS</span>
+                    </div>
+                    <div className="absolute h-3 w-3 rounded-full bg-emerald-500 border-2 border-brand-bg right-2 bottom-2 animate-bounce" />
+                  </div>
+
+                  <span className="font-mono text-[8px] text-brand-dark/40 tracking-widest block text-right uppercase">RAJ_SHRESTHA_IMG_REF</span>
+                </div>
+              </ScrollReveal>
+            </div>
+
+            {/* Content teaser block */}
+            <div className="lg:col-span-7">
+              <ScrollReveal y={30} delay={0.2}>
+                <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
+                  THE STRATEGIST // BIO
+                </span>
+                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase leading-tight mb-6">
+                  ENGINEERING VISUAL SYSTEMS FROM THE CAPITAL OF NEPAL
+                </h2>
+                <p className="font-sans text-base text-brand-dark/70 leading-relaxed mb-8">
+                  Originally trained in performance metrics and system architecture, I help businesses design interactive spaces and paid campaigns that convert. I am based in Kathmandu and consult for local powerhouses and international startups aiming for rapid market expansion.
+                </p>
+                <button
+                  onClick={() => navigate("/about")}
+                  className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase pb-1 border-b border-brand-dark/20 hover:border-brand-accent flex items-center gap-2 group transition-all"
+                >
+                  <span>Read My Full Story</span>
+                  <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
+                </button>
+              </ScrollReveal>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 8. BLOG TEASER */}
+      <section className="py-24 sm:py-32">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
+            <ScrollReveal y={20} className="max-w-xl">
+              <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
+                INSIGHTS // EXPERT INTEL
+              </span>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase">
+                THE MARKETING CHRONICLES
+              </h2>
+            </ScrollReveal>
+
+            <Link
+              to="/blog"
+              className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent transition-colors duration-300 uppercase flex items-center gap-2 group self-start pb-1 border-b border-brand-dark/20 hover:border-brand-accent"
+            >
+              <span>Explore All Insights</span>
+              <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {featuredBlogs.map((blog, idx) => (
+              <ScrollReveal 
+                key={blog.id}
+                y={30}
+                delay={idx * 0.15}
+                className="group border border-brand-border/30 bg-brand-bg rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+              >
+                {/* Visual Cover Header */}
+                <div 
+                  className="h-48 w-full relative"
+                  style={{ background: blog.image }}
+                >
+                  <div className="absolute inset-0 bg-brand-dark/25" />
+                  <div className="absolute top-4 left-4">
+                    <span className="font-mono text-[9px] font-bold tracking-wider text-brand-bg bg-brand-dark/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 uppercase">
+                      {blog.category}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content body */}
+                <div className="p-8 flex-grow flex flex-col justify-between">
+                  <div>
+                    <span className="font-mono text-[10px] text-brand-dark/40 block mb-2">
+                      {blog.date} // {blog.readTime}
+                    </span>
+                    <h3 className="font-display text-xl font-bold uppercase text-brand-dark group-hover:text-brand-accent transition-colors duration-300 mb-4 line-clamp-1">
+                      {blog.title}
+                    </h3>
+                    <p className="font-sans text-sm text-brand-dark/70 leading-relaxed mb-6 line-clamp-2">
+                      {blog.excerpt}
+                    </p>
+                  </div>
+
+                  <Link
+                    id={`blog-teaser-link-${blog.id}`}
+                    to={`/blog/${blog.id}`}
+                    className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase inline-flex items-center gap-1 self-start"
+                  >
+                    <span>Read Article</span>
+                    <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  );
+}

@@ -1,0 +1,6 @@
+# Robots.txt for Raj Shrestha Portfolio — AI Marketing Expert
+User-agent: *
+Allow: /
+
+# Sitemap Location
+Sitemap: https://raj-shrestha.dev/sitemap.xml
