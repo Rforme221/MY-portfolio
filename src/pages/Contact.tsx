@@ -55,8 +55,8 @@ export default function Contact() {
       />
 
       {/* 1. HERO HEADER */}
-      <section className="pt-16 pb-12 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section pt-16 pb-12 border-b border-brand-border/20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-3xl">
             <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
@@ -71,8 +71,8 @@ export default function Contact() {
       </section>
 
       {/* 2. THE PORTAL split section */}
-      <section className="py-16 sm:py-24 bg-brand-cream/10">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-16 sm:py-24 bg-brand-cream/10">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16 items-start">
             

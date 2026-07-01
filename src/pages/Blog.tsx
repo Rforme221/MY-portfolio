@@ -14,8 +14,8 @@ export default function Blog() {
       />
 
       {/* 1. HERO HEADER */}
-      <section className="pt-16 pb-16 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section pt-16 pb-16 border-b border-brand-border/20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <div className="max-w-3xl flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <ScrollReveal y={20}>
@@ -38,8 +38,8 @@ export default function Blog() {
       </section>
 
       {/* 2. BLOG INDEX GRID */}
-      <section className="py-16 sm:py-24 bg-brand-cream/10">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-16 sm:py-24 bg-brand-cream/10">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {BLOGS.map((blog, idx) => (

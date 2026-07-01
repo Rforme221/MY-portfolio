@@ -42,8 +42,8 @@ export default function ProjectDetail() {
       />
 
       {/* 1. HEADER HERO PANEL */}
-      <section className="pt-12 pb-16 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section pt-12 pb-16 border-b border-brand-border/20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           {/* Back Trigger */}
           <Link
@@ -112,8 +112,8 @@ export default function ProjectDetail() {
       </section>
 
       {/* 2. FULL-BLEED VISUAL CONTAINER */}
-      <section className="py-8 bg-brand-cream/15">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-8 bg-brand-cream/15">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           <ScrollReveal y={30}>
             <div 
               className="w-full aspect-[16/7] md:aspect-[21/9] rounded-3xl overflow-hidden border border-brand-border/40 shadow-md relative"
@@ -142,8 +142,8 @@ export default function ProjectDetail() {
       </section>
 
       {/* 3. CASE CONTEXT DETAILS */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             

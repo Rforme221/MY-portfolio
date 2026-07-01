@@ -21,7 +21,7 @@ function AccordionItem({ faq, isOpen, onToggle }: AccordionItemProps) {
         <span className="font-display text-base sm:text-lg md:text-xl font-medium tracking-tight text-brand-dark group-hover:text-brand-accent transition-colors duration-300 pr-4">
           {faq.question}
         </span>
-        <span className="flex-shrink-0 h-8 w-8 rounded-full bg-brand-cream/50 flex items-center justify-center border border-brand-border/40 group-hover:bg-brand-cream group-hover:border-brand-border transition-all duration-300">
+        <span className="flex-shrink-0 h-8 w-8 rounded-full bg-brand-cream/50 flex items-center justify-center border border-brand-border/40 group-hover:bg-brand-cream group-hover:border-brand-border transform group-hover:scale-110 active:scale-95 transition-all duration-300">
           {isOpen ? (
             <Minus className="h-4 w-4 text-brand-dark" />
           ) : (

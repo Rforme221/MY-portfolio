@@ -27,26 +27,45 @@
 }
 
 .section {
+  container-type: inline-size;
+  container-name: stage;
+  width: 100%;
+  min-height: 100svh; /* not 100vh — fix mobile addr-bar jump */
+  position: relative;
+  overflow: clip; /* not hidden — keep compositing cheap */
+}
+
+.section-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) min(92vw, 1400px) minmax(0, 1fr);
   padding-block: var(--section-pad);
-  container-type: inline-size;
-  container-name: section;
 }
 
-.section > * { grid-column: 2; }
+.section-grid > * { grid-column: 2; }
+
+.section__inner {
+  display: grid;
+  place-items: center;
+  width: min(100%, 100cqi);
+  aspect-ratio: 16/9;
+}
+
+@container stage (max-aspect-ratio: 3/4) {
+  .section__inner { aspect-ratio: 3/4; }
+}
 
 .hero-title {
-  font-size: var(--hero-scale);
+  font-size: clamp(1.5rem, 4vw + 1rem, 6rem);
+  padding-block: clamp(1rem, 5vh, 4rem);
   line-height: 1.1;
 }
 
-@container section (aspect-ratio < 1) {
+@container stage (aspect-ratio < 1) {
   /* portrait/mobile-landscape variant */
   .hero-grid { grid-template-rows: auto 1fr; grid-template-columns: 1fr; }
 }
 
-@container section (min-width: 768px) and (aspect-ratio > 1.2) {
+@container stage (min-width: 768px) and (aspect-ratio > 1.2) {
   .hero-grid { grid-template-columns: 1fr 1fr; }
 }
 
@@ -61,6 +80,12 @@
   transform: translateZ(0);
 }
 
+.layer-bg, .layer-mid, .layer-text {
+  will-change: transform, opacity;
+  transform: translateZ(0); /* force own compositor layer */
+  backface-visibility: hidden;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -71,6 +96,13 @@
   body {
     font-family: var(--font-sans);
     overflow-x: hidden;
+  }
+
+  /* Global smooth transitions for all interactive elements */
+  a, button, [role="button"], select, input, textarea {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    transition-duration: 300ms;
   }
 
   /* Custom minimal scrollbar */
@@ -202,3 +234,9 @@
   .system-desc { grid-area: desc; margin-top: 0.5rem; }
   .system-cta { grid-area: cta; margin-top: 0.75rem; }
 }
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .section { min-height: 100dvh; }
+  .hero-title { font-size: clamp(1rem, 3vh, 2.5rem); }
+}
+

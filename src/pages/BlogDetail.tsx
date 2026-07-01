@@ -55,8 +55,8 @@ export default function BlogDetail() {
       />
 
       {/* 1. BACK BAR & HEADER */}
-      <section className="pt-12 pb-16 border-b border-brand-border/20">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8">
+      <section className="section pt-12 pb-16 border-b border-brand-border/20">
+        <div className="section__inner max-w-4xl mx-auto px-6 sm:px-8 w-full">
           
           {/* Back link */}
           <Link
@@ -99,8 +99,8 @@ export default function BlogDetail() {
       </section>
 
       {/* 2. COVER COVER COVER */}
-      <section className="py-8 bg-brand-cream/15">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8">
+      <section className="section py-8 bg-brand-cream/15">
+        <div className="section__inner max-w-4xl mx-auto px-6 sm:px-8 w-full">
           <ScrollReveal y={30}>
             <div 
               className="w-full h-64 sm:h-96 rounded-3xl overflow-hidden border border-brand-border/40 shadow-sm relative"
@@ -114,8 +114,8 @@ export default function BlogDetail() {
       </section>
 
       {/* 3. CONTENT CORE BODY */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8">
+      <section className="section py-16">
+        <div className="section__inner max-w-4xl mx-auto px-6 sm:px-8 w-full">
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
             

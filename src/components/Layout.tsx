@@ -110,7 +110,7 @@ export default function Layout({ children }: LayoutProps) {
                   id={`nav-link-${link.name.toLowerCase()}`}
                   key={link.path}
                   to={link.path}
-                  className={`font-sans text-[11px] font-semibold tracking-wider transition-colors duration-300 relative py-1 hover:text-brand-accent focus:outline-none uppercase ${
+                  className={`font-sans text-[11px] font-semibold tracking-wider transition-all duration-300 transform hover:scale-105 active:scale-95 relative py-1 hover:text-brand-accent focus:outline-none uppercase inline-block ${
                     isActive 
                       ? "text-brand-accent" 
                       : isHome 
@@ -136,7 +136,7 @@ export default function Layout({ children }: LayoutProps) {
             <Link
               id="nav-cta-talk"
               to="/contact"
-              className={`font-display text-[10px] font-bold tracking-widest px-5 py-2.5 transition-all duration-300 transform active:scale-95 uppercase border rounded-md ${
+              className={`font-display text-[10px] font-bold tracking-widest px-5 py-2.5 transition-all duration-300 transform hover:scale-105 active:scale-95 uppercase border rounded-md ${
                 isHome 
                   ? "border-zinc-800 text-white bg-transparent hover:bg-white hover:text-black hover:border-white" 
                   : "border-transparent text-brand-bg bg-brand-dark hover:bg-brand-accent hover:text-brand-bg rounded-full"
@@ -334,7 +334,7 @@ export default function Layout({ children }: LayoutProps) {
                 href="https://linkedin.com/in/stha41010" 
                 target="_blank" 
                 rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white transition-all duration-300"
+                className="h-9 w-9 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white hover:scale-110 active:scale-95 transition-all duration-300"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-4 w-4" />
@@ -344,7 +344,7 @@ export default function Layout({ children }: LayoutProps) {
                 href="https://twitter.com" 
                 target="_blank" 
                 rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white transition-all duration-300"
+                className="h-9 w-9 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white hover:scale-110 active:scale-95 transition-all duration-300"
                 aria-label="Twitter"
               >
                 <Twitter className="h-4 w-4" />
@@ -354,7 +354,7 @@ export default function Layout({ children }: LayoutProps) {
                 href="https://github.com" 
                 target="_blank" 
                 rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white transition-all duration-300"
+                className="h-9 w-9 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white hover:scale-110 active:scale-95 transition-all duration-300"
                 aria-label="GitHub"
               >
                 <Github className="h-4 w-4" />

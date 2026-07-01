@@ -15,7 +15,7 @@ export default function Work() {
 
       {/* 1. HERO WORK HEADER */}
       <section className="section border-b border-brand-border/30 bg-[#fdfcf9] pt-[clamp(4rem,10vw,8rem)] pb-[clamp(2.5rem,6vw,5rem)]">
-        <div>
+        <div className="section__inner w-full">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-[var(--gap-scale)]">
             <ScrollReveal y={20}>
               <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block mb-[clamp(0.4rem,1vw,0.8rem)]">
@@ -37,7 +37,7 @@ export default function Work() {
 
       {/* 2. THE STACKED SHOWCASE (SAME AS HOME PAGE) */}
       <section className="section bg-[#fdfcf9] text-brand-dark border-b border-brand-border/30 relative z-20">
-        <div>
+        <div className="section__inner w-full">
           
           {/* Stacking Staggered Slides - Pure CSS Smooth Scroll Stack */}
           <div className="relative flex flex-col gap-[clamp(4rem,8vw,12rem)] pb-[clamp(2rem,5vw,6rem)]">
@@ -99,7 +99,7 @@ export default function Work() {
                     
                     <Link
                       to={`/work/${project.id}`}
-                      className="flex items-center gap-[clamp(0.5rem,1vw,1rem)] px-[clamp(0.8rem,2vw,2rem)] py-[clamp(0.4rem,1vw,1rem)] border border-white/10 text-white rounded-full text-[clamp(0.6rem,0.8vw,0.75rem)] font-bold tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 uppercase self-start"
+                      className="flex items-center gap-[clamp(0.5rem,1vw,1rem)] px-[clamp(0.8rem,2vw,2rem)] py-[clamp(0.4rem,1vw,1rem)] border border-white/10 text-white rounded-full text-[clamp(0.6rem,0.8vw,0.75rem)] font-bold tracking-widest hover:bg-white hover:text-black hover:border-white transform hover:scale-105 active:scale-95 transition-all duration-300 uppercase self-start"
                     >
                       <span>DISCOVER</span>
                       <span className="h-[clamp(1.25rem,2.5vw,2.25rem)] w-[clamp(1.25rem,2.5vw,2.25rem)] rounded-full bg-white/10 text-white flex items-center justify-center transition-colors">
@@ -127,7 +127,7 @@ export default function Work() {
               </p>
               <Link 
                 to="/contact"
-                className="inline-flex font-display text-[clamp(0.6rem,0.8vw,0.75rem)] font-bold tracking-widest text-white bg-brand-dark hover:bg-brand-accent hover:text-white px-[clamp(1.25rem,3vw,2.5rem)] py-[clamp(0.65rem,1.5vw,1.25rem)] rounded-full uppercase transition-all duration-300"
+                className="inline-flex font-display text-[clamp(0.6rem,0.8vw,0.75rem)] font-bold tracking-widest text-white bg-brand-dark hover:bg-brand-accent hover:text-white px-[clamp(1.25rem,3vw,2.5rem)] py-[clamp(0.65rem,1.5vw,1.25rem)] rounded-full uppercase transform hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 Start Launch Blueprint
               </Link>

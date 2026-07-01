@@ -86,7 +86,8 @@ export default function Home() {
             scrollTrigger: { 
               trigger: step, 
               start: "top 85%",
-              toggleActions: "play none none reverse"
+              toggleActions: "play none none reverse",
+              invalidateOnRefresh: true
             },
           });
         });
@@ -103,7 +104,8 @@ export default function Home() {
           scrollTrigger: { 
             trigger: row, 
             start: "top 85%",
-            toggleActions: "play none none reverse"
+            toggleActions: "play none none reverse",
+            invalidateOnRefresh: true
           },
         });
       });
@@ -133,9 +135,7 @@ export default function Home() {
     let resizeTimer: any;
     const handleResize = () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        ScrollTrigger.refresh(); // recalcs all triggers + matchMedia
-      }, 150);
+      resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
     };
 
     const handleOrientationChange = () => {
@@ -164,7 +164,7 @@ export default function Home() {
       />
 
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-[clamp(4rem,10vw,12rem)]">
+      <section className="section relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-[clamp(4rem,10vw,12rem)]">
         {/* Background Image of Profile Portrait */}
         <div 
           className="absolute inset-0 z-0 bg-no-repeat bg-cover bg-right md:bg-right opacity-90"
@@ -176,21 +176,23 @@ export default function Home() {
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent lg:via-[#0a0a0a]/50 lg:to-transparent" />
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:hidden" />
 
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full relative z-10">
-          <div className="max-w-3xl">
-            <ScrollReveal y={40} delay={0.1}>
-              <h1 className="hero-title font-display font-normal tracking-tight text-white leading-[1.08] uppercase mb-[clamp(1.5rem,4vw,3.5rem)]">
-                Web Design <br />
-                & Meta Ads <br />
-                <span className="text-[#bda881]">using AI</span>
-              </h1>
-            </ScrollReveal>
+        <div className="section__inner w-full">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full relative z-10">
+            <div className="max-w-3xl">
+              <ScrollReveal y={40} delay={0.1}>
+                <h1 className="hero-title font-display font-normal tracking-tight text-white leading-[1.08] uppercase mb-[clamp(1.5rem,4vw,3.5rem)]">
+                  Web Design <br />
+                  & Meta Ads <br />
+                  <span className="text-[#bda881]">using AI</span>
+                </h1>
+              </ScrollReveal>
 
-            <ScrollReveal y={30} delay={0.25}>
-              <p className="font-sans text-[clamp(1rem,1.5vw+0.5rem,1.35rem)] text-zinc-400 font-light leading-relaxed max-w-[clamp(20rem,50vw,40rem)]">
-                High-converting digital experiences and precision Meta Ads campaigns, optimized with AI to scale local businesses and maximize your ROI.
-              </p>
-            </ScrollReveal>
+              <ScrollReveal y={30} delay={0.25}>
+                <p className="font-sans text-[clamp(1rem,1.5vw+0.5rem,1.35rem)] text-zinc-400 font-light leading-relaxed max-w-[clamp(20rem,50vw,40rem)]">
+                  High-converting digital experiences and precision Meta Ads campaigns, optimized with AI to scale local businesses and maximize your ROI.
+                </p>
+              </ScrollReveal>
+            </div>
           </div>
         </div>
       </section>
@@ -199,44 +201,46 @@ export default function Home() {
       <Marquee />
 
       {/* GSAP Interactive Horizontal Panel Section */}
-      <section className="section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-screen flex flex-col justify-between">
+      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-screen flex flex-col justify-between">
         <div className="absolute inset-0 z-0 bg-radial-gradient from-zinc-900 via-[#0a0a0a] to-[#0a0a0a] opacity-60 pointer-events-none" />
         
-        {/* Horizontal scroll panels wrapper */}
-        <div className="flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
-          
-          {/* Panel 1 */}
-          <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-center px-[clamp(1.5rem,5vw,6rem)] relative">
-            <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
-              <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
-                01 // DESIGN & ARCHITECTURE
-              </span>
-              <h2 className="font-display text-[clamp(2.25rem,5.5vw,5rem)] font-bold tracking-tight uppercase leading-[1.1] text-white">
-                AI-Optimized <br />
-                Web Design
-              </h2>
-              <p className="font-sans text-[clamp(0.9rem,1.4vw,1.2rem)] text-zinc-400 font-light leading-relaxed max-w-xl">
-                We craft hyper-fast, React-based web experiences built on high-fidelity designs. Millisecond loading speed ensures maximum engagement and frictionless user paths.
-              </p>
+        <div className="section__inner w-full h-full">
+          {/* Horizontal scroll panels wrapper */}
+          <div className="flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
+            
+            {/* Panel 1 */}
+            <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-center px-[clamp(1.5rem,5vw,6rem)] relative">
+              <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
+                <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
+                  01 // DESIGN & ARCHITECTURE
+                </span>
+                <h2 className="font-display text-[clamp(2.25rem,5.5vw,5rem)] font-bold tracking-tight uppercase leading-[1.1] text-white">
+                  AI-Optimized <br />
+                  Web Design
+                </h2>
+                <p className="font-sans text-[clamp(0.9rem,1.4vw,1.2rem)] text-zinc-400 font-light leading-relaxed max-w-xl">
+                  We craft hyper-fast, React-based web experiences built on high-fidelity designs. Millisecond loading speed ensures maximum engagement and frictionless user paths.
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* Panel 2 */}
-          <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-center px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
-            <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
-              <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
-                02 // TRAFFIC & META ADS
-              </span>
-              <h2 className="font-display text-[clamp(2.25rem,5.5vw,5rem)] font-bold tracking-tight uppercase leading-[1.1] text-white">
-                High-ROAS <br />
-                AI-Driven Ads
-              </h2>
-              <p className="font-sans text-[clamp(0.9rem,1.4vw,1.2rem)] text-zinc-400 font-light leading-relaxed max-w-xl">
-                Precision Meta Ads combined with real-time conversion monitoring. We write psychology-backed creatives and employ smart interest-targeting to scale your pipeline.
-              </p>
+            {/* Panel 2 */}
+            <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-center px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
+              <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
+                <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
+                  02 // TRAFFIC & META ADS
+                </span>
+                <h2 className="font-display text-[clamp(2.25rem,5.5vw,5rem)] font-bold tracking-tight uppercase leading-[1.1] text-white">
+                  High-ROAS <br />
+                  AI-Driven Ads
+                </h2>
+                <p className="font-sans text-[clamp(0.9rem,1.4vw,1.2rem)] text-zinc-400 font-light leading-relaxed max-w-xl">
+                  Precision Meta Ads combined with real-time conversion monitoring. We write psychology-backed creatives and employ smart interest-targeting to scale your pipeline.
+                </p>
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
 
         {/* Dynamic Shared Asset Floating */}
@@ -288,7 +292,7 @@ export default function Home() {
       <section 
         className="section bg-[#fdfcf9] text-brand-dark border-b border-brand-border/30 relative z-20"
       >
-        <div>
+        <div className="section__inner w-full">
           
           {/* Header Row exactly matching the video style */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-[var(--gap-scale)] mb-[clamp(3rem,6vw,8rem)]">
@@ -393,9 +397,9 @@ export default function Home() {
 
       {/* 4. SERVICES SNAPSHOT */}
       <section 
-        className="py-24 sm:py-32 bg-brand-cream/30 border-b border-brand-border/20"
+        className="section py-24 sm:py-32 bg-brand-cream/30 border-b border-brand-border/20"
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           {/* Section header */}
           <ScrollReveal y={20} className="max-w-xl mb-20">
@@ -458,8 +462,8 @@ export default function Home() {
       </section>
 
       {/* 5. WORK PROCESS */}
-      <section className="steps-track border-b border-brand-border/20 py-24 sm:py-32 bg-[#fdfcf9]">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 h-full flex flex-col justify-center">
+      <section className="section steps-track border-b border-brand-border/20 py-24 sm:py-32 bg-[#fdfcf9]">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 h-full flex flex-col justify-center w-full">
           
           <ScrollReveal y={20} className="max-w-xl mb-16">
             <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
@@ -528,8 +532,8 @@ export default function Home() {
       </section>
 
       {/* 6. TESTIMONIALS */}
-      <section className="py-24 sm:py-32 bg-brand-cream/10 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-24 sm:py-32 bg-brand-cream/10 border-b border-brand-border/20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-xl mb-20">
             <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
@@ -576,8 +580,8 @@ export default function Home() {
       </section>
 
       {/* 7. ABOUT TEASER */}
-      <section className="py-24 sm:py-32 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-24 sm:py-32 border-b border-brand-border/20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
@@ -617,7 +621,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={() => navigate("/about")}
-                  className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase pb-1 border-b border-brand-dark/20 hover:border-brand-accent flex items-center gap-2 group transition-all"
+                  className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase pb-1 border-b border-brand-dark/20 hover:border-brand-accent flex items-center gap-2 group transform hover:scale-105 active:scale-95 transition-all duration-300"
                 >
                   <span>Read My Full Story</span>
                   <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
@@ -631,8 +635,8 @@ export default function Home() {
       </section>
 
       {/* 8. BLOG TEASER */}
-      <section className="py-24 sm:py-32">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-24 sm:py-32">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
             <ScrollReveal y={20} className="max-w-xl">
@@ -646,7 +650,7 @@ export default function Home() {
 
             <Link
               to="/blog"
-              className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent transition-colors duration-300 uppercase flex items-center gap-2 group self-start pb-1 border-b border-brand-dark/20 hover:border-brand-accent"
+              className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase flex items-center gap-2 group self-start pb-1 border-b border-brand-dark/20 hover:border-brand-accent transform hover:scale-105 active:scale-95 transition-all duration-300"
             >
               <span>Explore All Insights</span>
               <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
@@ -691,7 +695,7 @@ export default function Home() {
                   <Link
                     id={`blog-teaser-link-${blog.id}`}
                     to={`/blog/${blog.id}`}
-                    className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase inline-flex items-center gap-1 self-start"
+                    className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase inline-flex items-center gap-1 self-start transform hover:scale-105 active:scale-95 transition-all duration-300"
                   >
                     <span>Read Article</span>
                     <ArrowUpRight className="h-4 w-4" />

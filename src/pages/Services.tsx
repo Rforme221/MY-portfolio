@@ -15,8 +15,8 @@ export default function Services() {
       />
 
       {/* 1. HERO SERVICES HEADER */}
-      <section className="pt-16 pb-24 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section pt-16 pb-24 border-b border-brand-border/20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-3xl mb-12">
             <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
@@ -37,8 +37,8 @@ export default function Services() {
       </section>
 
       {/* 2. THE SERVICES ENGINE STATIONS */}
-      <section className="py-24 bg-brand-cream/15 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-24 bg-brand-cream/15 border-b border-brand-border/20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16">
             {SERVICES.map((service, idx) => {
@@ -96,7 +96,7 @@ export default function Services() {
                   <div className="relative z-10 mt-8 pt-6 border-t border-brand-border/20">
                     <Link
                       to="/contact"
-                      className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase inline-flex items-center gap-2 group"
+                      className="font-display text-xs font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase inline-flex items-center gap-2 group transform hover:scale-105 active:scale-95 transition-all duration-300"
                     >
                       <span>ACTIVATE SOLUTION ENGINE</span>
                       <span className="h-7 w-7 rounded-full bg-brand-cream border border-brand-border/50 flex items-center justify-center text-brand-dark group-hover:bg-brand-accent group-hover:text-brand-bg transition-colors">
@@ -114,8 +114,8 @@ export default function Services() {
       </section>
 
       {/* 3. FAQ ACCORDION SECTION */}
-      <section className="py-24">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8">
+      <section className="section py-24">
+        <div className="section__inner max-w-4xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="text-center mb-16">
             <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
@@ -137,7 +137,7 @@ export default function Services() {
             </p>
             <Link
               to="/contact"
-              className="font-display text-xs font-semibold tracking-widest text-brand-bg bg-brand-dark hover:bg-brand-accent hover:text-brand-bg px-6 py-3.5 rounded-full uppercase transition-colors inline-block"
+              className="font-display text-xs font-semibold tracking-widest text-brand-bg bg-brand-dark hover:bg-brand-accent hover:text-brand-bg px-6 py-3.5 rounded-full uppercase transform hover:scale-105 active:scale-95 transition-all duration-300 inline-block"
             >
               Ask Raj Direct
             </Link>

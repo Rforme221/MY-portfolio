@@ -20,8 +20,8 @@ export default function About() {
       />
 
       {/* 1. HERO STORY HEADER */}
-      <section className="pt-16 pb-24 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section pt-16 pb-24 border-b border-brand-border/20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-3xl mb-16">
             <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
@@ -96,8 +96,8 @@ export default function About() {
       </section>
 
       {/* 2. STATS BENTO SECTION */}
-      <section className="py-24 bg-brand-cream/15 border-b border-brand-border/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-24 bg-brand-cream/15 border-b border-brand-border/20">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-2xl mb-16">
             <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
@@ -144,8 +144,8 @@ export default function About() {
       </section>
 
       {/* 3. TECHNICAL EXPERTISE / STACK MATRIX */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="section py-24">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-2xl mb-16">
             <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
@@ -242,7 +242,7 @@ export default function About() {
           <div className="mt-16 text-center">
             <Link
               to="/contact"
-              className="font-display text-xs font-semibold tracking-widest text-brand-bg bg-brand-dark hover:bg-brand-accent hover:text-brand-bg px-8 py-4 rounded-full transition-all duration-300 uppercase shadow-md flex-inline items-center justify-center"
+              className="font-display text-xs font-semibold tracking-widest text-brand-bg bg-brand-dark hover:bg-brand-accent hover:text-brand-bg px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 uppercase shadow-md inline-flex items-center justify-center"
             >
               Consult With Raj Shrestha
             </Link>
