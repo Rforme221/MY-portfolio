@@ -14,11 +14,11 @@ export default function Work() {
       />
 
       {/* 1. HERO WORK HEADER */}
-      <section className="section border-b border-brand-border/30 bg-[#fdfcf9] pt-[clamp(4rem,10vw,8rem)] pb-[clamp(2.5rem,6vw,5rem)]">
+      <section className="section border-b border-brand-border/30 bg-brand-bg pt-[clamp(4rem,10vw,8rem)] pb-[clamp(2.5rem,6vw,5rem)]">
         <div className="section__inner w-full">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-[var(--gap-scale)]">
             <ScrollReveal y={20}>
-              <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block mb-[clamp(0.4rem,1vw,0.8rem)]">
+              <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-brand-primary uppercase block mb-[clamp(0.4rem,1vw,0.8rem)]">
                 CASE STUDY INDEX // COMPLETED PROJECTS
               </span>
               <h1 className="hero-title font-display font-normal text-brand-dark uppercase tracking-tight">
@@ -36,7 +36,7 @@ export default function Work() {
       </section>
 
       {/* 2. THE STACKED SHOWCASE (SAME AS HOME PAGE) */}
-      <section className="section bg-[#fdfcf9] text-brand-dark border-b border-brand-border/30 relative z-20">
+      <section className="section bg-brand-bg text-brand-dark border-b border-brand-border/30 relative z-20">
         <div className="section__inner w-full">
           
           {/* Stacking Staggered Slides - Pure CSS Smooth Scroll Stack */}

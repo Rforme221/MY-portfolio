@@ -18,106 +18,160 @@ export default function Home() {
   const featuredBlogs = BLOGS.slice(0, 2);
 
   React.useEffect(() => {
-    let ctx = gsap.context(() => {
-      let mm = gsap.matchMedia();
+    // utility: convert vw/vh string to px at call-time
+    const vw = (v: number) => (v / 100) * window.innerWidth;
+    const vh = (v: number) => (v / 100) * window.innerHeight;
 
-      mm.add(
-        {
-          isMobile: "(max-width: 767px)",
-          isTablet: "(min-width: 768px) and (max-width: 1199px)",
-          isDesktop: "(min-width: 1200px)",
-        },
-        (context) => {
-          let { isMobile, isTablet } = context?.conditions || {};
+    let ctx: any;
 
-          let xMove = isMobile ? "-30vw" : isTablet ? "-15vw" : "-8vw";
-          let yMove = isMobile ? "10vh" : "5vh";
+    const initGSAP = () => {
+      ctx = gsap.context(() => {
+        let mm = gsap.matchMedia();
 
-          gsap.timeline({
+        mm.add(
+          {
+            isMobile: "(max-width: 767px)",
+            isTablet: "(min-width: 768px) and (max-width: 1199px)",
+            isDesktop: "(min-width: 1200px)",
+          },
+          (context) => {
+            let { isMobile, isTablet, isDesktop } = context?.conditions || {};
+
+            gsap.timeline({
+              scrollTrigger: {
+                trigger: ".section-2",
+                start: "top top",
+                end: "+=100%",
+                scrub: 1,
+                pin: true,
+                invalidateOnRefresh: true, // recalcs dynamic vw/vh on resize
+                anticipatePin: 1,
+              },
+            })
+            .to(".panel", { xPercent: -100, ease: "none" }) // %-based, not px
+            .to(".asset", { 
+              x: () => isMobile ? -vw(30) : isTablet ? -vw(15) : -vw(8), 
+              y: () => isMobile ? vh(10) : vh(5), 
+              scale: isMobile ? 0.8 : 1, 
+              ease: "none" 
+            }, "<");
+
+            // Responsive parallax & zoom for the hero visual on scroll
+            gsap.to(".hero-visual", {
+              scale: isMobile ? 1.1 : 1,
+              x: isMobile ? "0vw" : isDesktop ? "10vw" : "5vw",
+              scrollTrigger: {
+                trigger: ".hero-section",
+                start: "top top",
+                end: "bottom top",
+                scrub: true,
+              },
+            });
+
+            return () => {}; // cleanup auto-handled by matchMedia on breakpoint change
+          }
+        );
+
+        // Pinning and horizontal timeline step/card reveal for methodology
+        mm.add("(min-width: 601px)", () => {
+          let steps = gsap.utils.toArray(".step-item") as any[];
+          let cards = gsap.utils.toArray(".step-card") as any[];
+
+          let tl = gsap.timeline({
             scrollTrigger: {
-              trigger: ".section-2",
+              trigger: ".steps-track",
               start: "top top",
-              end: "+=100%",
+              end: "+=300%",
               scrub: 1,
               pin: true,
-              invalidateOnRefresh: true, // recalcs vw/vh values on resize
-            },
-          })
-          .to(".panel", { xPercent: -100, ease: "none" }) // %-based, not px
-          .to(".asset", { x: xMove, y: yMove, scale: isMobile ? 0.8 : 1, ease: "none" }, "<");
-
-          return () => {}; // cleanup auto-handled by matchMedia on breakpoint change
-        }
-      );
-
-      // Pinning and horizontal timeline step/card reveal for methodology
-      mm.add("(min-width: 601px)", () => {
-        let steps = gsap.utils.toArray(".step-item") as any[];
-        let cards = gsap.utils.toArray(".step-card") as any[];
-
-        let tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".steps-track",
-            start: "top top",
-            end: "+=300%",
-            scrub: 1,
-            pin: true,
-            invalidateOnRefresh: true,
-          },
-        });
-
-        steps.forEach((step: any, i: number) => {
-          tl.to(".track-fill", { scaleX: (i + 1) * 0.25, ease: "none" }, i)
-            .fromTo(cards[i], { autoAlpha: 0, yPercent: 10 }, { autoAlpha: 1, yPercent: 0, ease: "none" }, i)
-            .to(cards[i], { autoAlpha: 0, yPercent: -10, ease: "none" }, i + 0.8);
-        });
-
-        return () => {
-          tl.kill();
-        };
-      });
-
-      mm.add("(max-width: 600px)", () => {
-        let steps = gsap.utils.toArray(".step-item");
-        steps.forEach((step: any) => {
-          gsap.from(step, {
-            autoAlpha: 0,
-            x: "-5vw",
-            scrollTrigger: { 
-              trigger: step, 
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-              invalidateOnRefresh: true
+              invalidateOnRefresh: true,
+              anticipatePin: 1,
             },
           });
-        });
-      });
 
-      // GSAP row reveal
-      let systemRows = gsap.utils.toArray(".system-row") as HTMLElement[];
-      systemRows.forEach((row) => {
-        gsap.from(row, {
-          autoAlpha: 0,
-          yPercent: 8,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: { 
-            trigger: row, 
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-            invalidateOnRefresh: true
+          steps.forEach((step: any, i: number) => {
+            tl.to(".track-fill", { scaleX: (i + 1) * 0.25, ease: "none" }, i)
+              .fromTo(cards[i], { autoAlpha: 0, yPercent: 10 }, { autoAlpha: 1, yPercent: 0, ease: "none" }, i)
+              .to(cards[i], { autoAlpha: 0, yPercent: -10, ease: "none" }, i + 0.8);
+          });
+
+          return () => {
+            tl.kill();
+          };
+        });
+
+        mm.add("(max-width: 600px)", () => {
+          let steps = gsap.utils.toArray(".step-item");
+          steps.forEach((step: any) => {
+            gsap.from(step, {
+              autoAlpha: 0,
+              x: -vw(5),
+              scrollTrigger: { 
+                trigger: step, 
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true
+              },
+            });
+          });
+        });
+
+        // Parallax scroll for hero title
+        gsap.to(".hero-title", {
+          yPercent: -50, // % not px — scales with element itself
+          scrollTrigger: {
+            trigger: ".hero-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+
+        // for cross-viewport translate, compute in vw at trigger time
+        ScrollTrigger.create({
+          trigger: ".core-systems-section",
+          start: "top 80%",
+          onEnter: () => {
+            gsap.fromTo(".system-card", 
+              { x: () => -vw(5), autoAlpha: 0 },
+              {
+                x: 0, // recomputed live, not cached
+                autoAlpha: 1,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "power2.out",
+                overwrite: "auto"
+              }
+            );
           },
         });
       });
-    });
+    };
+
+    // Initialize GSAP ScrollTriggers
+    initGSAP();
 
     let hoverCleanups: Array<() => void> = [];
     let systemRows = gsap.utils.toArray(".system-row") as HTMLElement[];
     systemRows.forEach((row) => {
       let cta = row.querySelector(".system-cta");
       if (cta) {
-        const onEnter = () => gsap.to(cta, { xPercent: 5, duration: 0.3 });
-        const onLeave = () => gsap.to(cta, { xPercent: 0, duration: 0.3 });
+        const onEnter = () => {
+          gsap.set(cta, { willChange: "transform" });
+          gsap.to(cta, { 
+            xPercent: 5, 
+            duration: 0.3,
+            onComplete: () => gsap.set(cta, { willChange: "auto" })
+          });
+        };
+        const onLeave = () => {
+          gsap.set(cta, { willChange: "transform" });
+          gsap.to(cta, { 
+            xPercent: 0, 
+            duration: 0.3,
+            onComplete: () => gsap.set(cta, { willChange: "auto" })
+          });
+        };
         row.addEventListener("mouseenter", onEnter);
         row.addEventListener("mouseleave", onLeave);
         hoverCleanups.push(() => {
@@ -132,10 +186,18 @@ export default function Home() {
       ScrollTrigger.refresh();
     }, 100);
 
+    // resize handling — debounce + kill/rebuild, don't just refresh
     let resizeTimer: any;
     const handleResize = () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
+      resizeTimer = setTimeout(() => {
+        ScrollTrigger.getAll().forEach((st) => st.kill());
+        if (ctx) {
+          ctx.revert();
+        }
+        initGSAP();
+        ScrollTrigger.refresh();
+      }, 200);
     };
 
     const handleOrientationChange = () => {
@@ -146,7 +208,9 @@ export default function Home() {
     window.addEventListener("orientationchange", handleOrientationChange);
 
     return () => {
-      ctx.revert();
+      if (ctx) {
+        ctx.revert();
+      }
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleOrientationChange);
       clearTimeout(resizeTimer);
@@ -164,16 +228,16 @@ export default function Home() {
       />
 
       {/* 1. HERO SECTION */}
-      <section className="section relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-[clamp(4rem,10vw,12rem)]">
+      <section className="section hero-section relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-[clamp(4rem,10vw,12rem)]">
         {/* Background Image of Profile Portrait */}
         <div 
-          className="absolute inset-0 z-0 bg-no-repeat bg-cover bg-right md:bg-right opacity-90"
+          className="hero-visual absolute inset-0 z-0 bg-no-repeat bg-cover bg-right md:bg-right opacity-90"
           style={{
             backgroundImage: "url('/image/hero.png')",
           }}
         />
         {/* Gradient overlays to blend portrait image seamlessly into pitch-black background */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent lg:via-[#0a0a0a]/50 lg:to-transparent" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/95 to-transparent lg:via-[#0a0a0a]/75 lg:to-transparent" />
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:hidden" />
 
         <div className="section__inner w-full">
@@ -290,14 +354,14 @@ export default function Home() {
 
       {/* 3. SELECTED WORK SHOWCASE */}
       <section 
-        className="section bg-[#fdfcf9] text-brand-dark border-b border-brand-border/30 relative z-20"
+        className="section bg-brand-bg text-brand-dark border-b border-brand-border/30 relative z-20 py-24 sm:py-32"
       >
-        <div className="section__inner w-full">
+        <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           {/* Header Row exactly matching the video style */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-[var(--gap-scale)] mb-[clamp(3rem,6vw,8rem)]">
             <ScrollReveal y={20} className="max-w-xl">
-              <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block mb-[clamp(0.4rem,1vw,0.8rem)]">
+              <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-brand-accent uppercase block mb-[clamp(0.4rem,1vw,0.8rem)]">
                 SELECTED WORK SHOWCASE // 2025-2026
               </span>
               <h2 className="font-display text-[clamp(2rem,5vw,4.5rem)] font-normal text-brand-dark uppercase tracking-tight">
@@ -397,7 +461,7 @@ export default function Home() {
 
       {/* 4. SERVICES SNAPSHOT */}
       <section 
-        className="section py-24 sm:py-32 bg-brand-cream/30 border-b border-brand-border/20"
+        className="section core-systems-section py-24 sm:py-32 bg-brand-cream/30 border-b border-brand-border/20"
       >
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
@@ -417,7 +481,7 @@ export default function Home() {
               <div 
                 key={service.id}
                 onClick={() => navigate("/services")}
-                className="system-row group cursor-pointer hover:bg-brand-cream/40 px-4 rounded-2xl transition-all duration-300"
+                className="system-row system-card group cursor-pointer hover:bg-brand-cream/40 px-4 rounded-2xl transition-all duration-300"
               >
                 {/* Number */}
                 <div className="system-num font-display font-bold text-brand-accent/40 group-hover:text-brand-accent transition-colors">
@@ -462,11 +526,11 @@ export default function Home() {
       </section>
 
       {/* 5. WORK PROCESS */}
-      <section className="section steps-track border-b border-brand-border/20 py-24 sm:py-32 bg-[#fdfcf9]">
+      <section className="section steps-track border-b border-brand-border/20 py-24 sm:py-0 sm:h-screen sm:min-h-screen flex flex-col justify-center bg-brand-bg">
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 h-full flex flex-col justify-center w-full">
           
           <ScrollReveal y={20} className="max-w-xl mb-16">
-            <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
+            <span className="font-mono text-[10px] font-bold tracking-widest text-brand-primary uppercase block mb-3">
               METHODOLOGY // STEP-BY-STEP
             </span>
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase leading-tight">
@@ -477,8 +541,8 @@ export default function Home() {
           {/* Connected Timeline Row */}
           <div className="steps-row mb-16">
             {/* Real DOM line proxy for animating fill */}
-            <div className="track-line">
-              <div className="track-fill" />
+            <div className="track-line bg-brand-cream">
+              <div className="track-fill bg-brand-primary" />
             </div>
 
             {[
@@ -488,8 +552,8 @@ export default function Home() {
               { num: "04", title: "The Scale Engine", desc: "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS." }
             ].map((step) => (
               <div key={step.num} className="step-item flex flex-row sm:flex-col items-center sm:justify-center justify-start gap-4 sm:gap-0 relative z-10">
-                <div className="step-dot border-2 border-[#bda881] bg-[#fdfcf9] flex items-center justify-center flex-shrink-0 z-10 sm:mx-auto">
-                  <div className="h-1.5 w-1.5 rounded-full bg-[#bda881]" />
+                <div className="step-dot border-2 border-brand-primary bg-brand-bg flex items-center justify-center flex-shrink-0 z-10 sm:mx-auto">
+                  <div className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
                 </div>
                 <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-0 sm:mt-2 text-left sm:text-center">
                   <span className="block text-[10px] font-mono text-brand-accent mb-0.5">Phase {step.num}</span>
@@ -512,10 +576,10 @@ export default function Home() {
             ].map((step) => (
               <div 
                 key={step.num}
-                className="step-card absolute inset-0 border p-8 rounded-3xl bg-white border-[#bda881] shadow-[0_25px_50px_rgba(189,168,129,0.12)] ring-1 ring-[#bda881]/15 text-center flex flex-col gap-3 overflow-hidden"
+                className="step-card absolute inset-0 border p-8 rounded-3xl bg-brand-bg border-brand-primary/40 shadow-[0_25px_50px_rgba(37,99,235,0.06)] ring-1 ring-brand-primary/10 text-center flex flex-col gap-3 overflow-hidden"
               >
-                <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#bda881] to-transparent" />
-                <span className="font-mono text-[9px] font-bold text-[#bda881] tracking-widest uppercase block">
+                <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-brand-primary to-transparent" />
+                <span className="font-mono text-[9px] font-bold text-brand-primary tracking-widest uppercase block">
                   METHODOLOGY PHASE {step.num}
                 </span>
                 <h3 className="font-display text-xl font-bold uppercase text-brand-dark tracking-tight">

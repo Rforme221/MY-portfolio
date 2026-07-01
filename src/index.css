@@ -2,12 +2,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-bg: #fdfcf9;
-  --color-brand-dark: #121212;
-  --color-brand-cream: #f4f1e6;
-  --color-brand-cream-dark: #e8e4d5;
-  --color-brand-border: #e0dbcb;
-  --color-brand-accent: #bda881;
+  --color-brand-bg: #FFFFFF;
+  --color-brand-dark: var(--slate-900);
+  --color-brand-cream: var(--blue-50);
+  --color-brand-cream-dark: var(--blue-100);
+  --color-brand-border: var(--slate-100);
+  --color-brand-accent: var(--rust-500);
+  --color-brand-primary: var(--blue-500);
+  --color-brand-secondary: var(--slate-500);
   
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-display: "Space Grotesk", system-ui, -apple-system, sans-serif;
@@ -24,15 +26,38 @@
   --gap-scale: clamp(1rem, 3vw, 3rem);
   --card-pad: clamp(1rem, 2.5vw, 2.5rem);
   --img-h: clamp(300px, 45vh, 600px);
+
+  /* primary blue scale */
+  --blue-50:  #EFF4FE;
+  --blue-100: #DBE6FD;
+  --blue-300: #7DA3F5;
+  --blue-500: #2563EB; /* brand primary */
+  --blue-700: #1A46B8;
+  --blue-900: #122E7A;
+
+  /* neutral (from logo slate) */
+  --slate-100: #E9E9EC;
+  --slate-300: #ACADB6;
+  --slate-500: #757681; /* brand secondary */
+  --slate-700: #4C4D56;
+  --slate-900: #2B2C33;
+
+  /* accent (from logo rust) */
+  --rust-300: #E08B4D;
+  --rust-500: #BC4800; /* brand accent */
+  --rust-700: #8A3500;
+
+  --bg: #FFFFFF;
+  --text: #0D0D0F;
 }
 
 .section {
   container-type: inline-size;
   container-name: stage;
   width: 100%;
-  min-height: 100svh; /* not 100vh — fix mobile addr-bar jump */
+  min-height: auto; /* changed from 100svh to prevent empty vertical space on desktop */
   position: relative;
-  overflow: clip; /* not hidden — keep compositing cheap */
+  overflow: visible; /* changed from clip to avoid breaking sticky child positioning */
 }
 
 .section-grid {
@@ -44,14 +69,13 @@
 .section-grid > * { grid-column: 2; }
 
 .section__inner {
-  display: grid;
-  place-items: center;
-  width: min(100%, 100cqi);
-  aspect-ratio: 16/9;
+  display: block; /* changed from display: grid to allow responsive content to span full width on desktop */
+  width: 100%;
+  aspect-ratio: auto;
 }
 
 @container stage (max-aspect-ratio: 3/4) {
-  .section__inner { aspect-ratio: 3/4; }
+  .section__inner { aspect-ratio: auto; }
 }
 
 .hero-title {
@@ -240,18 +264,66 @@
   .hero-title { font-size: clamp(1rem, 3vh, 2.5rem); }
 }
 
-@media (max-width: 767px) {
-  .section:not(.section-2):not(.min-h-\[85vh\]) {
-    min-height: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
+.section-wrapper {
+  container-type: inline-size;
+  container-name: section;
+  width: 100%;
+  min-height: 100svh; /* svh not vh — fixes mobile browser chrome jump */
+  overflow: clip; /* not hidden — hidden breaks sticky/transform children */
+}
 
-  .section:not(.section-2):not(.min-h-\[85vh\]) .section__inner {
-    aspect-ratio: auto !important;
-    width: 100% !important;
-    height: auto !important;
-    display: block !important;
+/* fluid type/spacing scale — no breakpoint jumps */
+.section-title {
+  font-size: clamp(1.5rem, 4vw + 1rem, 4.5rem);
+  margin-block: clamp(1rem, 3cqi, 3rem);
+}
+
+@container section (min-width: 768px) {
+  .core-systems-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(1rem, 2cqi, 2.5rem);
   }
 }
+
+@container section (max-width: 767px) {
+  .core-systems-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 4cqi, 1.5rem);
+  }
+}
+
+.hero-visual {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  /* mobile landscape — short viewport */
+  .hero-visual { aspect-ratio: 21 / 9; }
+  .section-wrapper { min-height: auto; padding-block: 2rem; }
+}
+
+@media (orientation: portrait) {
+  .hero-visual { aspect-ratio: 4 / 5; }
+}
+
+.methodology-track,
+.core-systems-list > *,
+.hero-visual {
+  will-change: transform;
+  transform: translateZ(0); /* force own layer, GPU */
+  backface-visibility: hidden;
+}
+
+/* Custom color utility classes */
+.hero-title { color: var(--slate-900); }
+.hero-section .hero-title { color: #ffffff; }
+.cta-button { background: var(--blue-500); color: var(--bg); }
+.cta-button:hover { background: var(--blue-700); }
+.accent-highlight { color: var(--rust-500); }
+.section-bg-alt { background: var(--blue-50); }
+.card-border { border-color: var(--slate-300); }
 
