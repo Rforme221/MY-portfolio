@@ -396,60 +396,52 @@ export default function Home() {
               return (
                 <div 
                   key={project.id}
-                  className={`sticky top-[clamp(4.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between`}
+                  className={`sticky top-[clamp(4.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
                   style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
                 >
-                  {/* Subtle background element */}
-                  <div className="absolute inset-0 z-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:20px_20px]" />
+                  {/* True Full-Bleed Background Image */}
+                  <div className="absolute inset-0 z-0 overflow-hidden">
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      referrerPolicy="no-referrer"
+                      className="absolute inset-0 w-full h-full object-cover select-none opacity-45 transition-transform duration-700 group-hover:scale-105"
+                    />
+                    {/* Premium gradient overlays to blend cleanly and ensure text is highly legible */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/85" />
+                    <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:20px_20px]" />
+                  </div>
                   
                   {/* Card Header Detail */}
-                  <div className="relative z-10 flex justify-between items-center text-[clamp(0.6rem,0.8vw,0.75rem)] font-mono uppercase tracking-widest text-zinc-500">
+                  <div className="relative z-10 flex justify-between items-center text-[clamp(0.6rem,0.8vw,0.75rem)] font-mono uppercase tracking-widest text-zinc-300">
                     <span>{num} // {project.category}</span>
                     <span>CLIENT: {project.client}</span>
                   </div>
 
-                  {/* Central Laptop Device Mockup */}
-                  <div className="relative z-10 w-full flex flex-col justify-center items-center py-4 sm:py-[clamp(1.25rem,3vw,3.5rem)]">
-                    
-                    {/* CSS Laptop Frame */}
-                    <div className="w-full sm:w-[85%] md:w-[70%] max-w-[clamp(24rem,55vw,52rem)] aspect-[16/10] bg-zinc-950 border-[clamp(4px,0.8vw,10px)] border-zinc-800 rounded-t-[clamp(0.5rem,1.2vw,1.25rem)] shadow-2xl overflow-hidden relative">
-                      {/* High-Fidelity Website Mockup Image */}
-                      <img 
-                        src={project.image} 
-                        alt={project.title} 
-                        referrerPolicy="no-referrer"
-                        className="absolute inset-0 w-full h-full object-cover select-none"
-                      />
-                    </div>
-
-                    {/* CSS Laptop Base */}
-                    <div className="w-[95%] md:w-[80%] max-w-[clamp(27rem,60vw,57rem)] h-[clamp(6px,0.6vw,10px)] bg-zinc-700 rounded-b-[clamp(0.35rem,1vw,0.8rem)] shadow-md relative" />
-                    <div className="w-[clamp(2.5rem,5vw,5rem)] h-[clamp(2px,0.25vw,4px)] bg-zinc-800 mx-auto rounded-b-sm relative" />
-                  </div>
+                  {/* Empty spacer / flex-grow to push bottom content down */}
+                  <div className="flex-grow" />
 
                   {/* Bottom-Left Glassmorphic Floating Information Card */}
-                  {idx !== 4 && (
-                    <div className="relative z-20 self-start max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/40 border border-white/10 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-3 sm:gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
-                      <div className="flex flex-col gap-[clamp(0.4rem,1vw,1rem)]">
-                        <h3 className="font-display text-[clamp(1.15rem,2.4vw,2.25rem)] font-bold uppercase text-white tracking-tight leading-[1.1]">
-                          {project.title}
-                        </h3>
-                        <p className="font-sans text-[clamp(0.7rem,1.05vw,0.9rem)] text-zinc-400 font-light leading-relaxed">
-                          {project.description}
-                        </p>
-                      </div>
-                      
-                      <Link
-                        to={`/work/${project.id}`}
-                        className="flex items-center gap-[clamp(0.5rem,1vw,1rem)] px-[clamp(0.8rem,2vw,2rem)] py-[clamp(0.4rem,1vw,1rem)] border border-white/10 text-white rounded-full text-[clamp(0.6rem,0.8vw,0.75rem)] font-bold tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 uppercase self-start"
-                      >
-                        <span>DISCOVER</span>
-                        <span className="h-[clamp(1.25rem,2.5vw,2.25rem)] w-[clamp(1.25rem,2.5vw,2.25rem)] rounded-full bg-white/10 text-white flex items-center justify-center transition-colors">
-                          <ArrowUpRight className="h-[clamp(0.75rem,1.5vw,1.25rem)] w-[clamp(0.75rem,1.5vw,1.25rem)]" />
-                        </span>
-                      </Link>
+                  <div className="relative z-20 self-start max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/45 border border-white/10 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-3 sm:gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
+                    <div className="flex flex-col gap-[clamp(0.4rem,1vw,1rem)]">
+                      <h3 className="font-display text-[clamp(1.15rem,2.4vw,2.25rem)] font-bold uppercase text-white tracking-tight leading-[1.1]">
+                        {project.title}
+                      </h3>
+                      <p className="font-sans text-[clamp(0.7rem,1.05vw,0.9rem)] text-zinc-300 font-light leading-relaxed">
+                        {project.description}
+                      </p>
                     </div>
-                  )}
+                    
+                    <Link
+                      to={`/work/${project.id}`}
+                      className="flex items-center gap-[clamp(0.5rem,1vw,1rem)] px-[clamp(0.8rem,2vw,2rem)] py-[clamp(0.4rem,1vw,1rem)] border border-white/15 text-white rounded-full text-[clamp(0.6rem,0.8vw,0.75rem)] font-bold tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 uppercase self-start"
+                    >
+                      <span>DISCOVER</span>
+                      <span className="h-[clamp(1.25rem,2.5vw,2.25rem)] w-[clamp(1.25rem,2.5vw,2.25rem)] rounded-full bg-white/10 text-white flex items-center justify-center transition-colors">
+                        <ArrowUpRight className="h-[clamp(0.75rem,1.5vw,1.25rem)] w-[clamp(0.75rem,1.5vw,1.25rem)]" />
+                      </span>
+                    </Link>
+                  </div>
 
                 </div>
               );
@@ -651,22 +643,36 @@ export default function Home() {
             
             {/* Visual Portrait block */}
             <div className="lg:col-span-5">
-              <ScrollReveal y={30} className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-brand-border bg-brand-cream shadow-md flex items-center justify-center p-8">
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#000000_1px,transparent_1px)] bg-[size:16px_16px]" />
+              <ScrollReveal y={30} className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-brand-border bg-brand-cream shadow-md group p-5 flex items-center justify-center">
+                {/* Full container image */}
+                <img 
+                  src="/image/mypotrait.png" 
+                  alt="Raj Shrestha" 
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  referrerPolicy="no-referrer"
+                />
                 
-                {/* Simulated portrait wireframe */}
-                <div className="h-full w-full rounded-2xl border border-brand-border flex flex-col justify-between p-6 bg-brand-bg/60">
-                  <span className="font-mono text-[8px] text-brand-dark/40 tracking-widest block uppercase">LOCAL_COORD: KTM_NEPAL</span>
-                  
-                  {/* Stylized face avatar placeholder */}
-                  <div className="h-32 w-32 rounded-full border border-brand-accent/20 flex items-center justify-center mx-auto my-auto relative">
-                    <div className="h-24 w-24 rounded-full border border-brand-accent flex items-center justify-center">
-                      <span className="font-display text-4xl font-black text-brand-accent">RS</span>
+                {/* Visual grid pattern overlay */}
+                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+                
+                {/* Gentle vignette/shadow overlay for high contrast text readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/55 pointer-events-none" />
+                
+                {/* Inner Card layout overlay on top of the image */}
+                <div className="relative z-10 h-full w-full rounded-2xl border border-white/20 flex flex-col justify-between p-6 bg-black/15 backdrop-blur-[1.5px] pointer-events-none">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[9px] text-white/90 tracking-widest block uppercase font-medium drop-shadow-sm">
+                      LOCAL_COORD: KTM_NEPAL
+                    </span>
+                    <div className="flex items-center gap-1.5 bg-black/45 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded-full shadow-sm">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="font-mono text-[8px] text-white font-bold uppercase tracking-wider">LIVE</span>
                     </div>
-                    <div className="absolute h-3 w-3 rounded-full bg-emerald-500 border-2 border-brand-bg right-2 bottom-2 animate-bounce" />
                   </div>
-
-                  <span className="font-mono text-[8px] text-brand-dark/40 tracking-widest block text-right uppercase">RAJ_SHRESTHA_IMG_REF</span>
+                  
+                  <span className="font-mono text-[9px] text-white/90 tracking-widest block text-right uppercase font-medium drop-shadow-sm">
+                    RAJ_SHRESTHA_IMG_REF
+                  </span>
                 </div>
               </ScrollReveal>
             </div>
