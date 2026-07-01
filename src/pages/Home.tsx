@@ -209,7 +209,7 @@ export default function Home() {
           <div className="flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
             
             {/* Panel 1 */}
-            <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-center px-[clamp(1.5rem,5vw,6rem)] relative">
+            <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative">
               <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   01 // DESIGN & ARCHITECTURE
@@ -225,7 +225,7 @@ export default function Home() {
             </div>
 
             {/* Panel 2 */}
-            <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-center px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
+            <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
               <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   02 // TRAFFIC & META ADS
@@ -245,43 +245,43 @@ export default function Home() {
 
         {/* Dynamic Shared Asset Floating */}
         <div className="asset absolute left-1/2 -translate-x-1/2 bottom-[4vh] md:bottom-auto md:left-auto md:translate-x-0 md:right-[clamp(2rem,8vw,12rem)] md:top-1/2 md:-translate-y-1/2 z-20 w-[90vw] sm:w-[80vw] md:w-[clamp(20rem,35vw,32rem)]">
-          <div className="backdrop-blur-xl bg-zinc-900/60 border border-white/10 p-[clamp(1.5rem,3vw,3rem)] rounded-[clamp(1.25rem,2.5vw,2rem)] shadow-[0_30px_100px_rgba(0,0,0,0.8)] flex flex-col gap-[clamp(1rem,2vw,2.5rem)] text-left">
-            <div className="flex justify-between items-center border-b border-white/10 pb-[clamp(0.75rem,1.5vw,1.5rem)]">
-              <span className="font-mono text-xs text-[#bda881] tracking-widest font-bold">LIVE CONVERSION ENGINE</span>
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold tracking-wider animate-pulse border border-emerald-500/20">
+          <div className="backdrop-blur-xl bg-zinc-900/60 border border-white/10 p-4 sm:p-[clamp(1.5rem,3vw,3rem)] rounded-2xl sm:rounded-[clamp(1.25rem,2.5vw,2rem)] shadow-[0_30px_100px_rgba(0,0,0,0.8)] flex flex-col gap-3 sm:gap-[clamp(1rem,2vw,2.5rem)] text-left">
+            <div className="flex justify-between items-center border-b border-white/10 pb-3 sm:pb-[clamp(0.75rem,1.5vw,1.5rem)]">
+              <span className="font-mono text-[10px] sm:text-xs text-[#bda881] tracking-widest font-bold">LIVE CONVERSION ENGINE</span>
+              <span className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[9px] sm:text-[10px] font-mono font-bold tracking-wider animate-pulse border border-emerald-500/20">
                 ● ACTIVE
               </span>
             </div>
             
-            <div className="flex flex-col gap-[clamp(0.75rem,1.5vw,1.5rem)]">
+            <div className="flex flex-col gap-2.5 sm:gap-[clamp(0.75rem,1.5vw,1.5rem)]">
               {/* Stat 1 */}
               <div className="flex justify-between items-end">
-                <span className="text-zinc-400 text-sm font-light">Conversion Lift</span>
-                <span className="font-display text-3xl font-normal text-white">+142%</span>
+                <span className="text-zinc-400 text-xs sm:text-sm font-light">Conversion Lift</span>
+                <span className="font-display text-2xl sm:text-3xl font-normal text-white">+142%</span>
               </div>
               {/* Mini Chart */}
-              <div className="h-6 w-full flex items-end gap-1.5">
-                <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+              <div className="h-4 sm:h-6 w-full flex items-end gap-1 sm:gap-1.5">
+                <div className="h-1.5 sm:h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 w-[40%]" />
                 </div>
-                <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+                <div className="h-1.5 sm:h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 w-[78%]" />
                 </div>
-                <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+                <div className="h-1.5 sm:h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-[#bda881] to-yellow-500 w-[95%]" />
                 </div>
               </div>
               
               {/* Stat 2 */}
-              <div className="flex justify-between items-end border-t border-white/5 pt-[clamp(0.75rem,1.5vw,1.5rem)]">
-                <span className="text-zinc-400 text-sm font-light">Meta Pixel Match Rate</span>
-                <span className="font-display text-3xl font-normal text-white">99.8%</span>
+              <div className="flex justify-between items-end border-t border-white/5 pt-2.5 sm:pt-[clamp(0.75rem,1.5vw,1.5rem)]">
+                <span className="text-zinc-400 text-xs sm:text-sm font-light">Meta Pixel Match Rate</span>
+                <span className="font-display text-2xl sm:text-3xl font-normal text-white">99.8%</span>
               </div>
               
               {/* Stat 3 */}
-              <div className="flex justify-between items-end border-t border-white/5 pt-[clamp(0.75rem,1.5vw,1.5rem)]">
-                <span className="text-zinc-400 text-sm font-light">Cost Per Acquisition</span>
-                <span className="font-display text-3xl font-normal text-[#bda881]">-48%</span>
+              <div className="flex justify-between items-end border-t border-white/5 pt-2.5 sm:pt-[clamp(0.75rem,1.5vw,1.5rem)]">
+                <span className="text-zinc-400 text-xs sm:text-sm font-light">Cost Per Acquisition</span>
+                <span className="font-display text-2xl sm:text-3xl font-normal text-[#bda881]">-48%</span>
               </div>
             </div>
           </div>
@@ -332,7 +332,7 @@ export default function Home() {
               return (
                 <div 
                   key={project.id}
-                  className={`sticky top-[clamp(4.5rem,12vh,9rem)] w-full min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between`}
+                  className={`sticky top-[clamp(4.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between`}
                   style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
                 >
                   {/* Subtle background element */}
@@ -345,10 +345,10 @@ export default function Home() {
                   </div>
 
                   {/* Central Laptop Device Mockup */}
-                  <div className="relative z-10 w-full flex flex-col justify-center items-center py-[clamp(1.25rem,3vw,3.5rem)]">
+                  <div className="relative z-10 w-full flex flex-col justify-center items-center py-4 sm:py-[clamp(1.25rem,3vw,3.5rem)]">
                     
                     {/* CSS Laptop Frame */}
-                    <div className="w-[85%] md:w-[70%] max-w-[clamp(24rem,55vw,52rem)] aspect-[16/10] bg-zinc-950 border-[clamp(4px,0.8vw,10px)] border-zinc-800 rounded-t-[clamp(0.5rem,1.2vw,1.25rem)] shadow-2xl overflow-hidden relative">
+                    <div className="w-full sm:w-[85%] md:w-[70%] max-w-[clamp(24rem,55vw,52rem)] aspect-[16/10] bg-zinc-950 border-[clamp(4px,0.8vw,10px)] border-zinc-800 rounded-t-[clamp(0.5rem,1.2vw,1.25rem)] shadow-2xl overflow-hidden relative">
                       {/* High-Fidelity Website Mockup Image */}
                       <img 
                         src={project.image} 
@@ -365,7 +365,7 @@ export default function Home() {
 
                   {/* Bottom-Left Glassmorphic Floating Information Card */}
                   {idx !== 4 && (
-                    <div className="relative z-20 self-start max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/40 border border-white/10 p-[clamp(1rem,2.2vw,2.5rem)] rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
+                    <div className="relative z-20 self-start max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/40 border border-white/10 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-3 sm:gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
                       <div className="flex flex-col gap-[clamp(0.4rem,1vw,1rem)]">
                         <h3 className="font-display text-[clamp(1.15rem,2.4vw,2.25rem)] font-bold uppercase text-white tracking-tight leading-[1.1]">
                           {project.title}
@@ -487,14 +487,14 @@ export default function Home() {
               { num: "03", title: "Launch Pad Setup", desc: "Our team writes lightweight React code and configures Meta Conversions API to establish pristine tracking and millisecond loads." },
               { num: "04", title: "The Scale Engine", desc: "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS." }
             ].map((step) => (
-              <div key={step.num} className="step-item flex flex-col items-center justify-center relative z-10">
-                <div className="step-dot border-2 border-[#bda881] bg-[#fdfcf9] flex items-center justify-center">
+              <div key={step.num} className="step-item flex flex-row sm:flex-col items-center sm:justify-center justify-start gap-4 sm:gap-0 relative z-10">
+                <div className="step-dot border-2 border-[#bda881] bg-[#fdfcf9] flex items-center justify-center flex-shrink-0 z-10 sm:mx-auto">
                   <div className="h-1.5 w-1.5 rounded-full bg-[#bda881]" />
                 </div>
-                <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-2">
+                <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-0 sm:mt-2 text-left sm:text-center">
                   <span className="block text-[10px] font-mono text-brand-accent mb-0.5">Phase {step.num}</span>
                   {step.title}
-                  <p className="block sm:hidden font-sans text-xs text-brand-dark/70 font-light mt-2 normal-case leading-relaxed max-w-sm">
+                  <p className="block sm:hidden font-sans text-xs text-brand-dark/70 font-light mt-1.5 normal-case leading-relaxed max-w-sm">
                     {step.desc}
                   </p>
                 </div>

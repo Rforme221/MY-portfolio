@@ -174,7 +174,7 @@ export default function Layout({ children }: LayoutProps) {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:hidden fixed top-20 left-0 right-0 bg-brand-bg border-b border-brand-border/50 z-40 shadow-xl overflow-hidden"
+            className="lg:hidden fixed top-20 left-0 right-0 bg-brand-bg border-b border-brand-border/50 z-40 shadow-xl overflow-y-auto max-h-[calc(100svh-5rem)]"
           >
             <div className="px-6 py-8 flex flex-col gap-6">
               {/* Availability tag for mobile */}

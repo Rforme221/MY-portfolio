@@ -55,7 +55,7 @@ export default function Work() {
               return (
                 <div 
                   key={project.id}
-                  className={`sticky top-[clamp(4.5rem,12vh,9rem)] w-full min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between`}
+                  className={`sticky top-[clamp(4.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between`}
                   style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
                 >
                   {/* Subtle background element */}
@@ -68,10 +68,10 @@ export default function Work() {
                   </div>
 
                   {/* Central Laptop Device Mockup */}
-                  <div className="relative z-10 w-full flex flex-col justify-center items-center py-[clamp(1.25rem,3vw,3.5rem)]">
+                  <div className="relative z-10 w-full flex flex-col justify-center items-center py-4 sm:py-[clamp(1.25rem,3vw,3.5rem)]">
                     
                     {/* CSS Laptop Frame */}
-                    <div className="w-[85%] md:w-[70%] max-w-[clamp(24rem,55vw,52rem)] aspect-[16/10] bg-zinc-950 border-[clamp(4px,0.8vw,10px)] border-zinc-800 rounded-t-[clamp(0.5rem,1.2vw,1.25rem)] shadow-2xl overflow-hidden relative">
+                    <div className="w-full sm:w-[85%] md:w-[70%] max-w-[clamp(24rem,55vw,52rem)] aspect-[16/10] bg-zinc-950 border-[clamp(4px,0.8vw,10px)] border-zinc-800 rounded-t-[clamp(0.5rem,1.2vw,1.25rem)] shadow-2xl overflow-hidden relative">
                       {/* High-Fidelity Website Mockup Image */}
                       <img 
                         src={project.image} 
@@ -87,7 +87,7 @@ export default function Work() {
                   </div>
 
                   {/* Bottom-Left Glassmorphic Floating Information Card */}
-                  <div className="relative z-20 self-start max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/40 border border-white/10 p-[clamp(1rem,2.2vw,2.5rem)] rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
+                  <div className="relative z-20 self-start max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/40 border border-white/10 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-3 sm:gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
                     <div className="flex flex-col gap-[clamp(0.4rem,1vw,1rem)]">
                       <h3 className="font-display text-[clamp(1.15rem,2.4vw,2.25rem)] font-bold uppercase text-white tracking-tight leading-[1.1]">
                         {project.title}
