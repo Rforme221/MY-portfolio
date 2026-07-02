@@ -12,7 +12,7 @@ export default function Marquee() {
   ];
 
   // Repeat logos twice to make it seamless
-  const duplicatedLogos = [...logos, ...logos, ...logos];
+  const duplicatedLogos = [...logos, ...logos];
 
   return (
     <div className="relative w-full overflow-hidden py-10 bg-brand-cream border-y border-brand-border/40 select-none">

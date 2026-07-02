@@ -333,3 +333,139 @@
 .section-bg-alt { background: var(--blue-50); }
 .card-border { border-color: var(--slate-300); }
 
+/* RESPONSIVE LAYOUT & MOBILE ANIMATION ADJUSTMENTS */
+@media (max-width: 768px) {
+  /* 1. LAYOUT OVERRIDES */
+  
+  /* Stack grid layouts on mobile */
+  @media (max-width: 480px) {
+    /* For standard content grids under 480px, enforce single column safely */
+    .grid-cols-2, 
+    .grid-cols-3, 
+    .grid-cols-4,
+    .md\:grid-cols-2,
+    .md\:grid-cols-3, 
+    .md\:grid-cols-4, 
+    .lg\:grid-cols-2,
+    .lg\:grid-cols-3, 
+    .lg\:grid-cols-4 {
+      grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    /* For standard grids between 481px and 768px, adjust to 2 columns if space allows */
+    .grid-cols-2, 
+    .grid-cols-3, 
+    .grid-cols-4, 
+    .md\:grid-cols-3, 
+    .md\:grid-cols-4, 
+    .lg\:grid-cols-3, 
+    .lg\:grid-cols-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+  }
+
+  /* Prevent viewport horizontal overflows on mobile (320px–768px) */
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
+
+  /* Make sure container paddings don't squeeze content on tiny screens */
+  .section__inner {
+    padding-left: clamp(1rem, 4vw, 1.5rem) !important;
+    padding-right: clamp(1rem, 4vw, 1.5rem) !important;
+  }
+
+  /* Optimize Project Cards / Slides layout on mobile to prevent squishing or overlapping text */
+  .sticky {
+    position: relative !important;
+    top: auto !important;
+    padding: clamp(1.25rem, 4vw, 2rem) !important;
+    min-height: auto !important;
+    height: auto !important;
+    margin-bottom: 2rem !important;
+  }
+
+  /* Stack project card metadata row (category, client details) vertically on mobile */
+  .sticky > .relative.z-10.flex {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.35rem !important;
+  }
+
+  /* Expand the glassmorphic information card to full-width to prevent squishing */
+  .sticky > .relative.z-20 {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: clamp(0.75rem, 3vw, 1.25rem) !important;
+    margin-top: auto !important; /* Force to bottom naturally */
+    gap: 0.75rem !important;
+  }
+
+  /* Slower marquee for lower GPU overhead on mobile webview */
+  .animate-marquee {
+    animation-duration: 38s !important;
+  }
+  .animate-marquee:hover {
+    animation-play-state: running !important; /* Disable pause-on-touch */
+  }
+
+  /* 2. ANIMATION & HOVER OVERRIDES FOR TOUCH SCENARIOS */
+  
+  /* Disable heavy scaling, offsets, and translation animations on hover/touch */
+  *:hover,
+  [class*="group"]:hover *,
+  [class*="group/link"]:hover *,
+  [class*="hover:-translate-y"],
+  [class*="hover:translate-"],
+  [class*="hover:scale-"],
+  [class*="group-hover:scale-"],
+  [class*="group-hover:-translate-y"],
+  [class*="group-hover:translate-"] {
+    transform: none !important;
+    scale: none !important;
+    translate: none !important;
+  }
+
+  /* Avoid stuck hover arrow translations on touch in the core systems list */
+  .system-cta {
+    transform: none !important;
+  }
+
+  /* Enable GPU rendering on animated layers for fluid rendering */
+  .hero-title,
+  .hero-desc,
+  .panel-inner-content,
+  .asset-card,
+  .step-card,
+  .sticky,
+  .system-row {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  /* Snappier transitions for touch screen interaction, preventing visual delays */
+  a, button, [role="button"], select, input, textarea {
+    transition-duration: 180ms !important;
+    transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1) !important;
+  }
+}
+
+/* User accessibility setting for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
