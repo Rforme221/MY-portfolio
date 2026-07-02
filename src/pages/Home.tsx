@@ -37,24 +37,97 @@ export default function Home() {
           (context) => {
             let { isMobile, isTablet, isDesktop } = context?.conditions || {};
 
-            gsap.timeline({
-              scrollTrigger: {
-                trigger: ".section-2",
-                start: "top top",
-                end: "+=100%",
-                scrub: 1,
-                pin: true,
-                invalidateOnRefresh: true, // recalcs dynamic vw/vh on resize
-                anticipatePin: 1,
-              },
-            })
-            .to(".panel", { xPercent: -100, ease: "none" }) // %-based, not px
-            .to(".asset", { 
-              x: () => isMobile ? -vw(30) : isTablet ? -vw(15) : -vw(8), 
-              y: () => isMobile ? vh(10) : vh(5), 
-              scale: isMobile ? 0.8 : 1, 
-              ease: "none" 
-            }, "<");
+            if (!isMobile) {
+              gsap.timeline({
+                scrollTrigger: {
+                  trigger: ".section-2",
+                  start: "top top",
+                  end: "+=100%",
+                  scrub: 1,
+                  pin: true,
+                  invalidateOnRefresh: true, // recalcs dynamic vw/vh on resize
+                  anticipatePin: 1,
+                },
+              })
+              .to(".panel", { xPercent: -100, ease: "none" }) // %-based, not px
+              .to(".asset", { 
+                x: () => isTablet ? -vw(15) : -vw(8), 
+                y: () => vh(5), 
+                scale: 1, 
+                ease: "none" 
+              }, "<");
+
+              // GSAP Entrance animation for Section-2 panel contents
+              gsap.fromTo(".panel-inner-content",
+                { opacity: 0, y: 50 },
+                {
+                  opacity: 1,
+                  y: 0,
+                  duration: 1.0,
+                  stagger: 0.15,
+                  ease: "power3.out",
+                  scrollTrigger: {
+                    trigger: ".section-2",
+                    start: "top 75%",
+                    toggleActions: "play none none none"
+                  }
+                }
+              );
+
+              // GSAP Entrance animation for Section-2 floating asset card
+              gsap.fromTo(".asset-card",
+                { opacity: 0, y: 70 },
+                {
+                  opacity: 1,
+                  y: 0,
+                  duration: 1.2,
+                  delay: 0.25,
+                  ease: "power3.out",
+                  scrollTrigger: {
+                    trigger: ".section-2",
+                    start: "top 75%",
+                    toggleActions: "play none none none"
+                  }
+                }
+              );
+            } else {
+              // No pin on mobile — panels stack normally, just fade in on scroll
+              gsap.utils.toArray(".panel").forEach((panel: any) => {
+                const innerContent = panel.querySelector(".panel-inner-content");
+                if (innerContent) {
+                  gsap.fromTo(innerContent, 
+                    { opacity: 0, y: 30 },
+                    {
+                      opacity: 1,
+                      y: 0,
+                      duration: 0.8,
+                      ease: "power2.out",
+                      scrollTrigger: { 
+                        trigger: panel, 
+                        start: "top 85%", 
+                        toggleActions: "play none none reverse" 
+                      }
+                    }
+                  );
+                }
+              });
+
+              // Dynamic Shared Asset Floating (Mobile Fade In)
+              gsap.fromTo(".asset-card",
+                { opacity: 0, y: 30 },
+                {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  ease: "power2.out",
+                  scrollTrigger: {
+                    trigger: ".asset",
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                  }
+                }
+              );
+            }
 
             // Responsive parallax & zoom for the hero visual on scroll
             gsap.to(".hero-visual", {
@@ -96,40 +169,6 @@ export default function Home() {
                 scrollTrigger: {
                   trigger: ".hero-section",
                   start: "top 90%",
-                  toggleActions: "play none none none"
-                }
-              }
-            );
-
-            // GSAP Entrance animation for Section-2 panel contents
-            gsap.fromTo(".panel-inner-content",
-              { opacity: 0, y: 50 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 1.0,
-                stagger: 0.15,
-                ease: "power3.out",
-                scrollTrigger: {
-                  trigger: ".section-2",
-                  start: "top 75%",
-                  toggleActions: "play none none none"
-                }
-              }
-            );
-
-            // GSAP Entrance animation for Section-2 floating asset card
-            gsap.fromTo(".asset-card",
-              { opacity: 0, y: 70 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 1.2,
-                delay: 0.25,
-                ease: "power3.out",
-                scrollTrigger: {
-                  trigger: ".section-2",
-                  start: "top 75%",
                   toggleActions: "play none none none"
                 }
               }
@@ -333,7 +372,7 @@ export default function Home() {
       <Marquee />
 
       {/* GSAP Interactive Horizontal Panel Section */}
-      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-screen flex flex-col justify-between border-t border-white/5">
+      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-dvh sm:h-screen flex flex-col justify-between border-t border-white/5">
         <div className="absolute inset-0 z-0 bg-radial-gradient from-zinc-900 via-[#0a0a0a] to-[#0a0a0a] opacity-60 pointer-events-none" />
         {/* Subtle Architectural Grid Overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.03] pointer-events-none z-0" />

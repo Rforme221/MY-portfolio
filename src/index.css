@@ -452,6 +452,37 @@
     transition-duration: 180ms !important;
     transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1) !important;
   }
+
+  /* 3. SECTION-2 MOBILE STACKING FOR UNPINNED FLOW */
+  .section-2 {
+    height: auto !important;
+    min-height: auto !important;
+    padding-bottom: 4rem !important;
+  }
+  .section-2 .section__inner {
+    height: auto !important;
+  }
+  .section-2 .flex.w-\[200vw\] {
+    width: 100% !important;
+    flex-direction: column !important;
+    height: auto !important;
+  }
+  .panel {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 60vh !important;
+    padding-block: 3rem !important;
+  }
+  .asset {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 2rem auto 0 auto !important;
+    width: 100% !important;
+  }
 }
 
 /* User accessibility setting for reduced motion */
