@@ -51,8 +51,12 @@ export default function Blog() {
               >
                 {/* Visual Header */}
                 <div 
-                  className="h-48 w-full relative"
-                  style={{ background: blog.image }}
+                  className="h-48 w-full relative bg-brand-cream/10"
+                  style={{ 
+                    background: blog.image.startsWith("linear-gradient") 
+                      ? blog.image 
+                      : `url("${encodeURI(blog.image)}") center/cover no-repeat` 
+                  }}
                 >
                   <div className="absolute inset-0 bg-brand-dark/25" />
                   <div className="absolute top-4 left-4">

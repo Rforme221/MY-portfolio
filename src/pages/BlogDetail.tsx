@@ -103,8 +103,12 @@ export default function BlogDetail() {
         <div className="section__inner max-w-4xl mx-auto px-6 sm:px-8 w-full">
           <ScrollReveal y={30}>
             <div 
-              className="w-full h-64 sm:h-96 rounded-3xl overflow-hidden border border-brand-border/40 shadow-sm relative"
-              style={{ background: blog.image }}
+              className="w-full h-64 sm:h-96 rounded-3xl overflow-hidden border border-brand-border/40 shadow-sm relative bg-brand-cream/20"
+              style={{ 
+                background: blog.image.startsWith("linear-gradient") 
+                  ? blog.image 
+                  : `url("${encodeURI(blog.image)}") center/cover no-repeat` 
+              }}
             >
               <div className="absolute inset-0 bg-brand-dark/15" />
               <div className="absolute inset-0 z-0 opacity-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />

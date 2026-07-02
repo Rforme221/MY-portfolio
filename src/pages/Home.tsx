@@ -68,6 +68,73 @@ export default function Home() {
               },
             });
 
+            // GSAP Entrance animation for Hero title & description
+            gsap.fromTo(".hero-title", 
+              { opacity: 0, y: 50 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power4.out",
+                delay: 0.2,
+                scrollTrigger: {
+                  trigger: ".hero-section",
+                  start: "top 90%",
+                  toggleActions: "play none none none"
+                }
+              }
+            );
+
+            gsap.fromTo(".hero-desc", 
+              { opacity: 0, y: 40 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power4.out",
+                delay: 0.4,
+                scrollTrigger: {
+                  trigger: ".hero-section",
+                  start: "top 90%",
+                  toggleActions: "play none none none"
+                }
+              }
+            );
+
+            // GSAP Entrance animation for Section-2 panel contents
+            gsap.fromTo(".panel-inner-content",
+              { opacity: 0, y: 50 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 1.0,
+                stagger: 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: ".section-2",
+                  start: "top 75%",
+                  toggleActions: "play none none none"
+                }
+              }
+            );
+
+            // GSAP Entrance animation for Section-2 floating asset card
+            gsap.fromTo(".asset-card",
+              { opacity: 0, y: 70 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                delay: 0.25,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: ".section-2",
+                  start: "top 75%",
+                  toggleActions: "play none none none"
+                }
+              }
+            );
+
             return () => {}; // cleanup auto-handled by matchMedia on breakpoint change
           }
         );
@@ -229,6 +296,11 @@ export default function Home() {
 
       {/* 1. HERO SECTION */}
       <section className="section hero-section relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-[clamp(4rem,10vw,12rem)]">
+        {/* Subtle Ambient Brand Highlight */}
+        <div 
+          className="absolute inset-0 z-0 opacity-40 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle at 30% 50%, rgba(188, 72, 0, 0.12) 0%, transparent 60%)" }}
+        />
         {/* Background Image of Profile Portrait */}
         <div 
           className="hero-visual absolute inset-0 z-0 bg-no-repeat bg-cover bg-right md:bg-right opacity-90"
@@ -239,23 +311,19 @@ export default function Home() {
         {/* Gradient overlays to blend portrait image seamlessly into pitch-black background */}
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/95 to-transparent lg:via-[#0a0a0a]/75 lg:to-transparent" />
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:hidden" />
-
+ 
         <div className="section__inner w-full">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full relative z-10">
             <div className="max-w-3xl">
-              <ScrollReveal y={40} delay={0.1}>
-                <h1 className="hero-title font-display font-normal tracking-tight text-white leading-[1.08] uppercase mb-[clamp(1.5rem,4vw,3.5rem)]">
-                  Web Design <br />
-                  & Meta Ads <br />
-                  <span className="text-[#bda881]">using AI</span>
-                </h1>
-              </ScrollReveal>
-
-              <ScrollReveal y={30} delay={0.25}>
-                <p className="font-sans text-[clamp(1rem,1.5vw+0.5rem,1.35rem)] text-zinc-400 font-light leading-relaxed max-w-[clamp(20rem,50vw,40rem)]">
-                  High-converting digital experiences and precision Meta Ads campaigns, optimized with AI to scale local businesses and maximize your ROI.
-                </p>
-              </ScrollReveal>
+              <h1 className="hero-title font-display font-normal tracking-tight text-white leading-[1.08] uppercase mb-[clamp(1.5rem,4vw,3.5rem)] opacity-0">
+                Web Design <br />
+                & Meta Ads <br />
+                <span className="text-[#bda881]">using AI</span>
+              </h1>
+ 
+              <p className="hero-desc font-sans text-[clamp(1rem,1.5vw+0.5rem,1.35rem)] text-zinc-400 font-light leading-relaxed max-w-[clamp(20rem,50vw,40rem)] opacity-0">
+                High-converting digital experiences and precision Meta Ads campaigns, optimized with AI to scale local businesses and maximize your ROI.
+              </p>
             </div>
           </div>
         </div>
@@ -265,8 +333,10 @@ export default function Home() {
       <Marquee />
 
       {/* GSAP Interactive Horizontal Panel Section */}
-      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-screen flex flex-col justify-between">
+      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-screen flex flex-col justify-between border-t border-white/5">
         <div className="absolute inset-0 z-0 bg-radial-gradient from-zinc-900 via-[#0a0a0a] to-[#0a0a0a] opacity-60 pointer-events-none" />
+        {/* Subtle Architectural Grid Overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.03] pointer-events-none z-0" />
         
         <div className="section__inner w-full h-full">
           {/* Horizontal scroll panels wrapper */}
@@ -274,7 +344,7 @@ export default function Home() {
             
             {/* Panel 1 */}
             <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative">
-              <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
+              <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   01 // DESIGN & ARCHITECTURE
                 </span>
@@ -287,10 +357,10 @@ export default function Home() {
                 </p>
               </div>
             </div>
-
+ 
             {/* Panel 2 */}
             <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
-              <div className="max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)]">
+              <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   02 // TRAFFIC & META ADS
                 </span>
@@ -303,13 +373,13 @@ export default function Home() {
                 </p>
               </div>
             </div>
-
+ 
           </div>
         </div>
-
+ 
         {/* Dynamic Shared Asset Floating */}
         <div className="asset absolute left-1/2 -translate-x-1/2 bottom-[4vh] md:bottom-auto md:left-auto md:translate-x-0 md:right-[clamp(2rem,8vw,12rem)] md:top-1/2 md:-translate-y-1/2 z-20 w-[90vw] sm:w-[80vw] md:w-[clamp(20rem,35vw,32rem)]">
-          <div className="backdrop-blur-xl bg-zinc-900/60 border border-white/10 p-4 sm:p-[clamp(1.5rem,3vw,3rem)] rounded-2xl sm:rounded-[clamp(1.25rem,2.5vw,2rem)] shadow-[0_30px_100px_rgba(0,0,0,0.8)] flex flex-col gap-3 sm:gap-[clamp(1rem,2vw,2.5rem)] text-left">
+          <div className="asset-card backdrop-blur-xl bg-zinc-900/60 border border-white/10 p-4 sm:p-[clamp(1.5rem,3vw,3rem)] rounded-2xl sm:rounded-[clamp(1.25rem,2.5vw,2rem)] shadow-[0_30px_100px_rgba(0,0,0,0.8)] flex flex-col gap-3 sm:gap-[clamp(1rem,2vw,2.5rem)] text-left opacity-0">
             <div className="flex justify-between items-center border-b border-white/10 pb-3 sm:pb-[clamp(0.75rem,1.5vw,1.5rem)]">
               <span className="font-mono text-[10px] sm:text-xs text-[#bda881] tracking-widest font-bold">LIVE CONVERSION ENGINE</span>
               <span className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[9px] sm:text-[10px] font-mono font-bold tracking-wider animate-pulse border border-emerald-500/20">
@@ -396,21 +466,27 @@ export default function Home() {
               return (
                 <div 
                   key={project.id}
-                  className={`sticky top-[clamp(4.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
+                  className={`sticky top-[clamp(5.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
                   style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
                 >
-                  {/* True Full-Bleed Background Image */}
-                  <div className="absolute inset-0 z-0 overflow-hidden">
+                  {/* True Full-Bleed Background Image (Clickable Link to External URL) */}
+                  <a 
+                    href={project.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 z-0 overflow-hidden block cursor-pointer group/link"
+                    aria-label={`View external site for ${project.title}`}
+                  >
                     <img 
                       src={project.image} 
                       alt={project.title} 
                       referrerPolicy="no-referrer"
-                      className="absolute inset-0 w-full h-full object-cover select-none opacity-45 transition-transform duration-700 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-cover select-none opacity-45 group-hover:opacity-60 group-hover/link:opacity-80 transition-all duration-700 group-hover:scale-105 group-hover/link:scale-110"
                     />
                     {/* Premium gradient overlays to blend cleanly and ensure text is highly legible */}
                     <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/85" />
                     <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:20px_20px]" />
-                  </div>
+                  </a>
                   
                   {/* Card Header Detail */}
                   <div className="relative z-10 flex justify-between items-center text-[clamp(0.6rem,0.8vw,0.75rem)] font-mono uppercase tracking-widest text-zinc-300">
@@ -737,8 +813,12 @@ export default function Home() {
               >
                 {/* Visual Cover Header */}
                 <div 
-                  className="h-48 w-full relative"
-                  style={{ background: blog.image }}
+                  className="h-48 w-full relative bg-brand-cream/10"
+                  style={{ 
+                    background: blog.image.startsWith("linear-gradient") 
+                      ? blog.image 
+                      : `url("${encodeURI(blog.image)}") center/cover no-repeat` 
+                  }}
                 >
                   <div className="absolute inset-0 bg-brand-dark/25" />
                   <div className="absolute top-4 left-4">

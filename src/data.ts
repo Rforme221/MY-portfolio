@@ -43,7 +43,8 @@ export const PROJECTS: Project[] = [
     location: "Patan, Lalitpur",
     role: "Lead UI/UX Designer & Growth Strategist",
     services: ["UI/UX Redesign", "Vite App Architecture", "Local Meta Ads Strategy", "WhatsApp Lead funnels"],
-    results: ["140% Increase in Dine-In Bookings", "3.8x Meta Ads ROAS", "Perfect 100/100 Lighthouse Performance Rating"]
+    results: ["140% Increase in Dine-In Bookings", "3.8x Meta Ads ROAS", "Perfect 100/100 Lighthouse Performance Rating"],
+    externalUrl: "https://poetic-croissant-a6d185.netlify.app/"
   },
   {
     id: "thakali-kitchen",
@@ -56,7 +57,8 @@ export const PROJECTS: Project[] = [
     location: "Kathmandu, Nepal",
     role: "Full-Funnel growth marketer",
     services: ["Conversion-focused interactive Menu", "Local Event Promotion", "Retargeting Meta Campaigns", "Custom UTM Tracking & Analytics"],
-    results: ["3x Weekend Table Reservations", "18,000+ Local Organic Brand Reach", "4.2x Paid Social Campaign ROI"]
+    results: ["3x Weekend Table Reservations", "18,000+ Local Organic Brand Reach", "4.2x Paid Social Campaign ROI"],
+    externalUrl: "https://aquamarine-travesseiro-11ad44.netlify.app/"
   },
   {
     id: "himalayan-hotel",
@@ -69,7 +71,8 @@ export const PROJECTS: Project[] = [
     location: "Pokhara / Sarangkot",
     role: "Lead Developer & System Architect",
     services: ["Premium Direct Booking Flows", "Automated Reservation Integrations", "Speed-Optimized Room Showcases", "International Ads Targeting"],
-    results: ["85% Growth in Direct Bookings", "Zero Middleman Commission Leakage", "750ms Page Interactive Loading Speed"]
+    results: ["85% Growth in Direct Bookings", "Zero Middleman Commission Leakage", "750ms Page Interactive Loading Speed"],
+    externalUrl: "https://leafy-pixie-5e430d.netlify.app/"
   },
   {
     id: "nep-photography",
@@ -82,7 +85,8 @@ export const PROJECTS: Project[] = [
     location: "Kathmandu / Pokhara",
     role: "Web Design & Technical Architect",
     services: ["Media CDN Architecture", "Minimalist Framer Aesthetic", "SEO Portfolio Optimization", "Inbound Booking Funnel"],
-    results: ["Interactive Image Galleries", "45% Growth in Overseas Client Inquiries", "100/100 Mobile Speed Rating"]
+    results: ["Interactive Image Galleries", "45% Growth in Overseas Client Inquiries", "100/100 Mobile Speed Rating"],
+    externalUrl: "https://photography-demo-web.vercel.app/"
   },
   {
     id: "unique-crafts",
@@ -95,7 +99,8 @@ export const PROJECTS: Project[] = [
     location: "Kathmandu, Nepal",
     role: "E-Commerce Strategist & UI Designer",
     services: ["Bespoke Storefront Redesign", "International Stripe Integration", "Global Meta Ads Campaign Scaling", "Dynamic Retargeting Funnels"],
-    results: ["+110% Year-over-Year Global Orders", "Cart Abandonment Drop of 24%", "Seamless Global Multi-Currency Checkout"]
+    results: ["+110% Year-over-Year Global Orders", "Cart Abandonment Drop of 24%", "Seamless Global Multi-Currency Checkout"],
+    externalUrl: "https://bespoke-sopapillas-cd2872.netlify.app/"
   }
 ];
 
@@ -169,7 +174,7 @@ Nepali audiences respond to authentic, local context. Integrating local colloqui
     date: "June 24, 2026",
     readTime: "5 min read",
     category: "Meta Ads",
-    image: "linear-gradient(135deg, #1e1b4b 0%, #4338ca 100%)"
+    image: "/image/meta.png"
   },
   {
     id: "ai-optimized-web-design",
@@ -188,7 +193,7 @@ Instead of generic 'contact forms', dynamic contextual chatbots answer frequentl
     date: "May 18, 2026",
     readTime: "4 min read",
     category: "Web Design",
-    image: "linear-gradient(135deg, #0f172a 0%, #0d9488 100%)"
+    image: "/image/why kathmandu.png"
   },
   {
     id: "photography-portfolio-strategy",
@@ -207,6 +212,6 @@ We implemented interactive work cards with a full-bleed overlay hover state. The
     date: "April 12, 2026",
     readTime: "6 min read",
     category: "Case Studies",
-    image: "linear-gradient(135deg, #1c1917 0%, #78350f 100%)"
+    image: "/image/visual artist.png"
   }
 ];

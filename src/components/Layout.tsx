@@ -55,6 +55,57 @@ export default function Layout({ children }: LayoutProps) {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [location.pathname]);
 
+  // Prevent page scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  const overlayVariants = {
+    hidden: { opacity: 0, y: "-100%" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.16, 1, 0.3, 1],
+        when: "beforeChildren",
+        staggerChildren: 0.08
+      }
+    },
+    exit: {
+      opacity: 0,
+      y: "-100%",
+      transition: {
+        duration: 0.4,
+        ease: [0.7, 0, 0.84, 0],
+        staggerChildren: 0.05,
+        staggerDirection: -1
+      }
+    }
+  };
+
+  const linkVariants = {
+    hidden: { opacity: 0, y: 30, rotateX: -15 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      rotateX: 0,
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } 
+    },
+    exit: { 
+      opacity: 0, 
+      y: -20, 
+      transition: { duration: 0.3, ease: "easeIn" } 
+    }
+  };
+
   const isHome = location.pathname === "/";
 
   return (
@@ -150,10 +201,10 @@ export default function Layout({ children }: LayoutProps) {
           <button
             id="mobile-menu-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`flex lg:hidden h-10 w-10 items-center justify-center rounded-full border transition-colors duration-300 focus:outline-none ${
+            className={`flex lg:hidden h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 focus:outline-none active:scale-95 ${
               isHome 
-                ? "border-white/10 hover:bg-white/5 text-white" 
-                : "border-brand-border/50 hover:bg-brand-cream/50 text-brand-dark"
+                ? "border-white/10 hover:bg-white/5 text-white active:bg-white/10" 
+                : "border-brand-border/50 hover:bg-brand-cream/50 text-brand-dark active:bg-brand-cream"
             }`}
             aria-label="Toggle Navigation Menu"
           >
@@ -170,44 +221,141 @@ export default function Layout({ children }: LayoutProps) {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:hidden fixed top-20 left-0 right-0 bg-brand-bg border-b border-brand-border/50 z-40 shadow-xl overflow-y-auto max-h-[calc(100svh-5rem)]"
+            variants={overlayVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="lg:hidden fixed inset-0 z-[100] w-full h-screen bg-[#070708]/98 backdrop-blur-2xl text-white flex flex-col justify-between p-6 sm:p-10 md:p-12 overflow-hidden select-none"
           >
-            <div className="px-6 py-8 flex flex-col gap-6">
-              {/* Availability tag for mobile */}
-              <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-100 self-start px-3 py-1 rounded-full text-[10px] font-semibold text-emerald-700 uppercase tracking-widest">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
-                <span>Available for projects</span>
-              </div>
+            {/* Ambient Background Glows */}
+            <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+              <div className="absolute top-[-10%] right-[-10%] w-[350px] h-[350px] rounded-full bg-brand-accent/20 blur-[90px]" />
+              <div className="absolute bottom-[-10%] left-[-10%] w-[250px] h-[250px] rounded-full bg-brand-accent/10 blur-[80px]" />
+              <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-10" />
+            </div>
 
-              <div className="flex flex-col gap-4">
-                {navLinks.map((link) => {
+            {/* Overlay Header */}
+            <div className="relative z-10 w-full flex items-center justify-between">
+              {/* Brand Logo in overlay */}
+              <Link
+                to="/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-3 focus:outline-none"
+              >
+                <img
+                  src="/image/3.png"
+                  alt="aiko logo"
+                  className="h-8 w-auto object-contain"
+                  referrerPolicy="no-referrer"
+                />
+                <span className="font-display font-bold tracking-wider text-sm uppercase">
+                  Aiko / Raj
+                </span>
+              </Link>
+
+              {/* Close Button with Spin Animation */}
+              <button
+                id="close-mobile-menu"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="group flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-all duration-300 focus:outline-none hover:bg-white hover:text-black hover:border-white active:scale-90"
+                aria-label="Close Navigation Menu"
+              >
+                <X className="h-5 w-5 transition-transform duration-500 group-hover:rotate-90" />
+              </button>
+            </div>
+
+            {/* Navigation Links Grid / Staggered list */}
+            <div className="relative z-10 my-auto flex flex-col justify-center items-start gap-4 w-full pl-2 sm:pl-6 max-w-lg">
+              <div className="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-1">
+                // Menu Index
+              </div>
+              <nav className="flex flex-col gap-2.5 w-full [perspective:1000px]">
+                {navLinks.map((link, idx) => {
                   const isActive = location.pathname === link.path;
+                  const num = String(idx + 1).padStart(2, "0");
                   return (
-                    <Link
-                      id={`mobile-nav-link-${link.name.toLowerCase()}`}
+                    <motion.div
                       key={link.path}
-                      to={link.path}
-                      className={`font-display text-xl font-bold tracking-tight py-2 border-b border-brand-border/10 last:border-none ${
-                        isActive ? "text-brand-accent" : "text-brand-dark/80"
-                      }`}
+                      variants={linkVariants}
+                      className="w-full"
                     >
-                      {link.name}
-                    </Link>
+                      <Link
+                        id={`mobile-overlay-link-${link.name.toLowerCase()}`}
+                        to={link.path}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`group flex items-baseline gap-4 py-1 text-[clamp(1.75rem,7vw,3.25rem)] font-display font-extrabold uppercase tracking-tight transition-all duration-300 relative w-full ${
+                          isActive
+                            ? "text-brand-accent pl-2"
+                            : "text-zinc-400 hover:text-white hover:pl-2"
+                        }`}
+                      >
+                        <span className="font-mono text-[10px] font-medium tracking-normal text-brand-accent/70 group-hover:text-brand-accent">
+                          {num}
+                        </span>
+                        <span className="relative">
+                          {link.name}
+                          {/* Underline link animation */}
+                          <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-brand-accent transition-all duration-300 group-hover:w-full" />
+                        </span>
+                        {isActive && (
+                          <motion.span
+                            layoutId="mobileOverlayActiveIndicator"
+                            className="ml-auto text-brand-accent flex items-center"
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          >
+                            <ArrowUpRight className="h-6 w-6" />
+                          </motion.span>
+                        )}
+                      </Link>
+                    </motion.div>
                   );
                 })}
+              </nav>
+            </div>
+
+            {/* Bottom Footer Info */}
+            <div className="relative z-10 w-full border-t border-white/5 pt-6 flex flex-col sm:flex-row gap-5 sm:items-center sm:justify-between text-xs text-zinc-500">
+              <div className="flex flex-col gap-1.5">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600">
+                  // Local Time
+                </span>
+                <div className="flex items-center gap-2 text-zinc-300 font-mono text-[10px]">
+                  <Clock className="h-3.5 w-3.5 text-brand-accent animate-pulse" />
+                  <span>KTM, NEPAL: {ktmTime}</span>
+                </div>
               </div>
 
-              <button
-                id="mobile-cta-btn"
-                onClick={() => navigate("/contact")}
-                className="w-full font-display text-xs font-semibold tracking-widest text-brand-bg bg-brand-dark hover:bg-brand-accent px-6 py-4 rounded-xl text-center transition-all duration-300 uppercase mt-4"
-              >
-                Let's Build Together
-              </button>
+              {/* Social and CTA section */}
+              <div className="flex flex-col sm:items-end gap-1.5">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 sm:text-right">
+                  // Let's connect
+                </span>
+                <div className="flex items-center gap-4 text-zinc-400">
+                  <a
+                    href="mailto:stha41010@gmail.com"
+                    className="hover:text-brand-accent transition-colors flex items-center gap-1.5"
+                  >
+                    <Mail className="h-4 w-4 text-brand-accent" />
+                    <span className="font-mono text-[10px]">Email</span>
+                  </a>
+                  <a
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-brand-accent transition-colors"
+                  >
+                    <Github className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="https://linkedin.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-brand-accent transition-colors"
+                  >
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
             </div>
           </motion.div>
         )}

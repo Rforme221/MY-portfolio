@@ -10,6 +10,7 @@ export interface Project {
   role: string;
   services: string[];
   results: string[];
+  externalUrl: string;
 }
 
 export interface BlogPost {
