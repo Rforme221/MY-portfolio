@@ -74,7 +74,7 @@ export default function ProjectDetail() {
           </div>
 
           {/* Structured Metadata Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-brand-border/30 pt-10 mt-12">
+          <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-4 gap-6 border-t border-brand-border/30 pt-10 mt-12">
             <div className="flex items-center gap-3">
               <User className="h-5 w-5 text-brand-accent flex-shrink-0" />
               <div>

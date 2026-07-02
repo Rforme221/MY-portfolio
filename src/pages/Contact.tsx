@@ -105,10 +105,10 @@ export default function Contact() {
                       <span className="font-mono text-[9px] text-brand-dark/40 uppercase block">Digital Mailbox</span>
                       <a 
                         id="contact-email-link"
-                        href="mailto:stha41010@gmail.com" 
+                        href="mailto:mail@rsofficial.com" 
                         className="font-sans text-xs sm:text-sm font-semibold text-brand-dark hover:text-brand-accent transition-colors leading-relaxed uppercase"
                       >
-                        stha41010@gmail.com
+                        mail@rsofficial.com
                       </a>
                     </div>
                   </li>

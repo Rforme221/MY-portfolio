@@ -676,7 +676,7 @@ export default function Home() {
             </h2>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 gap-8">
             {TESTIMONIALS.map((testimonial, idx) => (
               <ScrollReveal 
                 key={testimonial.id}
@@ -803,7 +803,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-2 gap-8">
             {featuredBlogs.map((blog, idx) => (
               <ScrollReveal 
                 key={blog.id}

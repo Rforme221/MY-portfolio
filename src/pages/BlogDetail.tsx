@@ -7,6 +7,7 @@ import { BLOGS } from "../data";
 
 export default function BlogDetail() {
   const { blogId } = useParams<{ blogId: string }>();
+  const [copied, setCopied] = React.useState(false);
 
   // Find blog
   const blog = BLOGS.find((b) => b.id === blogId);
@@ -133,12 +134,13 @@ export default function BlogDetail() {
                   <button 
                     onClick={() => {
                       navigator.clipboard.writeText(window.location.href);
-                      alert("Article link copied to clipboard!");
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
                     }}
-                    className="flex items-center gap-2 font-display text-[10px] font-bold text-brand-dark/60 hover:text-brand-accent uppercase"
+                    className="flex items-center gap-2 font-display text-[10px] font-bold text-brand-dark/60 hover:text-brand-accent uppercase transition-colors"
                   >
                     <Share2 className="h-4 w-4" />
-                    <span>Copy URL</span>
+                    <span>{copied ? "Copied!" : "Copy URL"}</span>
                   </button>
                 </li>
                 <li>

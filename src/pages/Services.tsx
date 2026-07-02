@@ -79,7 +79,7 @@ export default function Services() {
                       <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-4">
                         CORE DELIVERABLES:
                       </span>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <ul className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-3">
                         {service.deliverables.map((item, dIdx) => (
                           <li key={dIdx} className="flex items-start gap-2">
                             <CheckCircle2 className="h-4 w-4 text-brand-accent flex-shrink-0 mt-0.5" />

@@ -108,7 +108,7 @@ export default function About() {
             </h2>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, idx) => {
               const Icon = stat.icon;
               return (
@@ -156,7 +156,7 @@ export default function About() {
             </h2>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 gap-8">
             
             {/* Front-End Node */}
             <ScrollReveal y={30} delay={0.1} className="border border-brand-border/30 p-8 rounded-2xl bg-brand-bg flex flex-col gap-6">

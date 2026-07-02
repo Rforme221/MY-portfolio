@@ -67,6 +67,17 @@ export default function Layout({ children }: LayoutProps) {
     };
   }, [isMobileMenuOpen]);
 
+  // Handle escape key to close mobile menu
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileMenuOpen]);
+
   const overlayVariants = {
     hidden: { opacity: 0, y: "-100%" },
     visible: {
@@ -153,7 +164,7 @@ export default function Layout({ children }: LayoutProps) {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (
@@ -183,7 +194,7 @@ export default function Layout({ children }: LayoutProps) {
           </nav>
 
           {/* Header Action Button - Desktop Only */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
             <Link
               id="nav-cta-talk"
               to="/contact"
@@ -201,7 +212,10 @@ export default function Layout({ children }: LayoutProps) {
           <button
             id="mobile-menu-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`flex lg:hidden h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 focus:outline-none active:scale-95 ${
+            aria-expanded={isMobileMenuOpen}
+            aria-haspopup="true"
+            aria-controls="mobile-nav-menu"
+            className={`flex md:hidden h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 focus:outline-none active:scale-95 ${
               isHome 
                 ? "border-white/10 hover:bg-white/5 text-white active:bg-white/10" 
                 : "border-brand-border/50 hover:bg-brand-cream/50 text-brand-dark active:bg-brand-cream"
@@ -221,11 +235,12 @@ export default function Layout({ children }: LayoutProps) {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-nav-menu"
             variants={overlayVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="lg:hidden fixed inset-0 z-[100] w-full h-screen bg-[#070708]/98 backdrop-blur-2xl text-white flex flex-col justify-between p-6 sm:p-10 md:p-12 overflow-hidden select-none"
+            className="md:hidden fixed inset-0 z-[100] w-full h-screen bg-[#070708]/98 backdrop-blur-2xl text-white flex flex-col justify-between p-6 sm:p-10 md:p-12 overflow-y-auto select-none"
           >
             {/* Ambient Background Glows */}
             <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
@@ -332,7 +347,7 @@ export default function Layout({ children }: LayoutProps) {
                 </span>
                 <div className="flex items-center gap-4 text-zinc-400">
                   <a
-                    href="mailto:stha41010@gmail.com"
+                    href="mailto:mail@rsofficial.com"
                     className="hover:text-brand-accent transition-colors flex items-center gap-1.5"
                   >
                     <Mail className="h-4 w-4 text-brand-accent" />
@@ -461,8 +476,8 @@ export default function Layout({ children }: LayoutProps) {
                 </li>
                 <li className="flex items-start gap-2 text-xs text-white/60">
                   <Mail className="h-4 w-4 text-brand-accent flex-shrink-0" />
-                  <a href="mailto:stha41010@gmail.com" className="hover:text-white transition-colors">
-                    stha41010@gmail.com
+                  <a href="mailto:mail@rsofficial.com" className="hover:text-white transition-colors">
+                    mail@rsofficial.com
                   </a>
                 </li>
               </ul>
@@ -482,7 +497,7 @@ export default function Layout({ children }: LayoutProps) {
                 href="https://linkedin.com/in/stha41010" 
                 target="_blank" 
                 rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white hover:scale-110 active:scale-95 transition-all duration-300"
+                className="h-11 w-11 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white hover:scale-110 active:scale-95 transition-all duration-300"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-4 w-4" />
@@ -492,7 +507,7 @@ export default function Layout({ children }: LayoutProps) {
                 href="https://twitter.com" 
                 target="_blank" 
                 rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white hover:scale-110 active:scale-95 transition-all duration-300"
+                className="h-11 w-11 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white hover:scale-110 active:scale-95 transition-all duration-300"
                 aria-label="Twitter"
               >
                 <Twitter className="h-4 w-4" />
@@ -502,7 +517,7 @@ export default function Layout({ children }: LayoutProps) {
                 href="https://github.com" 
                 target="_blank" 
                 rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white hover:scale-110 active:scale-95 transition-all duration-300"
+                className="h-11 w-11 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white hover:scale-110 active:scale-95 transition-all duration-300"
                 aria-label="GitHub"
               >
                 <Github className="h-4 w-4" />

@@ -41,7 +41,7 @@ export default function Blog() {
       <section className="section py-16 sm:py-24 bg-brand-cream/10">
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {BLOGS.map((blog, idx) => (
               <ScrollReveal 
                 key={blog.id}
