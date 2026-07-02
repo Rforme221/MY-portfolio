@@ -179,7 +179,7 @@ export default function Home() {
         );
 
         // Pinning and horizontal timeline step/card reveal for methodology
-        mm.add("(min-width: 601px)", () => {
+        mm.add("(min-width: 640px)", () => {
           let steps = gsap.utils.toArray(".step-item") as any[];
           let cards = gsap.utils.toArray(".step-card") as any[];
 
@@ -206,7 +206,7 @@ export default function Home() {
           };
         });
 
-        mm.add("(max-width: 600px)", () => {
+        mm.add("(max-width: 639px)", () => {
           let steps = gsap.utils.toArray(".step-item");
           steps.forEach((step: any) => {
             gsap.from(step, {
