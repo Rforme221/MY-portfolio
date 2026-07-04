@@ -12,8 +12,16 @@ export default function Contact() {
     service: "all",
     message: ""
   });
+  const [honeypot, setHoneypot] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Track touched status of fields for real-time validation feedback
+  const [touched, setTouched] = useState<Record<string, boolean>>({
+    name: false,
+    email: false,
+    message: false
+  });
 
   const services = [
     { value: "all", label: "Full-Funnel Scaling (Web + Ads)" },
@@ -22,29 +30,78 @@ export default function Contact() {
     { value: "ai", label: "Custom AI & System Automations" }
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Dynamic real-time error calculation
+  const getErrors = () => {
+    const errs: Record<string, string> = {};
+    if (!formData.name.trim()) {
+      errs.name = "Full Name is required";
+    }
+    if (!formData.email.trim()) {
+      errs.email = "Email Address is required";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email.trim())) {
+        errs.email = "Please enter a valid email address";
+      }
+    }
+    if (!formData.message.trim()) {
+      errs.message = "Operational Project Goals are required";
+    }
+    return errs;
+  };
+
+  const errors = getErrors();
+
+  const handleBlur = (field: string) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+    
+    // Honeypot spam check: if filled, act like it succeeded without submitting
+    if (honeypot.trim()) {
+      setIsSubmitted(true);
+      return;
+    }
+    
+    // Trigger validation for all fields on submit attempt
+    setTouched({
+      name: true,
+      email: true,
+      message: true
+    });
+
+    const currentErrors = getErrors();
+    if (Object.keys(currentErrors).length > 0) {
+      return;
+    }
 
     setIsSubmitting(true);
-    
-    // Construct the mailto link parameters dynamically
-    const subject = encodeURIComponent(`Scaling Audit Request - ${formData.name}`);
     const selectedServiceLabel = services.find(s => s.value === formData.service)?.label || formData.service;
-    const body = encodeURIComponent(
-      `Full Name: ${formData.name}\n` +
-      `Email Address: ${formData.email}\n` +
-      `Company Name: ${formData.company || "N/A"}\n` +
-      `Core System Requirement: ${selectedServiceLabel}\n\n` +
-      `Operational Project Goals:\n${formData.message}`
-    );
     
-    // Open the default mail client with prefilled details
-    window.location.href = `mailto:mail@rsofficial.com?subject=${subject}&body=${body}`;
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/mail@rsofficial.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company || "N/A",
+          service: selectedServiceLabel,
+          message: formData.message,
+          _subject: `Scaling Audit Request - ${formData.name}`,
+          _captcha: "false"
+        })
+      });
 
-    // Simulate API transport latency and transition to the success screen
-    setTimeout(() => {
-      setIsSubmitting(false);
+      if (!response.ok) {
+        throw new Error("FormSubmit response not OK");
+      }
+
       setIsSubmitted(true);
       // Reset form
       setFormData({
@@ -54,7 +111,34 @@ export default function Contact() {
         service: "all",
         message: ""
       });
-    }, 1200);
+      setHoneypot("");
+      // Reset touched
+      setTouched({
+        name: false,
+        email: false,
+        message: false
+      });
+    } catch (err) {
+      console.warn("API transport fallback initiated:", err);
+      
+      // Construct the mailto link parameters dynamically as high-resiliency fallback
+      const subject = encodeURIComponent(`Scaling Audit Request - ${formData.name}`);
+      const body = encodeURIComponent(
+        `Full Name: ${formData.name}\n` +
+        `Email Address: ${formData.email}\n` +
+        `Company Name: ${formData.company || "N/A"}\n` +
+        `Core System Requirement: ${selectedServiceLabel}\n\n` +
+        `Operational Project Goals:\n${formData.message}`
+      );
+      
+      // Open the default mail client with prefilled details
+      window.location.href = `mailto:mail@rsofficial.com?subject=${subject}&body=${body}`;
+      
+      setIsSubmitted(true);
+      setHoneypot("");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -146,7 +230,7 @@ export default function Contact() {
               <ScrollReveal y={30} delay={0.1} className="bg-brand-cream/35 border border-brand-border/40 p-8 rounded-2xl relative overflow-hidden">
                 <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">SECURE PROTOCOL</span>
                 <p className="font-sans text-xs text-brand-dark/70 leading-relaxed">
-                  All shared metrics, project goals, and client details submitted through this portal are held strictly confidential. Initial digital audits are returned via secure email within 48 business hours.
+                  All shared metrics, project goals, and client details submitted through this portal are held strictly confidential. Initial digital audits are returned via secure email within 24 hours.
                 </p>
               </ScrollReveal>
             </div>
@@ -165,6 +249,19 @@ export default function Contact() {
                     onSubmit={handleSubmit}
                     className="relative z-10 flex flex-col gap-6"
                   >
+                    {/* Hidden Honeypot field to mitigate spam bots */}
+                    <div className="hidden" aria-hidden="true">
+                      <label htmlFor="website_hp">Website URL</label>
+                      <input
+                        id="website_hp"
+                        type="text"
+                        name="website_hp"
+                        value={honeypot}
+                        onChange={(e) => setHoneypot(e.target.value)}
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+                    </div>
                     {/* Double Columns Input for Name & Email */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="flex flex-col gap-2">
@@ -179,8 +276,22 @@ export default function Contact() {
                           placeholder="Dr. Amit Joshi"
                           value={formData.name}
                           onChange={handleChange}
-                          className="w-full bg-brand-cream/30 border border-brand-border/40 focus:border-brand-accent focus:outline-none p-4 rounded-xl text-brand-dark font-sans text-sm transition-colors duration-300"
+                          onBlur={() => handleBlur("name")}
+                          className={`w-full bg-brand-cream/30 border ${
+                            touched.name && errors.name 
+                              ? "border-rose-500 focus:border-rose-500" 
+                              : "border-brand-border/40 focus:border-brand-accent"
+                          } focus:outline-none p-4 rounded-xl text-brand-dark font-sans text-sm transition-colors duration-300`}
                         />
+                        {touched.name && errors.name && (
+                          <motion.span 
+                            initial={{ opacity: 0, y: -4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-rose-500 font-mono text-[10px] tracking-wide"
+                          >
+                            {errors.name}
+                          </motion.span>
+                        )}
                       </div>
 
                       <div className="flex flex-col gap-2">
@@ -195,8 +306,22 @@ export default function Contact() {
                           placeholder="doctor@kathmandudental.com"
                           value={formData.email}
                           onChange={handleChange}
-                          className="w-full bg-brand-cream/30 border border-brand-border/40 focus:border-brand-accent focus:outline-none p-4 rounded-xl text-brand-dark font-sans text-sm transition-colors duration-300"
+                          onBlur={() => handleBlur("email")}
+                          className={`w-full bg-brand-cream/30 border ${
+                            touched.email && errors.email 
+                              ? "border-rose-500 focus:border-rose-500" 
+                              : "border-brand-border/40 focus:border-brand-accent"
+                          } focus:outline-none p-4 rounded-xl text-brand-dark font-sans text-sm transition-colors duration-300`}
                         />
+                        {touched.email && errors.email && (
+                          <motion.span 
+                            initial={{ opacity: 0, y: -4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-rose-500 font-mono text-[10px] tracking-wide"
+                          >
+                            {errors.email}
+                          </motion.span>
+                        )}
                       </div>
                     </div>
 
@@ -241,7 +366,7 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    {/* Textarea message */}
+                     {/* Textarea message */}
                     <div className="flex flex-col gap-2">
                       <label htmlFor="message" className="font-mono text-[10px] font-semibold text-brand-dark/60 tracking-wider uppercase">
                         Operational Project Goals *
@@ -254,8 +379,22 @@ export default function Contact() {
                         placeholder="Detail your metrics, target audience constraints, and what you aim to achieve with custom design or Meta Ads..."
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full bg-brand-cream/30 border border-brand-border/40 focus:border-brand-accent focus:outline-none p-4 rounded-xl text-brand-dark font-sans text-sm transition-colors duration-300 resize-none"
+                        onBlur={() => handleBlur("message")}
+                        className={`w-full bg-brand-cream/30 border ${
+                          touched.message && errors.message 
+                            ? "border-rose-500 focus:border-rose-500" 
+                            : "border-brand-border/40 focus:border-brand-accent"
+                        } focus:outline-none p-4 rounded-xl text-brand-dark font-sans text-sm transition-colors duration-300 resize-none`}
                       />
+                      {touched.message && errors.message && (
+                        <motion.span 
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-rose-500 font-mono text-[10px] tracking-wide"
+                        >
+                          {errors.message}
+                        </motion.span>
+                      )}
                     </div>
 
                     {/* Submit Button */}
@@ -277,6 +416,12 @@ export default function Contact() {
                         </>
                       )}
                     </button>
+
+                    {/* Visual guarantee and response window */}
+                    <div className="flex items-center justify-center gap-2 text-[10px] font-mono text-brand-dark/50 tracking-wider uppercase mt-1">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span>Guaranteed response within 24 hours</span>
+                    </div>
                   </motion.form>
                 ) : (
                   // Breathtaking interactive success overlay
@@ -300,7 +445,7 @@ export default function Contact() {
                         Audit Request Registered
                       </h3>
                       <p className="font-sans text-sm leading-relaxed text-brand-dark/70">
-                        Thank you. Your project goals and contact details have been securely logged. Raj Shrestha will analyze your current metrics and respond within 48 business hours with your custom scaling plan.
+                        Thank you. Your project goals and contact details have been securely logged. Raj Shrestha will analyze your current metrics and respond within 24 hours with your custom scaling plan.
                       </p>
                     </div>
 
