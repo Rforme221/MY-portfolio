@@ -528,6 +528,36 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </footer>
 
+      {/* Floating WhatsApp Badge */}
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 group pointer-events-none">
+        {/* Tooltip - Slide / Fade in on Hover */}
+        <div className="hidden sm:block bg-brand-dark/95 backdrop-blur-sm text-brand-bg text-[10px] font-mono tracking-widest uppercase py-2 px-3.5 rounded-xl border border-white/10 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 shadow-xl pointer-events-none select-none">
+          // CHAT WITH RAJ
+        </div>
+
+        {/* Floating Green Circle Anchor */}
+        <a
+          id="whatsapp-floating-badge"
+          href="https://wa.me/9779765001572"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat with Raj Shrestha on WhatsApp"
+          className="relative h-14 w-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_8px_30px_rgb(37,211,102,0.4)] hover:shadow-[0_8px_30px_rgb(37,211,102,0.6)] hover:scale-110 active:scale-95 transition-all duration-300 pointer-events-auto cursor-pointer"
+        >
+          {/* Pulsing Visual Wave Ring */}
+          <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-40 animate-ping pointer-events-none" />
+          
+          {/* Custom Pristine Inline WhatsApp SVG Icon */}
+          <svg
+            viewBox="0 0 24 24"
+            className="h-6.5 w-6.5 fill-current relative z-10"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.413 9.864-9.83.002-2.623-1.01-5.09-2.855-6.94C16.634 1.986 14.167 1.96 11.99 1.96c-5.44 0-9.866 4.415-9.87 9.833-.001 1.748.471 3.456 1.365 4.975L2.457 21.5l4.19-1.346zm12.352-7.143c-.33-.165-1.951-.963-2.253-1.073-.303-.11-.523-.165-.743.165-.22.33-.853 1.073-1.045 1.293-.193.22-.385.247-.715.082-.33-.165-1.393-.513-2.653-1.637-.98-.874-1.64-1.953-1.832-2.282-.193-.33-.02-.508.145-.672.148-.148.33-.385.495-.578.165-.192.22-.33.33-.55.11-.22.055-.412-.028-.577-.082-.165-.743-1.79-1.018-2.454-.268-.646-.54-.558-.743-.569-.192-.01-.412-.012-.632-.012-.22 0-.577.082-.88.413-.302.33-1.155 1.128-1.155 2.75s1.183 3.19 1.348 3.41c.165.22 2.328 3.555 5.64 4.984.788.34 1.403.543 1.884.697.79.25 1.511.215 2.08.13.634-.094 1.951-.798 2.225-1.568.275-.77.275-1.43.193-1.568-.083-.138-.303-.22-.633-.385z" />
+          </svg>
+        </a>
+      </div>
+
     </div>
   );
 }

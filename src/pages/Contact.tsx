@@ -27,7 +27,22 @@ export default function Contact() {
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
-    // Simulate API transport latency
+    
+    // Construct the mailto link parameters dynamically
+    const subject = encodeURIComponent(`Scaling Audit Request - ${formData.name}`);
+    const selectedServiceLabel = services.find(s => s.value === formData.service)?.label || formData.service;
+    const body = encodeURIComponent(
+      `Full Name: ${formData.name}\n` +
+      `Email Address: ${formData.email}\n` +
+      `Company Name: ${formData.company || "N/A"}\n` +
+      `Core System Requirement: ${selectedServiceLabel}\n\n` +
+      `Operational Project Goals:\n${formData.message}`
+    );
+    
+    // Open the default mail client with prefilled details
+    window.location.href = `mailto:mail@rsofficial.com?subject=${subject}&body=${body}`;
+
+    // Simulate API transport latency and transition to the success screen
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);

@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, Star, Calendar, User, MapPin, Award } from "lucide-react";
 import SEO from "../components/SEO";
 import ScrollReveal from "../components/ScrollReveal";
+import ImageWithSkeleton from "../components/ImageWithSkeleton";
 import { PROJECTS } from "../data";
 
 export default function ProjectDetail() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   
   // Find project
   const project = PROJECTS.find((p) => p.id === projectId);
+
+  // Simulate remote dynamic fetch to show the skeleton loader
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 550); // fast but visible 550ms perceived latency
+    return () => clearTimeout(timer);
+  }, [projectId]);
 
   // If project not found, redirect to /work
   if (!project) {
@@ -32,8 +43,78 @@ export default function ProjectDetail() {
     location: project.location
   };
 
+  // 1. DYNAMIC HIGH-FIDELITY SKELETON RENDERER
+  if (isLoading) {
+    return (
+      <div className="w-full animate-fadeIn" id="project-detail-skeleton">
+        <SEO 
+          title="Loading Case Study — Raj Shrestha Portfolio"
+          description="Accessing secure database case estudio metrics..."
+        />
+
+        {/* Header Skeleton */}
+        <section className="section pt-12 pb-16 border-b border-brand-border/20">
+          <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
+            {/* Back Button Placeholder */}
+            <div className="h-4 w-40 bg-slate-100 rounded-md animate-pulse mb-12" />
+
+            {/* Title Grid Placeholder */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              <div className="lg:col-span-8 space-y-4">
+                <div className="h-3 w-48 bg-slate-100 rounded-md animate-pulse" />
+                <div className="h-12 w-3/4 bg-slate-200 rounded-xl animate-pulse" />
+              </div>
+              <div className="lg:col-span-4 lg:text-right">
+                <div className="h-10 w-44 bg-slate-100 border border-slate-200/50 rounded-xl animate-pulse inline-block" />
+              </div>
+            </div>
+
+            {/* Metadata Rows Placeholder */}
+            <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-4 gap-6 border-t border-brand-border/30 pt-10 mt-12">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="h-10 w-10 bg-slate-100 rounded-xl animate-pulse" />
+                  <div className="space-y-2 flex-grow">
+                    <div className="h-2 w-16 bg-slate-100 rounded-md animate-pulse" />
+                    <div className="h-4 w-28 bg-slate-200 rounded-md animate-pulse" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Cover Visual Placeholder */}
+        <section className="section py-8 bg-brand-cream/15">
+          <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
+            <div className="w-full aspect-[16/7] md:aspect-[21/9] rounded-3xl bg-slate-100 border border-slate-200/50 animate-pulse relative" />
+          </div>
+        </section>
+
+        {/* Narrative & Stats Placeholder */}
+        <section className="section py-20">
+          <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+              <div className="lg:col-span-7 space-y-6">
+                <div className="h-6 w-3/4 bg-slate-200 rounded-md animate-pulse" />
+                <div className="h-4 w-full bg-slate-100 rounded-md animate-pulse" />
+                <div className="h-4 w-5/6 bg-slate-100 rounded-md animate-pulse" />
+                <div className="h-4 w-4/5 bg-slate-100 rounded-md animate-pulse" />
+              </div>
+              <div className="lg:col-span-5 space-y-6">
+                <div className="h-40 bg-slate-50 border border-slate-200/50 rounded-2xl animate-pulse" />
+                <div className="h-48 bg-slate-100 rounded-2xl animate-pulse" />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  // 2. ACTIVE RENDERED VIEW
   return (
-    <div className="w-full">
+    <div className="w-full animate-fadeIn" id="project-detail-content">
       <SEO 
         title={`${project.title} — Case Study by Raj Shrestha`}
         description={project.description}
@@ -119,19 +200,20 @@ export default function ProjectDetail() {
               className="w-full aspect-[16/7] md:aspect-[21/9] rounded-3xl overflow-hidden border border-brand-border/40 shadow-md relative"
             >
               {project.image.startsWith("linear-gradient") ? (
-                <div className="absolute inset-0" style={{ background: project.image }} />
+                <div className="absolute inset-0 animate-fadeIn" style={{ background: project.image }} />
               ) : (
-                <img 
+                <ImageWithSkeleton 
                   src={project.image} 
                   alt={project.title} 
-                  referrerPolicy="no-referrer"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  wrapperClassName="absolute inset-0 w-full h-full"
+                  className="w-full h-full object-cover"
+                  skeletonClassName="bg-slate-200/50 dark:bg-zinc-800"
                 />
               )}
-              <div className="absolute inset-0 bg-brand-dark/15" />
+              <div className="absolute inset-0 bg-brand-dark/15 pointer-events-none" />
               <div className="absolute inset-0 z-10 opacity-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
               
-              <div className="absolute bottom-6 right-6">
+              <div className="absolute bottom-6 right-6 z-20">
                 <span className="font-mono text-[9px] text-white/50 bg-brand-dark/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 tracking-widest uppercase">
                   WIRE_BLUEPRINT // VISUAL_DOCKET_RS
                 </span>
@@ -212,3 +294,4 @@ export default function ProjectDetail() {
     </div>
   );
 }
+

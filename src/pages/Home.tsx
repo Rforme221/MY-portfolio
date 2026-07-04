@@ -8,6 +8,7 @@ import SEO from "../components/SEO";
 import ScrollReveal from "../components/ScrollReveal";
 import Marquee from "../components/Marquee";
 import WorkCard from "../components/WorkCard";
+import ImageWithSkeleton from "../components/ImageWithSkeleton";
 import { PROJECTS, TESTIMONIALS, BLOGS, SERVICES } from "../data";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -516,15 +517,16 @@ export default function Home() {
                     className="absolute inset-0 z-0 overflow-hidden block cursor-pointer group/link"
                     aria-label={`View external site for ${project.title}`}
                   >
-                    <img 
+                    <ImageWithSkeleton 
                       src={project.image} 
                       alt={project.title} 
-                      referrerPolicy="no-referrer"
-                      className="absolute inset-0 w-full h-full object-cover select-none opacity-45 group-hover:opacity-60 group-hover/link:opacity-80 transition-all duration-700 group-hover:scale-105 group-hover/link:scale-110"
+                      wrapperClassName="absolute inset-0 w-full h-full"
+                      className="w-full h-full object-cover select-none opacity-45 group-hover:opacity-60 group-hover/link:opacity-80 transition-all duration-700 group-hover:scale-105 group-hover/link:scale-110"
+                      skeletonClassName="bg-black/45 animate-pulse"
                     />
                     {/* Premium gradient overlays to blend cleanly and ensure text is highly legible */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/85" />
-                    <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:20px_20px]" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/85 pointer-events-none" />
+                    <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
                   </a>
                   
                   {/* Card Header Detail */}
@@ -760,11 +762,12 @@ export default function Home() {
             <div className="lg:col-span-5">
               <ScrollReveal y={30} className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-brand-border bg-brand-cream shadow-md group p-5 flex items-center justify-center">
                 {/* Full container image */}
-                <img 
+                <ImageWithSkeleton 
                   src="/image/mypotrait.png" 
                   alt="Raj Shrestha" 
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  referrerPolicy="no-referrer"
+                  wrapperClassName="absolute inset-0 w-full h-full"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  skeletonClassName="bg-slate-200/50 dark:bg-zinc-800"
                 />
                 
                 {/* Visual grid pattern overlay */}
