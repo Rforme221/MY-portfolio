@@ -158,6 +158,16 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes scroll-hint {
+  0% { transform: translateY(-100%); }
+  70% { transform: translateY(100%); }
+  100% { transform: translateY(100%); }
+}
+
+.animate-scroll-hint {
+  animation: scroll-hint 2s ease-in-out infinite;
+}
+
 .animate-marquee {
   display: flex;
   width: max-content;

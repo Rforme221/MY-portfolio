@@ -15,6 +15,7 @@ export default function Contact() {
   const [honeypot, setHoneypot] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Track touched status of fields for real-time validation feedback
   const [touched, setTouched] = useState<Record<string, boolean>>({
@@ -58,6 +59,7 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
     
     // Honeypot spam check: if filled, act like it succeeded without submitting
     if (honeypot.trim()) {
@@ -81,7 +83,7 @@ export default function Contact() {
     const selectedServiceLabel = services.find(s => s.value === formData.service)?.label || formData.service;
     
     try {
-      const response = await fetch("https://formsubmit.co/ajax/mail@rsofficial.com", {
+      const response = await fetch("https://formsubmit.co/ajax/digitalraj147@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +95,7 @@ export default function Contact() {
           company: formData.company || "N/A",
           service: selectedServiceLabel,
           message: formData.message,
-          _subject: `Scaling Audit Request - ${formData.name}`,
+          _subject: `New Contact Form Submission - ${formData.name}`,
           _captcha: "false"
         })
       });
@@ -103,6 +105,7 @@ export default function Contact() {
       }
 
       setIsSubmitted(true);
+      setSubmitError(null);
       // Reset form
       setFormData({
         name: "",
@@ -120,9 +123,10 @@ export default function Contact() {
       });
     } catch (err) {
       console.warn("API transport fallback initiated:", err);
+      setSubmitError("We couldn't transmit your request securely. Click below to try again, or use the email fallback link.");
       
       // Construct the mailto link parameters dynamically as high-resiliency fallback
-      const subject = encodeURIComponent(`Scaling Audit Request - ${formData.name}`);
+      const subject = encodeURIComponent(`New Contact Form Submission - ${formData.name}`);
       const body = encodeURIComponent(
         `Full Name: ${formData.name}\n` +
         `Email Address: ${formData.email}\n` +
@@ -132,10 +136,7 @@ export default function Contact() {
       );
       
       // Open the default mail client with prefilled details
-      window.location.href = `mailto:mail@rsofficial.com?subject=${subject}&body=${body}`;
-      
-      setIsSubmitted(true);
-      setHoneypot("");
+      window.location.href = `mailto:digitalraj147@gmail.com?subject=${subject}&body=${body}`;
     } finally {
       setIsSubmitting(false);
     }
@@ -247,8 +248,14 @@ export default function Contact() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onSubmit={handleSubmit}
+                    action="https://formsubmit.co/digitalraj147@gmail.com"
+                    method="POST"
                     className="relative z-10 flex flex-col gap-6"
                   >
+                    {/* Hidden FormSubmit configuration inputs */}
+                    <input type="hidden" name="_subject" value={formData.name ? `New Contact Form Submission - ${formData.name}` : 'New Contact Form Submission'} />
+                    <input type="hidden" name="_captcha" value="false" />
+
                     {/* Hidden Honeypot field to mitigate spam bots */}
                     <div className="hidden" aria-hidden="true">
                       <label htmlFor="website_hp">Website URL</label>
@@ -262,6 +269,18 @@ export default function Contact() {
                         autoComplete="off"
                       />
                     </div>
+
+                    {/* Submission Error Banner */}
+                    {submitError && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-rose-50/80 border border-rose-200 p-4 rounded-xl text-rose-800 text-xs font-sans leading-relaxed flex flex-col gap-1"
+                      >
+                        <span className="font-bold uppercase tracking-wider font-mono text-[9px] text-rose-600">TRANSMISSION INTERRUPTED</span>
+                        <p>{submitError}</p>
+                      </motion.div>
+                    )}
                     {/* Double Columns Input for Name & Email */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="flex flex-col gap-2">

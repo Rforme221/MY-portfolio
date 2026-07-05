@@ -131,26 +131,51 @@ export default function Home() {
             }
 
             // Responsive parallax & zoom for the hero visual on scroll
-            gsap.to(".hero-visual", {
-              scale: isMobile ? 1.1 : 1,
-              x: isMobile ? "0vw" : isDesktop ? "10vw" : "5vw",
-              scrollTrigger: {
-                trigger: ".hero-section",
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-              },
-            });
+            if (!isMobile) {
+              gsap.to(".hero-visual", {
+                scale: 1,
+                x: isDesktop ? "10vw" : "5vw",
+                scrollTrigger: {
+                  trigger: ".hero-section",
+                  start: "top top",
+                  end: "bottom top",
+                  scrub: true,
+                },
+              });
 
-            // GSAP Entrance animation for Hero title & description
+              // Parallax scroll for hero title
+              gsap.to(".hero-title", {
+                yPercent: -50, // % not px — scales with element itself
+                scrollTrigger: {
+                  trigger: ".hero-section",
+                  start: "top top",
+                  end: "bottom top",
+                  scrub: true,
+                },
+              });
+            } else {
+              // High-performance mobile visual entry: lightweight one-time zoom & fade-in entrance animation
+              gsap.fromTo(".hero-visual", 
+                { scale: 1.12, opacity: 0 },
+                {
+                  scale: 1.02,
+                  opacity: 0.9,
+                  duration: 1.2,
+                  ease: "power3.out",
+                  delay: 0.1,
+                }
+              );
+            }
+
+            // GSAP Entrance animation for Hero title & description (snappier, shorter on mobile for under 1s combined feel)
             gsap.fromTo(".hero-title", 
-              { opacity: 0, y: 50 },
+              { opacity: 0, y: isMobile ? 30 : 50 },
               {
                 opacity: 1,
                 y: 0,
-                duration: 1.2,
+                duration: isMobile ? 0.8 : 1.2,
                 ease: "power4.out",
-                delay: 0.2,
+                delay: isMobile ? 0.15 : 0.2,
                 scrollTrigger: {
                   trigger: ".hero-section",
                   start: "top 90%",
@@ -160,13 +185,13 @@ export default function Home() {
             );
 
             gsap.fromTo(".hero-desc", 
-              { opacity: 0, y: 40 },
+              { opacity: 0, y: isMobile ? 25 : 40 },
               {
                 opacity: 1,
                 y: 0,
-                duration: 1.2,
+                duration: isMobile ? 0.8 : 1.2,
                 ease: "power4.out",
-                delay: 0.4,
+                delay: isMobile ? 0.3 : 0.4,
                 scrollTrigger: {
                   trigger: ".hero-section",
                   start: "top 90%",
@@ -223,16 +248,7 @@ export default function Home() {
           });
         });
 
-        // Parallax scroll for hero title
-        gsap.to(".hero-title", {
-          yPercent: -50, // % not px — scales with element itself
-          scrollTrigger: {
-            trigger: ".hero-section",
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
+        // Parallax scroll for hero title is now handled responsively inside matchMedia for !isMobile
 
         // for cross-viewport translate, compute in vw at trigger time
         ScrollTrigger.create({
@@ -335,7 +351,7 @@ export default function Home() {
       />
 
       {/* 1. HERO SECTION */}
-      <section className="section hero-section relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-[clamp(4rem,10vw,12rem)]">
+      <section className="section hero-section relative min-h-[75vh] md:min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-[clamp(2.5rem,6vh,4rem)] md:py-[clamp(4rem,10vw,12rem)]">
         {/* Subtle Ambient Brand Highlight */}
         <div 
           className="absolute inset-0 z-0 opacity-40 pointer-events-none"
@@ -343,7 +359,7 @@ export default function Home() {
         />
         {/* Background Image of Profile Portrait */}
         <div 
-          className="hero-visual absolute inset-0 z-0 bg-no-repeat bg-cover bg-right md:bg-right opacity-90"
+          className="hero-visual absolute inset-0 z-0 bg-no-repeat bg-cover max-md:bg-[position:75%_center] bg-right md:bg-right opacity-90"
           style={{
             backgroundImage: "url('/image/hero.png')",
           }}
@@ -365,6 +381,16 @@ export default function Home() {
                 High-converting digital experiences and precision Meta Ads campaigns, optimized with AI to scale local businesses and maximize your ROI.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Mobile Scroll Affordance (hidden on md and larger) */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 md:hidden flex flex-col items-center gap-1.5 pointer-events-none transition-opacity duration-300">
+          <span className="font-mono text-[9px] text-zinc-500 tracking-[0.25em] uppercase">
+            Scroll to explore
+          </span>
+          <div className="w-[1px] h-8 bg-gradient-to-b from-zinc-500 to-transparent relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-[#bda881] animate-scroll-hint motion-reduce:hidden" />
           </div>
         </div>
       </section>
