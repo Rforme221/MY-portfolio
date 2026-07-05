@@ -49,7 +49,7 @@ export default function ProjectDetail() {
       <div className="w-full animate-fadeIn" id="project-detail-skeleton">
         <SEO 
           title="Loading Case Study — Raj Shrestha Portfolio"
-          description="Accessing secure database case estudio metrics..."
+          description="Accessing secure database case study metrics..."
         />
 
         {/* Header Skeleton */}

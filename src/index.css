@@ -495,6 +495,32 @@
   }
 }
 
+/* Responsive adjustments for the About Teaser layout and main headings on mobile viewports */
+@media (max-width: 768px) {
+  /* 1. Switch the main layout container from a row to a vertical column */
+  .about-teaser-layout {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* 2. Force the portrait image block container to be full-width so it is no longer squished */
+  .about-portrait-block-container {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 3. Add responsive padding to the text container */
+  .about-text-container {
+    padding: 0 20px !important;
+  }
+
+  /* 4. Adjust the main <h1> headline font size using clamp to wrap naturally */
+  h1, .hero-title {
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    line-height: 1.1 !important;
+  }
+}
+
 /* User accessibility setting for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

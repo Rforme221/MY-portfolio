@@ -782,48 +782,25 @@ export default function Home() {
       <section className="section py-24 sm:py-32 border-b border-brand-border/20">
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="about-teaser-layout grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Visual Portrait block */}
-            <div className="lg:col-span-5">
-              <ScrollReveal y={30} className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-brand-border bg-brand-cream shadow-md group p-5 flex items-center justify-center">
+            <div className="lg:col-span-5 w-full">
+              <ScrollReveal y={30} className="about-portrait-block-container relative aspect-[4/5] rounded-3xl overflow-hidden border border-brand-border bg-brand-cream shadow-md group flex items-center justify-center w-full">
                 {/* Full container image */}
                 <ImageWithSkeleton 
-                  src="/image/mypotrait.png" 
+                  src="/image/myportfolio.png" 
                   alt="Raj Shrestha" 
                   wrapperClassName="absolute inset-0 w-full h-full"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   skeletonClassName="bg-slate-200/50 dark:bg-zinc-800"
                 />
-                
-                {/* Visual grid pattern overlay */}
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
-                
-                {/* Gentle vignette/shadow overlay for high contrast text readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/55 pointer-events-none" />
-                
-                {/* Inner Card layout overlay on top of the image */}
-                <div className="relative z-10 h-full w-full rounded-2xl border border-white/20 flex flex-col justify-between p-6 bg-black/15 backdrop-blur-[1.5px] pointer-events-none">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[9px] text-white/90 tracking-widest block uppercase font-medium drop-shadow-sm">
-                      LOCAL_COORD: KTM_NEPAL
-                    </span>
-                    <div className="flex items-center gap-1.5 bg-black/45 backdrop-blur-md border border-white/10 px-2 py-0.5 rounded-full shadow-sm">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      <span className="font-mono text-[8px] text-white font-bold uppercase tracking-wider">LIVE</span>
-                    </div>
-                  </div>
-                  
-                  <span className="font-mono text-[9px] text-white/90 tracking-widest block text-right uppercase font-medium drop-shadow-sm">
-                    RAJ_SHRESTHA_IMG_REF
-                  </span>
-                </div>
               </ScrollReveal>
             </div>
 
             {/* Content teaser block */}
-            <div className="lg:col-span-7">
-              <ScrollReveal y={30} delay={0.2}>
+            <div className="lg:col-span-7 w-full">
+              <ScrollReveal y={30} delay={0.2} className="about-text-container">
                 <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
                   THE STRATEGIST // BIO
                 </span>

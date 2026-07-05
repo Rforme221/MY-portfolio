@@ -212,6 +212,6 @@ We implemented interactive work cards with a full-bleed overlay hover state. The
     date: "April 12, 2026",
     readTime: "6 min read",
     category: "Case Studies",
-    image: "/image/visual artist.png"
+    image: "/image/visualart.png"
   }
 ];
