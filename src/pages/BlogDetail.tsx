@@ -62,14 +62,14 @@ export default function BlogDetail() {
           {/* Back link */}
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-widest text-brand-dark/60 hover:text-brand-accent uppercase mb-12 transition-colors duration-300"
+            className="inline-flex items-center gap-2 font-mono text-[10px] max-md:text-[11px] font-bold tracking-widest text-brand-dark/60 hover:text-brand-accent uppercase mb-12 transition-colors duration-300"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Archives</span>
           </Link>
 
           {/* Categorized pill */}
-          <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
+          <span className="font-mono text-[10px] max-md:text-[11px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
             ARCHIVE CLASSIFICATION: {blog.category}
           </span>
 
@@ -80,17 +80,17 @@ export default function BlogDetail() {
 
           {/* Metadata */}
           <div className="flex flex-wrap items-center gap-6 mt-8 border-t border-brand-border/30 pt-6">
-            <div className="flex items-center gap-2 font-mono text-[10px] text-brand-dark/50">
+            <div className="flex items-center gap-2 font-mono text-[10px] max-md:text-[11px] text-brand-dark/50">
               <Calendar className="h-4 w-4 text-brand-accent" />
               <span>{blog.date}</span>
             </div>
             
-            <div className="flex items-center gap-2 font-mono text-[10px] text-brand-dark/50">
+            <div className="flex items-center gap-2 font-mono text-[10px] max-md:text-[11px] text-brand-dark/50">
               <Clock className="h-4 w-4 text-brand-accent" />
               <span>{blog.readTime}</span>
             </div>
 
-            <div className="flex items-center gap-2 font-mono text-[10px] text-brand-dark/50 ml-auto">
+            <div className="flex items-center gap-2 font-mono text-[10px] max-md:text-[11px] text-brand-dark/50 ml-auto">
               <Bookmark className="h-4 w-4 text-brand-accent" />
               <span>SECURE RECORD</span>
             </div>
@@ -126,7 +126,7 @@ export default function BlogDetail() {
             
             {/* Sidebar quick social */}
             <div className="md:col-span-3 border-r border-brand-border/10 pr-6 hidden md:block">
-              <span className="font-mono text-[9px] text-brand-dark/40 font-bold uppercase tracking-wider block mb-4">
+              <span className="font-mono text-[9px] max-md:text-[11px] text-brand-dark/40 font-bold uppercase tracking-wider block mb-4">
                 ARTICLE CONTROLS
               </span>
               <ul className="flex flex-col gap-3">
@@ -137,7 +137,7 @@ export default function BlogDetail() {
                       setCopied(true);
                       setTimeout(() => setCopied(false), 2000);
                     }}
-                    className="flex items-center gap-2 font-display text-[10px] font-bold text-brand-dark/60 hover:text-brand-accent uppercase transition-colors"
+                    className="flex items-center gap-2 font-display text-[10px] max-md:text-[11px] font-bold text-brand-dark/60 hover:text-brand-accent uppercase transition-colors"
                   >
                     <Share2 className="h-4 w-4" />
                     <span>{copied ? "Copied!" : "Copy URL"}</span>
@@ -146,7 +146,7 @@ export default function BlogDetail() {
                 <li>
                   <Link 
                     to="/contact" 
-                    className="flex items-center gap-2 font-display text-[10px] font-bold text-brand-dark/60 hover:text-brand-accent uppercase"
+                    className="flex items-center gap-2 font-display text-[10px] max-md:text-[11px] font-bold text-brand-dark/60 hover:text-brand-accent uppercase"
                   >
                     <Bookmark className="h-4 w-4" />
                     <span>Consult Raj</span>

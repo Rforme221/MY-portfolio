@@ -24,7 +24,7 @@ export default function About() {
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-3xl mb-16">
-            <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
+            <span className="font-mono text-[10px] max-md:text-[11px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
               ORIGIN STORY // BIOGRAPHY
             </span>
             <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-brand-dark leading-tight uppercase">
@@ -59,7 +59,7 @@ export default function About() {
             {/* Right Column - Mission & Values */}
             <div className="lg:col-span-5 bg-brand-cream/35 border border-brand-border/40 p-8 rounded-3xl flex flex-col gap-8">
               <ScrollReveal y={30} delay={0.4}>
-                <span className="font-mono text-[9px] font-bold tracking-widest text-brand-accent uppercase">
+                <span className="font-mono text-[9px] max-md:text-[11px] font-bold tracking-widest text-brand-accent uppercase">
                   MY WORK PRINCIPLES
                 </span>
                 
@@ -100,7 +100,7 @@ export default function About() {
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-2xl mb-16">
-            <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
+            <span className="font-mono text-[10px] max-md:text-[11px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
               THE HARD METRICS // TRACK RECORD
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-bold uppercase">
@@ -122,7 +122,7 @@ export default function About() {
                     <span className="h-8 w-8 rounded-full bg-brand-cream flex items-center justify-center border border-brand-border/30 group-hover:bg-brand-accent group-hover:border-brand-accent transition-colors duration-300">
                       <Icon className="h-4 w-4 text-brand-dark group-hover:text-brand-bg transition-colors" />
                     </span>
-                    <span className="font-mono text-[9px] text-brand-dark/30 group-hover:text-brand-dark/50 font-bold uppercase">
+                    <span className="font-mono text-[9px] max-md:text-[11px] text-brand-dark/30 group-hover:text-brand-dark/50 font-bold uppercase">
                       METRIC // 0{idx + 1}
                     </span>
                   </div>
@@ -148,7 +148,7 @@ export default function About() {
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-2xl mb-16">
-            <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
+            <span className="font-mono text-[10px] max-md:text-[11px] font-bold tracking-widest text-brand-accent uppercase block mb-3">
               TECH STACK // ENGINE SPECIFICATIONS
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-bold uppercase">

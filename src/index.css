@@ -343,6 +343,10 @@
 .section-bg-alt { background: var(--blue-50); }
 .card-border { border-color: var(--slate-300); }
 
+.scroll-panel {
+  width: 100vw;
+}
+
 /* RESPONSIVE LAYOUT & MOBILE ANIMATION ADJUSTMENTS */
 @media (max-width: 767px) {
   /* 1. LAYOUT OVERRIDES */
@@ -361,6 +365,11 @@
     .lg\:grid-cols-4 {
       grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
     }
+    
+    /* Safely reset col spans in single-column grid layouts to prevent horizontal stretch */
+    [class*="col-span-"] {
+      grid-column: span 1 / span 1 !important;
+    }
   }
 
   @media (min-width: 481px) and (max-width: 767px) {
@@ -377,9 +386,9 @@
   }
 
   /* Prevent viewport horizontal overflows on mobile (320px–767px) */
-  html, body {
+  html, body, #root, .App, main, #project-detail-skeleton, #project-detail-content {
     width: 100%;
-    max-width: 100%;
+    max-width: 100% !important;
     overflow-x: hidden !important;
   }
 
@@ -389,30 +398,19 @@
     padding-right: clamp(1rem, 4vw, 1.5rem) !important;
   }
 
-  /* Optimize Project Cards / Slides layout on mobile to prevent squishing or overlapping text */
-  .sticky {
-    position: relative !important;
-    top: auto !important;
-    padding: clamp(1.25rem, 4vw, 2rem) !important;
-    min-height: auto !important;
-    height: auto !important;
-    margin-bottom: 2rem !important;
+  @keyframes mobileFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  /* Stack project card metadata row (category, client details) vertically on mobile */
-  .sticky > .relative.z-10.flex {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 0.35rem !important;
-  }
-
-  /* Expand the glassmorphic information card to full-width to prevent squishing */
-  .sticky > .relative.z-20 {
-    max-width: 100% !important;
-    width: 100% !important;
-    padding: clamp(0.75rem, 3vw, 1.25rem) !important;
-    margin-top: auto !important; /* Force to bottom naturally */
-    gap: 0.75rem !important;
+  .animate-mobileFadeIn {
+    animation: mobileFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   /* Slower marquee for lower GPU overhead on mobile webview */
@@ -472,12 +470,12 @@
   .section-2 .section__inner {
     height: auto !important;
   }
-  .section-2 .flex.w-\[200vw\] {
+  .panels-container {
     width: 100% !important;
     flex-direction: column !important;
     height: auto !important;
   }
-  .panel {
+  .scroll-panel {
     width: 100% !important;
     height: auto !important;
     min-height: 60vh !important;
@@ -493,10 +491,8 @@
     margin: 2rem auto 0 auto !important;
     width: 100% !important;
   }
-}
 
-/* Responsive adjustments for the About Teaser layout and main headings on mobile viewports */
-@media (max-width: 768px) {
+  /* Responsive adjustments for the About Teaser layout and main headings on mobile viewports */
   /* 1. Switch the main layout container from a row to a vertical column */
   .about-teaser-layout {
     display: flex !important;
@@ -514,9 +510,9 @@
     padding: 0 20px !important;
   }
 
-  /* 4. Adjust the main <h1> headline font size using clamp to wrap naturally */
+  /* Clamp-based heading font-size rule to prevent layout breaks on small viewports */
   h1, .hero-title {
-    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    font-size: clamp(1.85rem, 8vw, 3.5rem) !important;
     line-height: 1.1 !important;
   }
 }

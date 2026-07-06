@@ -19,7 +19,7 @@ export default function Blog() {
           
           <div className="max-w-3xl flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <ScrollReveal y={20}>
-              <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
+              <span className="font-mono text-[10px] max-md:text-[11px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
                 THE CHRONICLES // ARTICLES & RELEASES
               </span>
               <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-brand-dark leading-none uppercase">
@@ -60,7 +60,7 @@ export default function Blog() {
                 >
                   <div className="absolute inset-0 bg-brand-dark/25" />
                   <div className="absolute top-4 left-4">
-                    <span className="font-mono text-[9px] font-bold tracking-wider text-brand-bg bg-brand-dark/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 uppercase">
+                    <span className="font-mono text-[9px] max-md:text-[11px] font-bold tracking-wider text-brand-bg bg-brand-dark/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 uppercase">
                       {blog.category}
                     </span>
                   </div>
@@ -69,7 +69,7 @@ export default function Blog() {
                 {/* Content info */}
                 <div className="p-8 flex-grow flex flex-col justify-between">
                   <div>
-                    <span className="font-mono text-[10px] text-brand-dark/40 block mb-2 font-semibold">
+                    <span className="font-mono text-[10px] max-md:text-[11px] text-brand-dark/40 block mb-2 font-semibold">
                       {blog.date} // {blog.readTime}
                     </span>
                     <h3 className="font-display text-xl font-bold uppercase text-brand-dark group-hover:text-brand-accent transition-colors duration-300 mb-4 line-clamp-2">

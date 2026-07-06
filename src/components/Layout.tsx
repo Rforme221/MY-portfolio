@@ -140,6 +140,8 @@ export default function Layout({ children }: LayoutProps) {
               <img 
                 src="/image/3.png" 
                 alt="aiko logo" 
+                loading="lazy"
+                decoding="async"
                 className="h-8 sm:h-9 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
@@ -147,6 +149,8 @@ export default function Layout({ children }: LayoutProps) {
               <img 
                 src="/image/4.png" 
                 alt="Raj Shrestha logo" 
+                loading="lazy"
+                decoding="async"
                 className="h-8 sm:h-9 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
@@ -243,9 +247,9 @@ export default function Layout({ children }: LayoutProps) {
             className="md:hidden fixed inset-0 z-[100] w-full h-screen bg-[#070708]/98 backdrop-blur-2xl text-white flex flex-col justify-between p-6 sm:p-10 md:p-12 overflow-y-auto select-none"
           >
             {/* Ambient Background Glows */}
-            <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-              <div className="absolute top-[-10%] right-[-10%] w-[350px] h-[350px] rounded-full bg-brand-accent/20 blur-[90px]" />
-              <div className="absolute bottom-[-10%] left-[-10%] w-[250px] h-[250px] rounded-full bg-brand-accent/10 blur-[80px]" />
+            <div className="absolute inset-0 z-0 opacity-20 pointer-events-none overflow-hidden">
+              <div className="absolute top-[-10%] right-[-10%] w-[clamp(150px,40vw,350px)] h-[clamp(150px,40vw,350px)] rounded-full bg-brand-accent/20 blur-[90px]" />
+              <div className="absolute bottom-[-10%] left-[-10%] w-[clamp(150px,30vw,250px)] h-[clamp(150px,30vw,250px)] rounded-full bg-brand-accent/10 blur-[80px]" />
               <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-10" />
             </div>
 
@@ -260,6 +264,8 @@ export default function Layout({ children }: LayoutProps) {
                 <img
                   src="/image/3.png"
                   alt="aiko logo"
+                  loading="lazy"
+                  decoding="async"
                   className="h-8 w-auto object-contain"
                   referrerPolicy="no-referrer"
                 />

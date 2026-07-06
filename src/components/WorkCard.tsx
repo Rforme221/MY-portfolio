@@ -27,6 +27,8 @@ export default function WorkCard({ project, index }: WorkCardProps) {
           <img 
             src={project.image} 
             alt={project.title} 
+            loading="lazy"
+            decoding="async"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover" 
           />
@@ -44,14 +46,14 @@ export default function WorkCard({ project, index }: WorkCardProps) {
 
       {/* Category Tag - Top Right */}
       <div className="absolute top-5 right-5 z-20">
-        <span className="font-mono text-[10px] sm:text-xs font-medium tracking-wider text-brand-bg uppercase bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 group-hover:bg-white/20 group-hover:border-white/20 transition-all duration-300">
+        <span className="font-mono text-[10px] max-md:text-[11px] sm:text-xs font-medium tracking-wider text-brand-bg uppercase bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 group-hover:bg-white/20 group-hover:border-white/20 transition-all duration-300">
           {project.category}
         </span>
       </div>
 
       {/* Corner Technical Detail */}
       <div className="absolute top-5 left-5 z-20">
-        <span className="font-mono text-[9px] font-semibold text-white/30 tracking-widest">
+        <span className="font-mono text-[9px] max-md:text-[11px] font-semibold text-white/30 tracking-widest">
           PROJECT: 0{index + 1} // {project.year}
         </span>
       </div>
@@ -75,8 +77,8 @@ export default function WorkCard({ project, index }: WorkCardProps) {
         </div>
 
         {/* Action text */}
-        <div className="overflow-hidden h-0 group-hover:h-4 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
-          <span className="font-mono text-[10px] font-semibold tracking-wider text-[#bda881] uppercase">
+        <div className="overflow-hidden h-0 md:group-hover:h-4 max-md:h-4 opacity-0 md:group-hover:opacity-100 max-md:opacity-100 transition-all duration-500 ease-out">
+          <span className="font-mono text-[10px] max-md:text-[11px] font-semibold tracking-wider text-[#bda881] uppercase">
             Discover Project Case Study →
           </span>
         </div>

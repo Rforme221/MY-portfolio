@@ -159,7 +159,7 @@ export default function Contact() {
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           
           <ScrollReveal y={20} className="max-w-3xl">
-            <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
+            <span className="font-mono text-[10px] max-md:text-[11px] font-bold tracking-widest text-brand-accent uppercase block mb-3 animate-pulse">
               INITIATE COLLABORATION // CONTACT PORTAL
             </span>
             <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-brand-dark leading-tight uppercase">
@@ -189,7 +189,7 @@ export default function Contact() {
                       <MapPin className="h-5 w-5" />
                     </span>
                     <div>
-                      <span className="font-mono text-[9px] text-brand-dark/40 uppercase block">Headquarters Node</span>
+                      <span className="font-mono text-[9px] max-md:text-[11px] text-brand-dark/40 uppercase block">Headquarters Node</span>
                       <span className="font-sans text-xs sm:text-sm font-semibold text-brand-dark leading-relaxed uppercase">
                         Baluwatar, Kathmandu<br />
                         Bagmati, Nepal 44600
@@ -202,7 +202,7 @@ export default function Contact() {
                       <Mail className="h-5 w-5" />
                     </span>
                     <div>
-                      <span className="font-mono text-[9px] text-brand-dark/40 uppercase block">Digital Mailbox</span>
+                      <span className="font-mono text-[9px] max-md:text-[11px] text-brand-dark/40 uppercase block">Digital Mailbox</span>
                       <a 
                         id="contact-email-link"
                         href="mailto:mail@rsofficial.com" 
@@ -218,7 +218,7 @@ export default function Contact() {
                       <Calendar className="h-5 w-5" />
                     </span>
                     <div>
-                      <span className="font-mono text-[9px] text-brand-dark/40 uppercase block">Consultation Days</span>
+                      <span className="font-mono text-[9px] max-md:text-[11px] text-brand-dark/40 uppercase block">Consultation Days</span>
                       <span className="font-sans text-xs sm:text-sm font-semibold text-brand-dark leading-relaxed uppercase">
                         Monday - Saturday<br />
                         09:00 AM - 06:00 PM NPT
@@ -229,7 +229,7 @@ export default function Contact() {
               </ScrollReveal>
 
               <ScrollReveal y={30} delay={0.1} className="bg-brand-cream/35 border border-brand-border/40 p-8 rounded-2xl relative overflow-hidden">
-                <span className="font-mono text-[10px] font-bold tracking-widest text-brand-accent uppercase block mb-3">SECURE PROTOCOL</span>
+                <span className="font-mono text-[10px] max-md:text-[11px] font-bold tracking-widest text-brand-accent uppercase block mb-3">SECURE PROTOCOL</span>
                 <p className="font-sans text-xs text-brand-dark/70 leading-relaxed">
                   All shared metrics, project goals, and client details submitted through this portal are held strictly confidential. Initial digital audits are returned via secure email within 24 hours.
                 </p>
@@ -277,14 +277,14 @@ export default function Contact() {
                         animate={{ opacity: 1, y: 0 }}
                         className="bg-rose-50/80 border border-rose-200 p-4 rounded-xl text-rose-800 text-xs font-sans leading-relaxed flex flex-col gap-1"
                       >
-                        <span className="font-bold uppercase tracking-wider font-mono text-[9px] text-rose-600">TRANSMISSION INTERRUPTED</span>
+                        <span className="font-bold uppercase tracking-wider font-mono text-[9px] max-md:text-[11px] text-rose-600">TRANSMISSION INTERRUPTED</span>
                         <p>{submitError}</p>
                       </motion.div>
                     )}
                     {/* Double Columns Input for Name & Email */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="flex flex-col gap-2">
-                        <label htmlFor="name" className="font-mono text-[10px] font-semibold text-brand-dark/60 tracking-wider uppercase">
+                        <label htmlFor="name" className="font-mono text-[10px] max-md:text-[11px] font-semibold text-brand-dark/60 tracking-wider uppercase">
                           Full Name *
                         </label>
                         <input
@@ -306,7 +306,7 @@ export default function Contact() {
                           <motion.span 
                             initial={{ opacity: 0, y: -4 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-rose-500 font-mono text-[10px] tracking-wide"
+                            className="text-rose-500 font-mono text-[10px] max-md:text-[11px] tracking-wide"
                           >
                             {errors.name}
                           </motion.span>
@@ -314,7 +314,7 @@ export default function Contact() {
                       </div>
 
                       <div className="flex flex-col gap-2">
-                        <label htmlFor="email" className="font-mono text-[10px] font-semibold text-brand-dark/60 tracking-wider uppercase">
+                        <label htmlFor="email" className="font-mono text-[10px] max-md:text-[11px] font-semibold text-brand-dark/60 tracking-wider uppercase">
                           Email Address *
                         </label>
                         <input
@@ -336,7 +336,7 @@ export default function Contact() {
                           <motion.span 
                             initial={{ opacity: 0, y: -4 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-rose-500 font-mono text-[10px] tracking-wide"
+                            className="text-rose-500 font-mono text-[10px] max-md:text-[11px] tracking-wide"
                           >
                             {errors.email}
                           </motion.span>
@@ -346,7 +346,7 @@ export default function Contact() {
 
                     {/* Company name input */}
                     <div className="flex flex-col gap-2">
-                      <label htmlFor="company" className="font-mono text-[10px] font-semibold text-brand-dark/60 tracking-wider uppercase">
+                      <label htmlFor="company" className="font-mono text-[10px] max-md:text-[11px] font-semibold text-brand-dark/60 tracking-wider uppercase">
                         Company Name / Brand Registry
                       </label>
                       <input
@@ -362,7 +362,7 @@ export default function Contact() {
 
                     {/* Services request selector */}
                     <div className="flex flex-col gap-2">
-                      <label htmlFor="service" className="font-mono text-[10px] font-semibold text-brand-dark/60 tracking-wider uppercase">
+                      <label htmlFor="service" className="font-mono text-[10px] max-md:text-[11px] font-semibold text-brand-dark/60 tracking-wider uppercase">
                         Core System Requirement
                       </label>
                       <div className="relative">
@@ -387,7 +387,7 @@ export default function Contact() {
 
                      {/* Textarea message */}
                     <div className="flex flex-col gap-2">
-                      <label htmlFor="message" className="font-mono text-[10px] font-semibold text-brand-dark/60 tracking-wider uppercase">
+                      <label htmlFor="message" className="font-mono text-[10px] max-md:text-[11px] font-semibold text-brand-dark/60 tracking-wider uppercase">
                         Operational Project Goals *
                       </label>
                       <textarea
@@ -409,7 +409,7 @@ export default function Contact() {
                         <motion.span 
                           initial={{ opacity: 0, y: -4 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="text-rose-500 font-mono text-[10px] tracking-wide"
+                          className="text-rose-500 font-mono text-[10px] max-md:text-[11px] tracking-wide"
                         >
                           {errors.message}
                         </motion.span>
@@ -437,7 +437,7 @@ export default function Contact() {
                     </button>
 
                     {/* Visual guarantee and response window */}
-                    <div className="flex items-center justify-center gap-2 text-[10px] font-mono text-brand-dark/50 tracking-wider uppercase mt-1">
+                    <div className="flex items-center justify-center gap-2 text-[10px] max-md:text-[11px] font-mono text-brand-dark/50 tracking-wider uppercase mt-1">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       <span>Guaranteed response within 24 hours</span>
                     </div>
@@ -457,7 +457,7 @@ export default function Contact() {
                     </div>
                     
                     <div className="max-w-md flex flex-col gap-2">
-                      <span className="font-mono text-[9px] text-emerald-600 font-bold uppercase tracking-widest">
+                      <span className="font-mono text-[9px] max-md:text-[11px] text-emerald-600 font-bold uppercase tracking-widest">
                         TRANSMISSION COMPLETED // EN ROUTE
                       </span>
                       <h3 className="font-display text-2xl font-bold uppercase text-brand-dark">
@@ -471,7 +471,7 @@ export default function Contact() {
                     <button
                       id="contact-reset-btn"
                       onClick={() => setIsSubmitted(false)}
-                      className="mt-6 font-display text-[10px] font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase pb-1 border-b border-brand-dark/20 hover:border-brand-accent"
+                      className="mt-6 font-display text-[10px] max-md:text-[11px] font-bold tracking-widest text-brand-dark hover:text-brand-accent uppercase pb-1 border-b border-brand-dark/20 hover:border-brand-accent"
                     >
                       Transmit another request
                     </button>

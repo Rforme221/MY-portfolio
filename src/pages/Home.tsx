@@ -406,10 +406,10 @@ export default function Home() {
         
         <div className="section__inner w-full h-full">
           {/* Horizontal scroll panels wrapper */}
-          <div className="flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
+          <div className="panels-container flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
             
             {/* Panel 1 */}
-            <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative">
+            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative">
               <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   01 // DESIGN & ARCHITECTURE
@@ -425,7 +425,7 @@ export default function Home() {
             </div>
  
             {/* Panel 2 */}
-            <div className="panel w-screen h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
+            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
               <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   02 // TRAFFIC & META ADS
@@ -565,7 +565,7 @@ export default function Home() {
                   <div className="flex-grow" />
 
                   {/* Bottom-Left Glassmorphic Floating Information Card */}
-                  <div className="relative z-20 self-start max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/45 border border-white/10 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-3 sm:gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
+                  <div className="relative z-20 self-start max-w-[18rem] sm:max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/45 border border-white/10 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-3 sm:gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
                     <div className="flex flex-col gap-[clamp(0.4rem,1vw,1rem)]">
                       <h3 className="font-display text-[clamp(1.15rem,2.4vw,2.25rem)] font-bold uppercase text-white tracking-tight leading-[1.1]">
                         {project.title}
