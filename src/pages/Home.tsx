@@ -444,7 +444,7 @@ export default function Home() {
         </div>
  
         {/* Dynamic Shared Asset Floating */}
-        <div className="asset absolute left-1/2 -translate-x-1/2 bottom-[4vh] md:bottom-auto md:left-auto md:translate-x-0 md:right-[clamp(2rem,8vw,12rem)] md:top-1/2 md:-translate-y-1/2 z-20 w-[90vw] sm:w-[80vw] md:w-[clamp(20rem,35vw,32rem)]">
+        <div className="asset hidden md:block absolute md:left-auto md:translate-x-0 md:right-[clamp(2rem,8vw,12rem)] md:top-1/2 md:-translate-y-1/2 z-20 md:bottom-auto w-[90vw] sm:w-[80vw] md:w-[clamp(20rem,35vw,32rem)]">
           <div className="asset-card backdrop-blur-xl bg-zinc-900/60 border border-white/10 p-4 sm:p-[clamp(1.5rem,3vw,3rem)] rounded-2xl sm:rounded-[clamp(1.25rem,2.5vw,2rem)] shadow-[0_30px_100px_rgba(0,0,0,0.8)] flex flex-col gap-3 sm:gap-[clamp(1rem,2vw,2.5rem)] text-left opacity-0">
             <div className="flex justify-between items-center border-b border-white/10 pb-3 sm:pb-[clamp(0.75rem,1.5vw,1.5rem)]">
               <span className="font-mono text-[10px] sm:text-xs text-[#bda881] tracking-widest font-bold">LIVE CONVERSION ENGINE</span>

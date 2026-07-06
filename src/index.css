@@ -231,11 +231,11 @@
   .track-line {
     top: 0;
     bottom: 0;
-    left: clamp(0.75rem, 4vw, 1.25rem);
+    left: calc(clamp(0.75rem, 1.5vw, 1.25rem) / 2) !important;
     width: 1.5px;
     height: auto;
     right: auto;
-    transform: none;
+    transform: translateX(-50%) !important;
   }
   .track-fill {
     width: 100%;
@@ -482,14 +482,7 @@
     padding-block: 3rem !important;
   }
   .asset {
-    position: relative !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    top: auto !important;
-    transform: none !important;
-    margin: 2rem auto 0 auto !important;
-    width: 100% !important;
+    display: none !important;
   }
 
   /* Responsive adjustments for the About Teaser layout and main headings on mobile viewports */

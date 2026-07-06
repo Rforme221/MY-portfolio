@@ -57,62 +57,47 @@ export default function Work() {
               {[...Array(3)].map((_, idx) => {
                 const zIndexValue = idx + 10;
                 return (
-                  <div key={idx} className="w-full">
-                    {/* MOBILE SKELETON CARD */}
+                  <div key={idx} className="w-full relative md:sticky md:top-[clamp(5.5rem,12vh,9rem)]" style={{ zIndex: zIndexValue }}>
+                    {/* Unified responsive skeleton card wrapper */}
                     <div 
-                      className="block md:hidden w-full rounded-[1.25rem] overflow-hidden bg-slate-50 border border-slate-200/50 animate-mobileFadeIn"
+                      className="relative w-full rounded-[1.25rem] md:rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-slate-50 md:bg-gradient-to-b md:from-slate-100 md:to-slate-50 border border-slate-200/50 md:min-h-[clamp(450px,78vh,850px)] md:p-5 md:sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col md:justify-between"
                     >
-                      {/* Image Block Skeleton */}
-                      <div className="relative w-full aspect-[4/3] bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 animate-pulse" style={{ backgroundSize: '200% 100%' }} />
+                      {/* Image block on mobile / shimmering background on desktop */}
+                      <div className="relative block md:absolute md:inset-0 md:z-0 w-full aspect-[4/3] md:aspect-auto md:h-full bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 animate-pulse" style={{ backgroundSize: '200% 100%' }} />
 
-                      {/* Content Block Skeleton */}
-                      <div className="p-5 flex flex-col gap-4">
-                        {/* Header Row Skeleton */}
-                        <div className="flex flex-col gap-1.5">
-                          <div className="h-3 w-28 bg-slate-200 rounded-md" />
-                          <div className="h-3 w-36 bg-slate-200 rounded-md" />
-                        </div>
-                        {/* Title Skeleton */}
-                        <div className="h-6 w-2/3 bg-slate-200 rounded-md" />
-                        {/* Description Skeleton */}
-                        <div className="space-y-1.5">
-                          <div className="h-3 w-full bg-slate-200/80 rounded-md" />
-                          <div className="h-3 w-4/5 bg-slate-200/80 rounded-md" />
-                        </div>
-                        {/* Button Skeleton */}
-                        <div className="h-8 w-24 bg-slate-300 rounded-full" />
-                      </div>
-                    </div>
-
-                    {/* DESKTOP SKELETON CARD */}
-                    <div 
-                      className="hidden md:flex sticky top-[clamp(5.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b from-slate-100 to-slate-50 border border-slate-200/50 p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between"
-                      style={{ transform: "translate3d(0, 0, 0)", zIndex: zIndexValue }}
-                    >
-                      {/* Pulsing skeleton background shimmer */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 animate-pulse" style={{ backgroundSize: '200% 100%' }} />
-
-                      {/* Fake Header Row */}
-                      <div className="relative z-10 flex justify-between items-center text-[clamp(0.6rem,0.8vw,0.75rem)] font-mono uppercase tracking-widest text-slate-400">
-                        <div className="h-4 w-32 bg-slate-200/80 rounded-md" />
-                        <div className="h-4 w-40 bg-slate-200/80 rounded-md" />
+                      {/* DESKTOP ONLY: Fake Header Row */}
+                      <div className="hidden md:flex relative z-10 justify-between items-center text-[clamp(0.6rem,0.8vw,0.75rem)] font-mono uppercase tracking-widest text-slate-400">
+                        <div className="h-4 w-32 bg-slate-200/80 rounded-md animate-pulse" />
+                        <div className="h-4 w-40 bg-slate-200/80 rounded-md animate-pulse" />
                       </div>
 
-                      <div className="flex-grow" />
+                      {/* Desktop only spacer */}
+                      <div className="hidden md:block flex-grow" />
 
-                      {/* Fake Glassmorphic Bottom-Left Info Card */}
-                      <div className="relative z-20 self-start w-full max-w-[18rem] sm:max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-white/70 border border-slate-200 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-4 text-left shadow-md mt-4 sm:mt-0">
+                      {/* DESKTOP ONLY: Fake Glassmorphic Bottom-Left Info Card */}
+                      <div className="hidden md:flex relative z-20 self-start w-full max-w-[18rem] sm:max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-white/70 border border-slate-200 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-4 text-left shadow-md">
                         <div className="space-y-3">
-                          {/* Title block */}
-                          <div className="h-7 w-3/4 bg-slate-200 rounded-md" />
-                          {/* Description lines */}
+                          <div className="h-7 w-3/4 bg-slate-200 rounded-md animate-pulse" />
                           <div className="space-y-2">
-                            <div className="h-3.5 w-full bg-slate-200/80 rounded-md" />
-                            <div className="h-3.5 w-5/6 bg-slate-200/80 rounded-md" />
+                            <div className="h-3.5 w-full bg-slate-200/80 rounded-md animate-pulse" />
+                            <div className="h-3.5 w-5/6 bg-slate-200/80 rounded-md animate-pulse" />
                           </div>
                         </div>
-                        {/* Action button */}
-                        <div className="h-10 w-32 bg-slate-300 rounded-full" />
+                        <div className="h-10 w-32 bg-slate-300 rounded-full animate-pulse" />
+                      </div>
+
+                      {/* MOBILE ONLY: Content Block Skeleton */}
+                      <div className="flex md:hidden p-5 flex-col gap-4 bg-white rounded-b-[1.25rem]">
+                        <div className="flex flex-col gap-1.5">
+                          <div className="h-3 w-28 bg-slate-200 rounded-md animate-pulse" />
+                          <div className="h-3 w-36 bg-slate-200 rounded-md animate-pulse" />
+                        </div>
+                        <div className="h-6 w-2/3 bg-slate-200 rounded-md animate-pulse" />
+                        <div className="space-y-1.5">
+                          <div className="h-3 w-full bg-slate-200/80 rounded-md animate-pulse" />
+                          <div className="h-3 w-4/5 bg-slate-200/80 rounded-md animate-pulse" />
+                        </div>
+                        <div className="h-8 w-24 bg-slate-300 rounded-full animate-pulse" />
                       </div>
                     </div>
                   </div>
@@ -135,17 +120,21 @@ export default function Work() {
                 const isGradient = project.image.startsWith("linear-gradient") || project.image.includes("gradient");
 
                 return (
-                  <div key={project.id} className={`w-full ${project.id === "nep-photography" ? "hidden md:block" : ""}`}>
-                    {/* MOBILE ONLY CARD (stacked card) */}
+                  <div 
+                    key={project.id} 
+                    className="w-full relative md:sticky md:top-[clamp(5.5rem,12vh,9rem)]"
+                    style={{ zIndex: idx + 10 }}
+                  >
+                    {/* Unified responsive card wrapper */}
                     <div 
-                      className={`block md:hidden w-full rounded-[1.25rem] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_20px_50px_rgba(0,0,0,0.15)] animate-mobileFadeIn`}
+                      className={`relative w-full rounded-[1.25rem] md:rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-white md:bg-gradient-to-b md:${gradient} border border-brand-border/60 md:border-zinc-800/10 shadow-[0_15px_40px_rgba(0,0,0,0.04)] md:shadow-[0_30px_80px_rgba(0,0,0,0.2)] flex flex-col md:justify-between md:min-h-[clamp(450px,78vh,850px)] md:p-5 md:sm:p-[clamp(1.5rem,4vw,4rem)] group animate-mobileFadeIn`}
                     >
-                      {/* Image Block */}
+                      {/* 1. IMAGE BLOCK (normal flow on mobile, absolute backdrop on desktop) */}
                       <a 
                         href={project.externalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block w-full aspect-[4/3] overflow-hidden cursor-pointer"
+                        className="relative block md:absolute md:inset-0 md:z-0 w-full aspect-[4/3] md:aspect-auto md:h-full overflow-hidden cursor-pointer group/link"
                         aria-label={`View external site for ${project.title}`}
                       >
                         {isGradient ? (
@@ -158,81 +147,28 @@ export default function Work() {
                             src={project.image} 
                             alt={project.title} 
                             wrapperClassName="w-full h-full"
-                            className="w-full h-full object-cover select-none opacity-100"
-                            skeletonClassName="bg-black/40 animate-pulse"
+                            className="w-full h-full object-cover select-none opacity-100 md:opacity-45 md:group-hover:opacity-60 md:group-hover/link:opacity-80 transition-all duration-700 md:group-hover:scale-105 md:group-hover/link:scale-110"
+                            skeletonClassName="bg-black/10 md:bg-black/40 animate-pulse"
                             loading="lazy"
                             decoding="async"
                           />
                         )}
+                        {/* Premium gradient overlays (Desktop only) */}
+                        <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/85 pointer-events-none" />
+                        <div className="hidden md:block absolute inset-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
                       </a>
 
-                      {/* Content Block */}
-                      <div className="p-5 flex flex-col gap-4 text-left">
-                        {/* category/client meta row */}
-                        <div className="flex flex-col gap-1 text-[11px] font-mono uppercase tracking-widest text-zinc-300">
-                          <span>{num} // {project.category}</span>
-                          <span>CLIENT: {project.client}</span>
-                        </div>
-
-                        {/* title */}
-                        <h3 className="font-display text-xl font-bold uppercase text-white tracking-tight leading-tight">
-                          {project.title}
-                        </h3>
-
-                        {/* description */}
-                        <p className="font-sans text-xs text-zinc-300 font-light leading-relaxed">
-                          {project.description}
-                        </p>
-
-                        {/* DISCOVER button/link */}
-                        <Link
-                          to={`/work/${project.id}`}
-                          className="flex items-center gap-2 px-4 py-2 border border-white/15 text-white rounded-full text-[11px] font-bold tracking-widest hover:bg-white hover:text-black hover:border-white transform active:scale-95 transition-all duration-300 uppercase self-start"
-                        >
-                          <span>DISCOVER</span>
-                          <span className="h-6 w-6 rounded-full bg-white/10 text-white flex items-center justify-center">
-                            <ArrowUpRight className="h-3.5 w-3.5" />
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* DESKTOP ONLY CARD (original sticky/pin/glass layout) */}
-                    <div 
-                      className={`hidden md:flex sticky top-[clamp(5.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
-                      style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
-                    >
-                      {/* True Full-Bleed Background Image (Clickable Link to External URL) */}
-                      <a 
-                        href={project.externalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="absolute inset-0 z-0 overflow-hidden block cursor-pointer group/link"
-                        aria-label={`View external site for ${project.title}`}
-                      >
-                        <ImageWithSkeleton 
-                          src={project.image} 
-                          alt={project.title} 
-                          wrapperClassName="absolute inset-0 w-full h-full"
-                          className="w-full h-full object-cover select-none opacity-45 group-hover:opacity-60 group-hover/link:opacity-80 transition-all duration-700 group-hover:scale-105 group-hover/link:scale-110"
-                          skeletonClassName="bg-black/40 animate-pulse"
-                        />
-                        {/* Premium gradient overlays to blend cleanly and ensure text is highly legible */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/85 pointer-events-none" />
-                        <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
-                      </a>
-                      
-                      {/* Card Header Detail */}
-                      <div className="relative z-10 flex justify-between items-center text-[clamp(0.6rem,0.8vw,0.75rem)] font-mono uppercase tracking-widest text-zinc-300">
+                      {/* 2. DESKTOP ONLY: Top Header Detail (only visible on md+) */}
+                      <div className="hidden md:flex relative z-10 justify-between items-center text-[clamp(0.6rem,0.8vw,0.75rem)] font-mono uppercase tracking-widest text-zinc-300">
                         <span>{num} // {project.category}</span>
                         <span>CLIENT: {project.client}</span>
                       </div>
 
-                      {/* Empty spacer / flex-grow to push bottom content down */}
-                      <div className="flex-grow" />
+                      {/* Desktop only spacer */}
+                      <div className="hidden md:block flex-grow" />
 
-                      {/* Bottom-Left Glassmorphic Floating Information Card */}
-                      <div className="relative z-20 self-start max-w-[18rem] sm:max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/45 border border-white/10 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-3 sm:gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg mt-4 sm:mt-0">
+                      {/* 3. DESKTOP ONLY: Bottom-Left Glassmorphic Info Card (only visible on md+) */}
+                      <div className="hidden md:flex relative z-20 self-start max-w-[18rem] sm:max-w-[clamp(18rem,34vw,26rem)] backdrop-blur-xl bg-black/45 border border-white/10 p-4 sm:p-[clamp(1rem,2.2vw,2.5rem)] rounded-2xl sm:rounded-[clamp(0.75rem,2vw,1.5rem)] flex flex-col gap-3 sm:gap-[clamp(0.75rem,2vw,2rem)] text-left shadow-lg">
                         <div className="flex flex-col gap-[clamp(0.4rem,1vw,1rem)]">
                           <h3 className="font-display text-[clamp(1.15rem,2.4vw,2.25rem)] font-bold uppercase text-white tracking-tight leading-[1.1]">
                             {project.title}
@@ -249,6 +185,36 @@ export default function Work() {
                           <span>DISCOVER</span>
                           <span className="h-[clamp(1.25rem,2.5vw,2.25rem)] w-[clamp(1.25rem,2.5vw,2.25rem)] rounded-full bg-white/10 text-white flex items-center justify-center transition-colors">
                             <ArrowUpRight className="h-[clamp(0.75rem,1.5vw,1.25rem)] w-[clamp(0.75rem,1.5vw,1.25rem)]" />
+                          </span>
+                        </Link>
+                      </div>
+
+                      {/* 4. MOBILE ONLY: Static Document-Flow Content Section (only visible below md) */}
+                      <div className="flex md:hidden p-5 flex-col gap-4 text-left bg-white rounded-b-[1.25rem]">
+                        {/* category/client meta row */}
+                        <div className="flex flex-col gap-1 text-[11px] font-mono uppercase tracking-widest text-brand-dark/50">
+                          <span className="text-[#bda881] font-bold">{num} // {project.category}</span>
+                          <span>CLIENT: {project.client}</span>
+                        </div>
+
+                        {/* title */}
+                        <h3 className="font-display text-xl font-bold uppercase text-brand-dark tracking-tight leading-tight">
+                          {project.title}
+                        </h3>
+
+                        {/* description */}
+                        <p className="font-sans text-xs text-brand-dark/70 font-light leading-relaxed">
+                          {project.description}
+                        </p>
+
+                        {/* DISCOVER button/link */}
+                        <Link
+                          to={`/work/${project.id}`}
+                          className="flex items-center gap-2 px-4 py-2 border border-brand-dark/20 text-brand-dark rounded-full text-[11px] font-bold tracking-widest hover:bg-brand-dark hover:text-white hover:border-brand-dark transform active:scale-95 transition-all duration-300 uppercase self-start"
+                        >
+                          <span>DISCOVER</span>
+                          <span className="h-6 w-6 rounded-full bg-brand-dark/5 text-brand-dark flex items-center justify-center">
+                            <ArrowUpRight className="h-3.5 w-3.5" />
                           </span>
                         </Link>
                       </div>
