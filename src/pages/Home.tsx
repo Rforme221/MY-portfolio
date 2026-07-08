@@ -167,38 +167,7 @@ export default function Home() {
               );
             }
 
-            // GSAP Entrance animation for Hero title & description (snappier, shorter on mobile for under 1s combined feel)
-            gsap.fromTo(".hero-title", 
-              { opacity: 0, y: isMobile ? 30 : 50 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: isMobile ? 0.8 : 1.2,
-                ease: "power4.out",
-                delay: isMobile ? 0.15 : 0.2,
-                scrollTrigger: {
-                  trigger: ".hero-section",
-                  start: "top 90%",
-                  toggleActions: "play none none none"
-                }
-              }
-            );
-
-            gsap.fromTo(".hero-desc", 
-              { opacity: 0, y: isMobile ? 25 : 40 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: isMobile ? 0.8 : 1.2,
-                ease: "power4.out",
-                delay: isMobile ? 0.3 : 0.4,
-                scrollTrigger: {
-                  trigger: ".hero-section",
-                  start: "top 90%",
-                  toggleActions: "play none none none"
-                }
-              }
-            );
+            // GSAP Entrance animation for Hero title & description removed to let Tailwind mount animations handle it cleanly
 
             return () => {}; // cleanup auto-handled by matchMedia on breakpoint change
           }
@@ -371,13 +340,13 @@ export default function Home() {
         <div className="section__inner w-full">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full relative z-10">
             <div className="max-w-3xl">
-              <h1 className="hero-title font-display font-normal tracking-tight text-white leading-[1.08] uppercase mb-[clamp(1.5rem,4vw,3.5rem)] opacity-0">
+              <h1 className="hero-title font-display font-normal tracking-tight text-white leading-[1.08] uppercase mb-[clamp(1.5rem,4vw,3.5rem)] animate-fade-in-up">
                 Web Design <br />
                 & Meta Ads <br />
                 <span className="text-[#bda881]">using AI</span>
               </h1>
  
-              <p className="hero-desc font-sans text-[clamp(1rem,1.5vw+0.5rem,1.35rem)] text-zinc-400 font-light leading-relaxed max-w-[clamp(20rem,50vw,40rem)] opacity-0">
+              <p className="hero-desc font-sans text-[clamp(1rem,1.5vw+0.5rem,1.35rem)] text-zinc-400 font-light leading-relaxed max-w-[clamp(20rem,50vw,40rem)] opacity-0 animate-fade-in-up-delayed">
                 High-converting digital experiences and precision Meta Ads campaigns, optimized with AI to scale local businesses and maximize your ROI.
               </p>
             </div>
