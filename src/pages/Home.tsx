@@ -280,7 +280,17 @@ export default function Home() {
 
     // resize handling — debounce + kill/rebuild, don't just refresh
     let resizeTimer: any;
+    let lastWidth = window.innerWidth;
     const handleResize = () => {
+      const currentWidth = window.innerWidth;
+      // On mobile browsers, vertical scrolling triggers the browser address bar toggle,
+      // which fires resize events. We ignore these and only reinitialize if the actual
+      // horizontal width changed (e.g. orientation change or window resize).
+      if (currentWidth === lastWidth) {
+        return;
+      }
+      lastWidth = currentWidth;
+
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         ScrollTrigger.getAll().forEach((st) => st.kill());
