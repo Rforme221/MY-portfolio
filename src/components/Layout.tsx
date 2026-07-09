@@ -120,7 +120,7 @@ export default function Layout({ children }: LayoutProps) {
   const isHome = location.pathname === "/";
 
   return (
-    <div className="flex flex-col min-h-screen bg-brand-bg text-brand-dark selection:bg-brand-accent selection:text-brand-bg font-sans">
+    <div className="relative w-full max-w-full overflow-x-clip flex flex-col min-h-screen bg-brand-bg text-brand-dark selection:bg-brand-accent selection:text-brand-bg font-sans">
       
       {/* Sticky Top Navigation Bar */}
       <header className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
