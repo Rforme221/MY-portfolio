@@ -129,11 +129,12 @@
     scroll-behavior: smooth;
     background-color: var(--color-brand-bg);
     color: var(--color-brand-dark);
+    overflow-x: clip;
   }
   
   body {
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   /* Global smooth transitions for all interactive elements */
@@ -399,11 +400,10 @@
     }
   }
 
-  /* Prevent viewport horizontal overflows on mobile (320px–767px) */
-  html, body, #root, .App, main, #project-detail-skeleton, #project-detail-content {
+  /* Ensure page elements do not extend wider than mobile viewports */
+  #project-detail-skeleton, #project-detail-content {
     width: 100%;
     max-width: 100% !important;
-    overflow-x: hidden !important;
   }
 
   /* Make sure container paddings don't squeeze content on tiny screens */
