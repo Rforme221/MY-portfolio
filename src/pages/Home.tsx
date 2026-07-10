@@ -12,6 +12,7 @@ import ImageWithSkeleton from "../components/ImageWithSkeleton";
 import { PROJECTS, TESTIMONIALS, BLOGS, SERVICES } from "../data";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 export default function Home() {
   const navigate = useNavigate();
@@ -174,7 +175,7 @@ export default function Home() {
         );
 
         // Pinning and horizontal timeline step/card reveal for methodology
-        mm.add("(min-width: 640px)", () => {
+        mm.add("(min-width: 768px)", () => {
           let steps = gsap.utils.toArray(".step-item") as any[];
           let cards = gsap.utils.toArray(".step-card") as any[];
 
@@ -201,7 +202,7 @@ export default function Home() {
           };
         });
 
-        mm.add("(max-width: 639px)", () => {
+        mm.add("(max-width: 767px)", () => {
           let steps = gsap.utils.toArray(".step-item");
           steps.forEach((step: any) => {
             gsap.from(step, {
@@ -397,7 +398,7 @@ export default function Home() {
         {/* Subtle Architectural Grid Overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.03] pointer-events-none z-0" />
         
-        <div className="section__inner w-full h-full">
+        <div className="section__inner full-bleed w-full h-full">
           {/* Horizontal scroll panels wrapper */}
           <div className="panels-container flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
             
@@ -483,7 +484,7 @@ export default function Home() {
 
       {/* 3. SELECTED WORK SHOWCASE */}
       <section 
-        className="section bg-brand-bg text-brand-dark border-b border-brand-border/30 relative z-20 py-24 sm:py-32"
+        className="section overflow-visible bg-brand-bg text-brand-dark border-b border-brand-border/30 relative z-20 py-24 sm:py-32"
       >
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
           

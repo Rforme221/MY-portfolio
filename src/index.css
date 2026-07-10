@@ -71,7 +71,14 @@
   width: 100%;
   min-height: auto; /* changed from 100svh to prevent empty vertical space on desktop */
   position: relative;
-  overflow: visible; /* changed from clip to avoid breaking sticky child positioning */
+  overflow: clip; /* restored to clip to prevent horizontal viewport flicker */
+}
+
+/* Allow sections with sticky elements to have overflow: visible to let sticky work */
+.section.overflow-visible,
+.section:has(.sticky),
+.section:has(.md\:sticky) {
+  overflow: visible !important;
 }
 
 .section-grid {
@@ -237,7 +244,7 @@
   text-align: center;
 }
 
-@container steps (max-width: 639px) {
+@container steps (max-width: 767px) {
   .steps-row {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -268,20 +275,20 @@
   align-items: start;
   padding-block: clamp(1.5rem, 4vw, 2.5rem);
   border-bottom: 1px solid var(--color-brand-border);
-  container-type: inline-size;
 }
 
 .system-num { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
 .system-title { font-size: clamp(1.1rem, 2vw, 1.5rem); }
 .system-desc { font-size: clamp(0.85rem, 1vw + 0.5rem, 1rem); line-height: 1.5; }
 
-@container (max-width: 640px) {
+@media (max-width: 767px) {
   .system-row {
     grid-template-columns: auto 1fr;
     grid-template-areas:
       "num title"
       "desc desc"
       "cta cta";
+    container-type: normal;
   }
   .system-num { grid-area: num; }
   .system-title { grid-area: title; }
@@ -407,9 +414,9 @@
   }
 
   /* Make sure container paddings don't squeeze content on tiny screens */
-  .section__inner {
-    padding-left: clamp(1rem, 4vw, 1.5rem) !important;
-    padding-right: clamp(1rem, 4vw, 1.5rem) !important;
+  .section__inner:not(.full-bleed) {
+    padding-left: clamp(1rem, 4vw, 1.5rem);
+    padding-right: clamp(1rem, 4vw, 1.5rem);
   }
 
   @keyframes mobileFadeIn {
