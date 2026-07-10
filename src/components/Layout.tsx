@@ -2,6 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, ArrowUpRight, Github, Linkedin, Twitter, Mail, MapPin, Clock } from "lucide-react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register ScrollTrigger plugin safely
+try {
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+} catch (e) {
+  console.warn("GSAP registerPlugin in Layout.tsx fallback", e);
+}
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -49,8 +59,12 @@ export default function Layout({ children }: LayoutProps) {
     return () => clearInterval(interval);
   }, []);
 
+  const scrollYRef = React.useRef(0);
+  const routeChangedRef = React.useRef(false);
+
   // Close mobile menu on path changes
   useEffect(() => {
+    routeChangedRef.current = true;
     setIsMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [location.pathname]);
@@ -58,11 +72,59 @@ export default function Layout({ children }: LayoutProps) {
   // Prevent page scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
+      // Add menu-open class to body
+      document.body.classList.add("menu-open");
+
+      // Record current scroll position
+      const scrollY = window.scrollY;
+      scrollYRef.current = scrollY;
+      
+      // Apply body styles for scroll lock
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
+
+      // Pause GSAP ScrollTriggers
+      try {
+        ScrollTrigger.getAll().forEach((st) => st.disable(false));
+      } catch (e) {
+        console.error("Failed to disable ScrollTriggers", e);
+      }
     } else {
+      // Remove menu-open class from body
+      document.body.classList.remove("menu-open");
+
+      // Determine what to restore
+      let targetScroll = scrollYRef.current;
+      if (routeChangedRef.current) {
+        targetScroll = 0;
+        routeChangedRef.current = false;
+      }
+      
+      // Clean up body styles
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
       document.body.style.overflow = "";
+      
+      // Restore scroll position instantly
+      window.scrollTo(0, targetScroll);
+
+      // Enable GSAP ScrollTriggers and refresh to sync
+      try {
+        ScrollTrigger.getAll().forEach((st) => st.enable());
+        ScrollTrigger.refresh();
+      } catch (e) {
+        console.error("Failed to enable ScrollTriggers", e);
+      }
     }
+    
     return () => {
+      document.body.classList.remove("menu-open");
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
       document.body.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
@@ -249,6 +311,7 @@ export default function Layout({ children }: LayoutProps) {
             animate="visible"
             exit="exit"
             className="md:hidden fixed inset-0 z-[100] w-full h-screen bg-[#070708]/98 backdrop-blur-2xl text-white flex flex-col justify-between p-6 sm:p-10 md:p-12 overflow-y-auto select-none"
+            style={{ overscrollBehavior: "contain" }}
           >
             {/* Ambient Background Glows */}
             <div className="absolute inset-0 z-0 opacity-20 pointer-events-none overflow-hidden">

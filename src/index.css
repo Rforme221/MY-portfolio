@@ -131,6 +131,29 @@
   backface-visibility: hidden;
 }
 
+/* Optimize rendering cost and eliminate mobile flicker during menu open transitions */
+body.menu-open .section,
+body.menu-open .panel,
+body.menu-open .asset,
+body.menu-open .step-item,
+body.menu-open .step-card,
+body.menu-open .system-row,
+body.menu-open .track-fill,
+body.menu-open .layer-bg,
+body.menu-open .layer-mid,
+body.menu-open .layer-text {
+  will-change: auto !important;
+  transform: none !important;
+  backface-visibility: visible !important;
+  animation: none !important;
+}
+
+/* Drop sticky header's backdrop blur when full-page near-opaque menu overlay is open */
+body.menu-open header {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
