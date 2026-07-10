@@ -128,13 +128,13 @@ export default function Layout({ children }: LayoutProps) {
           ? "bg-[#0a0a0a] text-white border-b border-white/5" 
           : "bg-brand-bg/85 text-brand-dark border-b border-brand-border/30"
       } backdrop-blur-md`}>
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-2 sm:gap-4">
           
           {/* Logo Name */}
           <Link 
             id="nav-logo"
             to="/" 
-            className="flex items-center gap-3 group focus:outline-none"
+            className="flex items-center gap-2 sm:gap-3 group focus:outline-none"
           >
             {isHome ? (
               <img 
@@ -142,7 +142,7 @@ export default function Layout({ children }: LayoutProps) {
                 alt="aiko logo" 
                 loading="lazy"
                 decoding="async"
-                className="h-8 sm:h-9 w-auto object-contain"
+                className="h-6 sm:h-9 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
             ) : (
@@ -151,18 +151,18 @@ export default function Layout({ children }: LayoutProps) {
                 alt="Raj Shrestha logo" 
                 loading="lazy"
                 decoding="async"
-                className="h-8 sm:h-9 w-auto object-contain"
+                className="h-6 sm:h-9 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
             )}
             
-            {/* Pulsing Availability Pill - Hidden on mobile */}
-            <div className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded border text-[10px] font-bold tracking-wider uppercase transition-all duration-300 ${
+            {/* Pulsing Availability Pill - Now visible on mobile too */}
+            <div className={`flex items-center gap-1 sm:gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded border text-[8px] sm:text-[10px] font-bold tracking-wider uppercase transition-all duration-300 ${
               isHome 
                 ? "bg-[#0b1a13] border-emerald-500/20 text-[#10b981]" 
                 : "bg-emerald-50 border-emerald-200 text-emerald-700"
             }`}>
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="h-1 sm:h-1.5 w-1 sm:w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>Available</span>
             </div>
           </Link>
@@ -197,41 +197,45 @@ export default function Layout({ children }: LayoutProps) {
             })}
           </nav>
 
-          {/* Header Action Button - Desktop Only */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Right Actions - Desktop and Mobile adaptive */}
+          <div className="flex items-center gap-2 sm:gap-4">
             <Link
               id="nav-cta-talk"
               to="/contact"
-              className={`font-display text-[10px] font-bold tracking-widest px-5 py-2.5 transition-all duration-300 transform hover:scale-105 active:scale-95 uppercase border rounded-md ${
+              className={`font-display text-[8px] sm:text-[10px] font-bold tracking-widest px-2.5 py-1.5 sm:px-5 sm:py-2.5 transition-all duration-300 transform hover:scale-105 active:scale-95 uppercase border rounded-md ${
                 isHome 
                   ? "border-zinc-800 text-white bg-transparent hover:bg-white hover:text-black hover:border-white" 
-                  : "border-transparent text-brand-bg bg-brand-dark hover:bg-brand-accent hover:text-brand-bg rounded-full"
+                  : "border-transparent text-brand-bg bg-brand-dark hover:bg-brand-accent hover:text-brand-bg rounded-full hidden md:inline-block"
               }`}
             >
               Let's Talk
             </Link>
-          </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <button
-            id="mobile-menu-toggle"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-expanded={isMobileMenuOpen}
-            aria-haspopup="true"
-            aria-controls="mobile-nav-menu"
-            className={`flex md:hidden h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 focus:outline-none active:scale-95 ${
-              isHome 
-                ? "border-white/10 hover:bg-white/5 text-white active:bg-white/10" 
-                : "border-brand-border/50 hover:bg-brand-cream/50 text-brand-dark active:bg-brand-cream"
-            }`}
-            aria-label="Toggle Navigation Menu"
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </button>
+            {/* Mobile Menu Toggle Button */}
+            <button
+              id="mobile-menu-toggle"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-expanded={isMobileMenuOpen}
+              aria-haspopup="true"
+              aria-controls="mobile-nav-menu"
+              className={`flex md:hidden h-8 w-8 sm:h-11 sm:w-11 items-center justify-center rounded-md border transition-all duration-300 focus:outline-none active:scale-95 ${
+                isHome 
+                  ? "border-zinc-800 hover:bg-white/5 text-white active:bg-white/10" 
+                  : "border-brand-border/50 hover:bg-brand-cream/50 text-brand-dark active:bg-brand-cream"
+              }`}
+              aria-label="Toggle Navigation Menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-4 w-4 sm:h-5 sm:w-5" />
+              ) : (
+                /* Two lines hamburger icon matching reference layout */
+                <div className="flex flex-col gap-1 sm:gap-1.5 justify-center items-center w-4 sm:w-5">
+                  <span className="w-4 sm:w-5 h-[1.5px] bg-current rounded-full" />
+                  <span className="w-4 sm:w-5 h-[1.5px] bg-current rounded-full" />
+                </div>
+              )}
+            </button>
+          </div>
         </div>
       </header>
 

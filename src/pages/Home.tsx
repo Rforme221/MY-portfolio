@@ -330,45 +330,59 @@ export default function Home() {
       />
 
       {/* 1. HERO SECTION */}
-      <section className="section hero-section relative min-h-[75vh] md:min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 py-[clamp(2.5rem,6vh,4rem)] md:py-[clamp(4rem,10vw,12rem)]">
+      <section className="section hero-section relative min-h-screen md:min-h-[85vh] lg:min-h-[90vh] flex flex-col md:flex-row md:items-center justify-between md:justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 pt-24 pb-0 md:py-[clamp(4rem,10vw,12rem)]">
         {/* Subtle Ambient Brand Highlight */}
         <div 
           className="absolute inset-0 z-0 opacity-40 pointer-events-none"
           style={{ backgroundImage: "radial-gradient(circle at 30% 50%, rgba(188, 72, 0, 0.12) 0%, transparent 60%)" }}
         />
-        {/* Background Image of Profile Portrait */}
+        {/* Background Image of Profile Portrait (Desktop only) */}
         <div 
-          className="hero-visual absolute inset-0 z-0 bg-no-repeat bg-cover max-md:bg-[position:75%_center] bg-right md:bg-right opacity-90"
+          className="hero-visual absolute inset-0 z-0 bg-no-repeat bg-cover bg-right opacity-90 hidden md:block"
           style={{
             backgroundImage: "url('/image/hero.png')",
           }}
         />
-        {/* Gradient overlays to blend portrait image seamlessly into pitch-black background */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/95 to-transparent lg:via-[#0a0a0a]/75 lg:to-transparent" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:hidden" />
+        {/* Gradient overlays to blend portrait image seamlessly into pitch-black background (Desktop only) */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/95 to-transparent lg:via-[#0a0a0a]/75 lg:to-transparent hidden md:block" />
+        
+        {/* Mobile bottom shadow blend overlay */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:hidden pointer-events-none" />
  
-        <div className="section__inner w-full">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full relative z-10">
-            <div className="max-w-3xl">
-              <h1 className="hero-title font-display font-normal tracking-tight text-white leading-[1.08] uppercase mb-[clamp(1.5rem,4vw,3.5rem)] animate-fade-in-up">
+        <div className="section__inner w-full flex-grow flex flex-col justify-between md:justify-center relative z-10">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full">
+            <div className="max-w-3xl mx-auto md:mx-0 flex flex-col items-center md:items-start">
+              <h1 className="hero-title font-display font-normal tracking-tight text-white leading-[1.08] uppercase mb-[clamp(1rem,4vw,3.5rem)] text-center md:text-left animate-fade-in-up">
                 Web Design <br />
                 & Meta Ads <br />
                 <span className="text-[#bda881]">using AI</span>
               </h1>
  
-              <p className="hero-desc font-sans text-[clamp(1rem,1.5vw+0.5rem,1.35rem)] text-zinc-400 font-light leading-relaxed max-w-[clamp(20rem,50vw,40rem)] opacity-0 animate-fade-in-up-delayed">
+              <p className="hero-desc font-sans text-[clamp(1rem,1.4vw+0.4rem,1.25rem)] text-zinc-400 font-light leading-relaxed max-w-[clamp(20rem,50vw,40rem)] text-center md:text-left opacity-0 animate-fade-in-up-delayed">
                 High-converting digital experiences and precision Meta Ads campaigns, optimized with AI to scale local businesses and maximize your ROI.
               </p>
             </div>
           </div>
+
+          {/* Centered Mobile Portrait / Artwork matching reference exactly */}
+          <div className="md:hidden w-full flex justify-center items-end relative overflow-hidden mt-8 self-end h-[42vh] xs:h-[46vh]">
+            <img 
+              src="/image/myportfolio.png"
+              alt="My Portfolio"
+              className="w-[85%] max-w-[340px] h-full object-cover rounded-t-[2rem] border-t border-x border-white/10 opacity-90 object-top shadow-[0_-20px_50px_rgba(0,0,0,0.85)]"
+              referrerPolicy="no-referrer"
+            />
+            {/* Soft dark blend at the absolute bottom of image */}
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none" />
+          </div>
         </div>
 
         {/* Mobile Scroll Affordance (hidden on md and larger) */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 md:hidden flex flex-col items-center gap-1.5 pointer-events-none transition-opacity duration-300">
-          <span className="font-mono text-[9px] text-zinc-500 tracking-[0.25em] uppercase">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 md:hidden flex flex-col items-center gap-1.5 pointer-events-none transition-opacity duration-300 opacity-50">
+          <span className="font-mono text-[8px] text-zinc-500 tracking-[0.25em] uppercase">
             Scroll to explore
           </span>
-          <div className="w-[1px] h-8 bg-gradient-to-b from-zinc-500 to-transparent relative overflow-hidden">
+          <div className="w-[1px] h-6 bg-gradient-to-b from-zinc-500 to-transparent relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1/2 bg-[#bda881] animate-scroll-hint motion-reduce:hidden" />
           </div>
         </div>
