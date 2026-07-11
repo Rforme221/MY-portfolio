@@ -71,6 +71,10 @@ export default function Layout({ children }: LayoutProps) {
 
   // Prevent page scroll when mobile menu is open
   useEffect(() => {
+    // Expose menu state globally and notify other components via CustomEvent
+    (window as any).aikoMobileMenuOpen = isMobileMenuOpen;
+    window.dispatchEvent(new CustomEvent("mobileMenuStateChange", { detail: { open: isMobileMenuOpen } }));
+
     if (isMobileMenuOpen) {
       // Add menu-open class to body
       document.body.classList.add("menu-open");
@@ -121,6 +125,8 @@ export default function Layout({ children }: LayoutProps) {
     }
     
     return () => {
+      (window as any).aikoMobileMenuOpen = false;
+      window.dispatchEvent(new CustomEvent("mobileMenuStateChange", { detail: { open: false } }));
       document.body.classList.remove("menu-open");
       document.body.style.position = "";
       document.body.style.top = "";

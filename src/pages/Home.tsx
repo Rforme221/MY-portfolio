@@ -274,9 +274,28 @@ export default function Home() {
       }
     });
 
+    // Listen to mobile menu state change events from Layout.tsx to toggle ScrollTriggers
+    const handleMenuStateChange = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      const isOpen = customEvent.detail?.open;
+      try {
+        if (isOpen) {
+          ScrollTrigger.getAll().forEach((st) => st.disable(false));
+        } else {
+          ScrollTrigger.getAll().forEach((st) => st.enable());
+          ScrollTrigger.refresh();
+        }
+      } catch (err) {
+        console.error("Home: Failed to sync ScrollTriggers on menu state change", err);
+      }
+    };
+    window.addEventListener("mobileMenuStateChange", handleMenuStateChange);
+
     // Trigger initial refresh after render to ensure correct placement calculations
     const mountRefreshTimer = setTimeout(() => {
-      ScrollTrigger.refresh();
+      if (!(window as any).aikoMobileMenuOpen) {
+        ScrollTrigger.refresh();
+      }
     }, 100);
 
     // resize handling — debounce + kill/rebuild, don't just refresh
@@ -290,6 +309,12 @@ export default function Home() {
       if (currentWidth === lastWidth) {
         return;
       }
+
+      // If the mobile menu is open, ignore resize/refresh to prevent layout thrashing and flickering
+      if ((window as any).aikoMobileMenuOpen) {
+        return;
+      }
+
       lastWidth = currentWidth;
 
       clearTimeout(resizeTimer);
@@ -304,7 +329,9 @@ export default function Home() {
     };
 
     const handleOrientationChange = () => {
-      ScrollTrigger.refresh();
+      if (!(window as any).aikoMobileMenuOpen) {
+        ScrollTrigger.refresh();
+      }
     };
 
     window.addEventListener("resize", handleResize);
@@ -314,6 +341,7 @@ export default function Home() {
       if (ctx) {
         ctx.revert();
       }
+      window.removeEventListener("mobileMenuStateChange", handleMenuStateChange);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleOrientationChange);
       clearTimeout(resizeTimer);
