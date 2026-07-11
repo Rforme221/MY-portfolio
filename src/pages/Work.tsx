@@ -57,10 +57,10 @@ export default function Work() {
               {[...Array(3)].map((_, idx) => {
                 const zIndexValue = idx + 10;
                 return (
-                  <div key={idx} className="w-full relative md:sticky md:top-[clamp(5.5rem,12vh,9rem)]" style={{ zIndex: zIndexValue }}>
+                  <div key={idx} className="w-full relative md:sticky md:top-[clamp(5.5rem,12dvh,9rem)]" style={{ zIndex: zIndexValue }}>
                     {/* Unified responsive skeleton card wrapper */}
                     <div 
-                      className="relative w-full rounded-[1.25rem] md:rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-slate-50 md:bg-gradient-to-b md:from-slate-100 md:to-slate-50 border border-slate-200/50 md:min-h-[clamp(450px,78vh,850px)] md:p-5 md:sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col md:justify-between"
+                      className="relative w-full rounded-[1.25rem] md:rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-slate-50 md:bg-gradient-to-b md:from-slate-100 md:to-slate-50 border border-slate-200/50 md:min-h-[clamp(450px,78dvh,850px)] md:p-5 md:sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col md:justify-between"
                     >
                       {/* Image block on mobile / shimmering background on desktop */}
                       <div className="relative block md:absolute md:inset-0 md:z-0 w-full aspect-[4/3] md:aspect-auto md:h-full bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 animate-pulse" style={{ backgroundSize: '200% 100%' }} />
@@ -122,12 +122,12 @@ export default function Work() {
                 return (
                   <div 
                     key={project.id} 
-                    className="w-full relative md:sticky md:top-[clamp(5.5rem,12vh,9rem)]"
+                    className="w-full relative md:sticky md:top-[clamp(5.5rem,12dvh,9rem)]"
                     style={{ zIndex: idx + 10 }}
                   >
                     {/* Unified responsive card wrapper */}
                     <div 
-                      className={`relative w-full rounded-[1.25rem] md:rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-white md:bg-gradient-to-b md:${gradient} border border-brand-border/60 md:border-zinc-800/10 shadow-[0_15px_40px_rgba(0,0,0,0.04)] md:shadow-[0_30px_80px_rgba(0,0,0,0.2)] flex flex-col md:justify-between md:min-h-[clamp(450px,78vh,850px)] md:p-5 md:sm:p-[clamp(1.5rem,4vw,4rem)] group animate-mobileFadeIn`}
+                      className={`relative w-full rounded-[1.25rem] md:rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-white md:bg-gradient-to-b md:${gradient} border border-brand-border/60 md:border-zinc-800/10 shadow-[0_15px_40px_rgba(0,0,0,0.04)] md:shadow-[0_30px_80px_rgba(0,0,0,0.2)] flex flex-col md:justify-between md:min-h-[clamp(450px,78dvh,850px)] md:p-5 md:sm:p-[clamp(1.5rem,4vw,4rem)] group animate-mobileFadeIn`}
                     >
                       {/* 1. IMAGE BLOCK (normal flow on mobile, absolute backdrop on desktop) */}
                       <a 
@@ -146,6 +146,8 @@ export default function Work() {
                           <ImageWithSkeleton 
                             src={project.image} 
                             alt={project.title} 
+                            width={800}
+                            height={600}
                             wrapperClassName="w-full h-full"
                             className="w-full h-full object-cover select-none opacity-100 md:opacity-45 md:group-hover:opacity-60 md:group-hover/link:opacity-80 transition-all duration-700 md:group-hover:scale-105 md:group-hover/link:scale-110"
                             skeletonClassName="bg-black/10 md:bg-black/40 animate-pulse"

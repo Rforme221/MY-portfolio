@@ -205,6 +205,8 @@ export default function ProjectDetail() {
                 <ImageWithSkeleton 
                   src={project.image} 
                   alt={project.title} 
+                  width={1600}
+                  height={700}
                   wrapperClassName="absolute inset-0 w-full h-full"
                   className="w-full h-full object-cover"
                   skeletonClassName="bg-slate-200/50 dark:bg-zinc-800"

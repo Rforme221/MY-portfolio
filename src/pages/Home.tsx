@@ -331,7 +331,7 @@ export default function Home() {
       />
 
       {/* 1. HERO SECTION */}
-      <section className="section hero-section relative min-h-screen md:min-h-[85vh] lg:min-h-[90vh] flex flex-col md:flex-row md:items-center justify-between md:justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 pt-24 pb-0 md:py-[clamp(4rem,10vw,12rem)]">
+      <section className="section hero-section relative min-h-dvh md:min-h-[85dvh] lg:min-h-[90dvh] flex flex-col md:flex-row md:items-center justify-between md:justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 pt-24 pb-0 md:py-[clamp(4rem,10vw,12rem)]">
         {/* Subtle Ambient Brand Highlight */}
         <div 
           className="absolute inset-0 z-0 opacity-40 pointer-events-none"
@@ -366,10 +366,12 @@ export default function Home() {
           </div>
 
           {/* Centered Mobile Portrait / Artwork matching reference exactly */}
-          <div className="md:hidden w-full flex justify-center items-end relative overflow-hidden mt-8 self-end h-[42vh] xs:h-[46vh]">
+          <div className="md:hidden w-full flex justify-center items-end relative overflow-hidden mt-8 self-end h-[42dvh] xs:h-[46dvh]">
             <img 
               src="/image/myportfolio.png"
               alt="My Portfolio"
+              width={340}
+              height={460}
               className="w-[85%] max-w-[340px] h-full object-cover rounded-t-[2rem] border-t border-x border-white/10 opacity-90 object-top shadow-[0_-20px_50px_rgba(0,0,0,0.85)]"
               referrerPolicy="no-referrer"
             />
@@ -393,7 +395,7 @@ export default function Home() {
       <Marquee />
 
       {/* GSAP Interactive Horizontal Panel Section */}
-      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-dvh sm:h-screen flex flex-col justify-between border-t border-white/5">
+      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-dvh sm:h-dvh flex flex-col justify-between border-t border-white/5">
         <div className="absolute inset-0 z-0 bg-radial-gradient from-zinc-900 via-[#0a0a0a] to-[#0a0a0a] opacity-60 pointer-events-none" />
         {/* Subtle Architectural Grid Overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.03] pointer-events-none z-0" />
@@ -403,7 +405,7 @@ export default function Home() {
           <div className="panels-container flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
             
             {/* Panel 1 */}
-            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative">
+            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15dvh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative">
               <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   01 // DESIGN & ARCHITECTURE
@@ -419,7 +421,7 @@ export default function Home() {
             </div>
  
             {/* Panel 2 */}
-            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
+            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15dvh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
               <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   02 // TRAFFIC & META ADS
@@ -526,7 +528,7 @@ export default function Home() {
               return (
                 <div 
                   key={project.id}
-                  className={`sticky top-[clamp(5.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
+                  className={`sticky top-[clamp(5.5rem,12dvh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78dvh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
                   style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
                 >
                   {/* True Full-Bleed Background Image (Clickable Link to External URL) */}
@@ -540,6 +542,8 @@ export default function Home() {
                     <ImageWithSkeleton 
                       src={project.image} 
                       alt={project.title} 
+                      width={800}
+                      height={600}
                       wrapperClassName="absolute inset-0 w-full h-full"
                       className="w-full h-full object-cover select-none opacity-45 group-hover:opacity-60 group-hover/link:opacity-80 transition-all duration-700 group-hover:scale-105 group-hover/link:scale-110"
                       skeletonClassName="bg-black/45 animate-pulse"
@@ -655,7 +659,7 @@ export default function Home() {
       </section>
 
       {/* 5. WORK PROCESS */}
-      <section className="section steps-track border-b border-brand-border/20 py-24 sm:py-0 sm:h-screen sm:min-h-screen flex flex-col justify-center bg-brand-bg">
+      <section className="section steps-track border-b border-brand-border/20 py-24 sm:py-0 sm:h-dvh sm:min-h-dvh flex flex-col justify-center bg-brand-bg">
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 h-full flex flex-col justify-center w-full">
           
           <ScrollReveal y={20} className="max-w-xl mb-16">
@@ -785,6 +789,8 @@ export default function Home() {
                 <ImageWithSkeleton 
                   src="/image/myportfolio.png" 
                   alt="Raj Shrestha" 
+                  width={400}
+                  height={500}
                   wrapperClassName="absolute inset-0 w-full h-full"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   skeletonClassName="bg-slate-200/50 dark:bg-zinc-800"

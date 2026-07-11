@@ -39,7 +39,7 @@
   --text-xs-scale: clamp(0.75rem, 0.8vw + 0.2rem, 0.875rem);
   --gap-scale: clamp(1rem, 3vw, 3rem);
   --card-pad: clamp(1rem, 2.5vw, 2.5rem);
-  --img-h: clamp(300px, 45vh, 600px);
+  --img-h: clamp(300px, 45dvh, 600px);
 
   /* primary blue scale */
   --blue-50:  #EFF4FE;
@@ -101,7 +101,7 @@
 
 .hero-title {
   font-size: clamp(1.5rem, 4vw + 1rem, 6rem);
-  padding-block: clamp(1rem, 5vh, 4rem);
+  padding-block: clamp(1rem, 5dvh, 4rem);
   line-height: 1.1;
 }
 
@@ -321,14 +321,14 @@ body.menu-open header {
 
 @media (orientation: landscape) and (max-height: 500px) {
   .section { min-height: 100dvh; }
-  .hero-title { font-size: clamp(1rem, 3vh, 2.5rem); }
+  .hero-title { font-size: clamp(1rem, 3dvh, 2.5rem); }
 }
 
 .section-wrapper {
   container-type: inline-size;
   container-name: section;
   width: 100%;
-  min-height: 100svh; /* svh not vh — fixes mobile browser chrome jump */
+  min-height: 100dvh; /* dvh fixes mobile browser chrome jump */
   overflow: clip; /* not hidden — hidden breaks sticky/transform children */
 }
 
@@ -522,7 +522,7 @@ body.menu-open header {
   .scroll-panel {
     width: 100% !important;
     height: auto !important;
-    min-height: 60vh !important;
+    min-height: 60dvh !important;
     padding-block: 3rem !important;
   }
   .asset {

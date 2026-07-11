@@ -182,7 +182,7 @@ export default function Layout({ children }: LayoutProps) {
   const isHome = location.pathname === "/";
 
   return (
-    <div className="flex flex-col min-h-screen bg-brand-bg text-brand-dark selection:bg-brand-accent selection:text-brand-bg font-sans">
+    <div className="flex flex-col min-h-dvh bg-brand-bg text-brand-dark selection:bg-brand-accent selection:text-brand-bg font-sans">
       
       {/* Sticky Top Navigation Bar */}
       <header className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
@@ -204,6 +204,8 @@ export default function Layout({ children }: LayoutProps) {
                 alt="aiko logo" 
                 loading="lazy"
                 decoding="async"
+                width={144}
+                height={36}
                 className="h-6 sm:h-9 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
@@ -213,6 +215,8 @@ export default function Layout({ children }: LayoutProps) {
                 alt="Raj Shrestha logo" 
                 loading="lazy"
                 decoding="async"
+                width={144}
+                height={36}
                 className="h-6 sm:h-9 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
@@ -310,7 +314,7 @@ export default function Layout({ children }: LayoutProps) {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="md:hidden fixed inset-0 z-[100] w-full h-screen bg-[#070708]/98 backdrop-blur-2xl text-white flex flex-col justify-between p-6 sm:p-10 md:p-12 overflow-y-auto select-none"
+            className="md:hidden fixed inset-0 z-[100] w-full h-dvh bg-[#070708]/98 backdrop-blur-2xl text-white flex flex-col justify-between p-6 sm:p-10 md:p-12 overflow-y-auto select-none"
             style={{ overscrollBehavior: "contain" }}
           >
             {/* Ambient Background Glows */}
@@ -333,6 +337,8 @@ export default function Layout({ children }: LayoutProps) {
                   alt="aiko logo"
                   loading="lazy"
                   decoding="async"
+                  width={128}
+                  height={32}
                   className="h-8 w-auto object-contain"
                   referrerPolicy="no-referrer"
                 />

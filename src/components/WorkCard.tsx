@@ -29,6 +29,8 @@ export default function WorkCard({ project, index }: WorkCardProps) {
             alt={project.title} 
             loading="lazy"
             decoding="async"
+            width={400}
+            height={500}
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover" 
           />
