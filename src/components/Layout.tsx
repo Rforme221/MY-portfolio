@@ -66,6 +66,17 @@ export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     routeChangedRef.current = true;
     setIsMobileMenuOpen(false);
+    
+    // Safely disable and kill all existing ScrollTriggers to prevent layout/recomposition glitches on page transition
+    try {
+      ScrollTrigger.getAll().forEach((st) => {
+        st.disable(false);
+        st.kill(true);
+      });
+    } catch (e) {
+      console.error("Layout: Failed to clear ScrollTriggers on route change", e);
+    }
+
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [location.pathname]);
 
