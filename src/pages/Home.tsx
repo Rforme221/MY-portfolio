@@ -20,6 +20,7 @@ export default function Home() {
   const featuredBlogs = BLOGS.slice(0, 2);
 
   React.useEffect(() => {
+    let isHomeMounted = true;
     // utility: convert vw/vh string to px at call-time
     const vw = (v: number) => (v / 100) * window.innerWidth;
     const vh = (v: number) => (v / 100) * window.innerHeight;
@@ -292,11 +293,27 @@ export default function Home() {
     window.addEventListener("mobileMenuStateChange", handleMenuStateChange);
 
     // Trigger initial refresh after render to ensure correct placement calculations
-    const mountRefreshTimer = setTimeout(() => {
-      if (!(window as any).aikoMobileMenuOpen) {
+    // Wait for both fonts (document.fonts.ready) and window load event to avoid layout/font reflow issues
+    const windowLoadPromise = new Promise<void>((resolve) => {
+      if (document.readyState === "complete") {
+        resolve();
+      } else {
+        window.addEventListener("load", () => resolve(), { once: true });
+      }
+    });
+
+    const fontsReadyPromise = (document as any).fonts ? (document as any).fonts.ready : Promise.resolve();
+
+    Promise.all([fontsReadyPromise, windowLoadPromise]).then(() => {
+      if (isHomeMounted && !(window as any).aikoMobileMenuOpen) {
         ScrollTrigger.refresh();
       }
-    }, 100);
+    }).catch((err) => {
+      console.warn("Home: Failed to wait for fonts or load event", err);
+      if (isHomeMounted && !(window as any).aikoMobileMenuOpen) {
+        ScrollTrigger.refresh();
+      }
+    });
 
     // resize handling — debounce + kill/rebuild, don't just refresh
     let resizeTimer: any;
@@ -338,6 +355,7 @@ export default function Home() {
     window.addEventListener("orientationchange", handleOrientationChange);
 
     return () => {
+      isHomeMounted = false;
       if (ctx) {
         ctx.revert();
       }
@@ -345,7 +363,6 @@ export default function Home() {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleOrientationChange);
       clearTimeout(resizeTimer);
-      clearTimeout(mountRefreshTimer);
       hoverCleanups.forEach((cleanup) => cleanup());
     };
   }, []);

@@ -124,7 +124,7 @@ export default function Layout({ children }: LayoutProps) {
       document.body.style.overflow = "";
       
       // Restore scroll position instantly
-      window.scrollTo(0, targetScroll);
+      window.scrollTo({ top: targetScroll, behavior: "instant" });
 
       // Enable GSAP ScrollTriggers and refresh to sync
       try {
