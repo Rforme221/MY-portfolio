@@ -206,17 +206,38 @@ export default function Home() {
         mm.add("(max-width: 767px)", () => {
           let steps = gsap.utils.toArray(".step-item");
           steps.forEach((step: any) => {
-            gsap.from(step, {
-              autoAlpha: 0,
-              x: -vw(5),
-              scrollTrigger: { 
-                trigger: step, 
-                start: "top 85%",
+            gsap.fromTo(step, 
+              { autoAlpha: 0, x: -20 },
+              {
+                autoAlpha: 1,
+                x: 0,
+                duration: 0.6,
+                ease: "power2.out",
+                scrollTrigger: { 
+                  trigger: step, 
+                  start: "top 85%",
+                  toggleActions: "play none none reverse",
+                  invalidateOnRefresh: true
+                },
+              }
+            );
+          });
+
+          // Animate track line drawing vertically on mobile with non-pinned, non-scrubbed entrance animation
+          gsap.fromTo(".track-fill", 
+            { scaleY: 0 },
+            {
+              scaleY: 1,
+              duration: 1.0,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: ".steps-row",
+                start: "top 75%",
                 toggleActions: "play none none reverse",
                 invalidateOnRefresh: true
-              },
-            });
-          });
+              }
+            }
+          );
         });
 
         // Parallax scroll for hero title is now handled responsively inside matchMedia for !isMobile
@@ -440,17 +461,17 @@ export default function Home() {
       <Marquee />
 
       {/* GSAP Interactive Horizontal Panel Section */}
-      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-dvh sm:h-dvh flex flex-col justify-between border-t border-white/5">
+      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-auto md:h-dvh flex flex-col justify-between border-t border-white/5 py-12 md:py-0">
         <div className="absolute inset-0 z-0 bg-radial-gradient from-zinc-900 via-[#0a0a0a] to-[#0a0a0a] opacity-60 pointer-events-none" />
         {/* Subtle Architectural Grid Overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.03] pointer-events-none z-0" />
         
         <div className="section__inner full-bleed w-full h-full">
-          {/* Horizontal scroll panels wrapper */}
-          <div className="panels-container flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
+          {/* Horizontal scroll panels wrapper - stacks on mobile */}
+          <div className="panels-container flex flex-col md:flex-row w-full md:w-[200vw] h-auto md:h-full overflow-hidden relative z-10">
             
             {/* Panel 1 */}
-            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15dvh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative">
+            <div className="panel scroll-panel w-full md:w-[100vw] h-auto md:h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(3rem,10dvh,6rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] pb-8 md:pb-0 relative">
               <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   01 // DESIGN & ARCHITECTURE
@@ -466,7 +487,7 @@ export default function Home() {
             </div>
  
             {/* Panel 2 */}
-            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15dvh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
+            <div className="panel scroll-panel w-full md:w-[100vw] h-auto md:h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(3rem,10dvh,6rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] pb-8 md:pb-0 relative bg-[#0d0d0d] border-t border-white/5 md:border-t-0">
               <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   02 // TRAFFIC & META ADS
@@ -704,7 +725,7 @@ export default function Home() {
       </section>
 
       {/* 5. WORK PROCESS */}
-      <section className="section steps-track border-b border-brand-border/20 py-24 sm:py-0 sm:h-dvh sm:min-h-dvh flex flex-col justify-center bg-brand-bg">
+      <section className="section steps-track border-b border-brand-border/20 py-24 md:py-0 md:h-dvh md:min-h-dvh flex flex-col justify-center bg-brand-bg">
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 h-full flex flex-col justify-center w-full">
           
           <ScrollReveal y={20} className="max-w-xl mb-16">
@@ -729,14 +750,14 @@ export default function Home() {
               { num: "03", title: "Launch Pad Setup", desc: "Our team writes lightweight React code and configures Meta Conversions API to establish pristine tracking and millisecond loads." },
               { num: "04", title: "The Scale Engine", desc: "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS." }
             ].map((step) => (
-              <div key={step.num} className="step-item flex flex-row sm:flex-col items-center sm:justify-center justify-start gap-4 sm:gap-0 relative z-10">
-                <div className="step-dot border-2 border-brand-primary bg-brand-bg flex items-center justify-center flex-shrink-0 z-10 sm:mx-auto">
+              <div key={step.num} className="step-item flex flex-row md:flex-col items-center md:justify-center justify-start gap-4 md:gap-0 relative z-10">
+                <div className="step-dot border-2 border-brand-primary bg-brand-bg flex items-center justify-center flex-shrink-0 z-10 md:mx-auto">
                   <div className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
                 </div>
-                <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-0 sm:mt-2 text-left sm:text-center">
+                <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-0 md:mt-2 text-left md:text-center">
                   <span className="block text-[10px] font-mono text-brand-accent mb-0.5">Phase {step.num}</span>
                   {step.title}
-                  <p className="block sm:hidden font-sans text-xs text-brand-dark/70 font-light mt-1.5 normal-case leading-relaxed max-w-sm">
+                  <p className="block md:hidden font-sans text-xs text-brand-dark/70 font-light mt-1.5 normal-case leading-relaxed max-w-sm">
                     {step.desc}
                   </p>
                 </div>
@@ -745,7 +766,7 @@ export default function Home() {
           </div>
 
           {/* Cards container: stacked cards */}
-          <div className="hidden sm:block relative max-w-2xl mx-auto w-full min-h-[220px]">
+          <div className="hidden md:block relative max-w-2xl mx-auto w-full min-h-[220px]">
             {[
               { num: "01", title: "Discovery & Audit", desc: "We deep-dive into your existing analytics, current sales metrics, and market competitors in Kathmandu or overseas to uncover the leaks." },
               { num: "02", title: "AI Blueprinting", desc: "We draft a unified visual interface blueprint, write high-converting copy using proven psychological models, and structure our ad funnel." },
