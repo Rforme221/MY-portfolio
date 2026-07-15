@@ -39,7 +39,7 @@
   --text-xs-scale: clamp(0.75rem, 0.8vw + 0.2rem, 0.875rem);
   --gap-scale: clamp(1rem, 3vw, 3rem);
   --card-pad: clamp(1rem, 2.5vw, 2.5rem);
-  --img-h: clamp(300px, 45dvh, 600px);
+  --img-h: clamp(300px, 45vh, 600px);
 
   /* primary blue scale */
   --blue-50:  #EFF4FE;
@@ -101,7 +101,7 @@
 
 .hero-title {
   font-size: clamp(1.5rem, 4vw + 1rem, 6rem);
-  padding-block: clamp(1rem, 5dvh, 4rem);
+  padding-block: clamp(1rem, 5vh, 4rem);
   line-height: 1.1;
 }
 
@@ -129,29 +129,6 @@
   will-change: transform, opacity;
   transform: translateZ(0); /* force own compositor layer */
   backface-visibility: hidden;
-}
-
-/* Optimize rendering cost and eliminate mobile flicker during menu open transitions */
-body.menu-open .section,
-body.menu-open .panel,
-body.menu-open .asset,
-body.menu-open .step-item,
-body.menu-open .step-card,
-body.menu-open .system-row,
-body.menu-open .track-fill,
-body.menu-open .layer-bg,
-body.menu-open .layer-mid,
-body.menu-open .layer-text {
-  will-change: auto !important;
-  transform: none !important;
-  backface-visibility: visible !important;
-  animation: none !important;
-}
-
-/* Drop sticky header's backdrop blur when full-page near-opaque menu overlay is open */
-body.menu-open header {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
 }
 
 @layer base {
@@ -267,7 +244,7 @@ body.menu-open header {
   text-align: center;
 }
 
-@container steps (max-width: 767px) {
+@container steps (max-width: 639px) {
   .steps-row {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -298,20 +275,20 @@ body.menu-open header {
   align-items: start;
   padding-block: clamp(1.5rem, 4vw, 2.5rem);
   border-bottom: 1px solid var(--color-brand-border);
+  container-type: inline-size;
 }
 
 .system-num { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
 .system-title { font-size: clamp(1.1rem, 2vw, 1.5rem); }
 .system-desc { font-size: clamp(0.85rem, 1vw + 0.5rem, 1rem); line-height: 1.5; }
 
-@media (max-width: 767px) {
+@container (max-width: 640px) {
   .system-row {
     grid-template-columns: auto 1fr;
     grid-template-areas:
       "num title"
       "desc desc"
       "cta cta";
-    container-type: normal;
   }
   .system-num { grid-area: num; }
   .system-title { grid-area: title; }
@@ -321,14 +298,14 @@ body.menu-open header {
 
 @media (orientation: landscape) and (max-height: 500px) {
   .section { min-height: 100dvh; }
-  .hero-title { font-size: clamp(1rem, 3dvh, 2.5rem); }
+  .hero-title { font-size: clamp(1rem, 3vh, 2.5rem); }
 }
 
 .section-wrapper {
   container-type: inline-size;
   container-name: section;
   width: 100%;
-  min-height: 100dvh; /* dvh fixes mobile browser chrome jump */
+  min-height: 100svh; /* svh not vh — fixes mobile browser chrome jump */
   overflow: clip; /* not hidden — hidden breaks sticky/transform children */
 }
 
@@ -437,9 +414,9 @@ body.menu-open header {
   }
 
   /* Make sure container paddings don't squeeze content on tiny screens */
-  .section__inner:not(.full-bleed) {
-    padding-left: clamp(1rem, 4vw, 1.5rem);
-    padding-right: clamp(1rem, 4vw, 1.5rem);
+  .section__inner {
+    padding-left: clamp(1rem, 4vw, 1.5rem) !important;
+    padding-right: clamp(1rem, 4vw, 1.5rem) !important;
   }
 
   @keyframes mobileFadeIn {
@@ -522,7 +499,7 @@ body.menu-open header {
   .scroll-panel {
     width: 100% !important;
     height: auto !important;
-    min-height: 60dvh !important;
+    min-height: 60vh !important;
     padding-block: 3rem !important;
   }
   .asset {

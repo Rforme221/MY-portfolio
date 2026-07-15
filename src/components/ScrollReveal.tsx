@@ -22,7 +22,7 @@ export default function ScrollReveal({
   triggerOnce = true
 }: ScrollRevealProps) {
   const ref = React.useRef(null);
-  const isInView = useInView(ref, { once: triggerOnce, margin: "-30px 0px" });
+  const isInView = useInView(ref, { once: triggerOnce, margin: "-100px 0px" });
 
   if (staggerChildren > 0) {
     const containerVariants = {

@@ -2,16 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, ArrowUpRight, Github, Linkedin, Twitter, Mail, MapPin, Clock } from "lucide-react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// Register ScrollTrigger plugin safely
-try {
-  gsap.registerPlugin(ScrollTrigger);
-  ScrollTrigger.config({ ignoreMobileResize: true });
-} catch (e) {
-  console.warn("GSAP registerPlugin in Layout.tsx fallback", e);
-}
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -59,89 +49,20 @@ export default function Layout({ children }: LayoutProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const scrollYRef = React.useRef(0);
-  const routeChangedRef = React.useRef(false);
-
   // Close mobile menu on path changes
   useEffect(() => {
-    routeChangedRef.current = true;
     setIsMobileMenuOpen(false);
-    
-    // Safely disable and kill all existing ScrollTriggers to prevent layout/recomposition glitches on page transition
-    try {
-      ScrollTrigger.getAll().forEach((st) => {
-        st.disable(false);
-        st.kill(true);
-      });
-    } catch (e) {
-      console.error("Layout: Failed to clear ScrollTriggers on route change", e);
-    }
-
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [location.pathname]);
 
   // Prevent page scroll when mobile menu is open
   useEffect(() => {
-    // Expose menu state globally and notify other components via CustomEvent
-    (window as any).aikoMobileMenuOpen = isMobileMenuOpen;
-    window.dispatchEvent(new CustomEvent("mobileMenuStateChange", { detail: { open: isMobileMenuOpen } }));
-
     if (isMobileMenuOpen) {
-      // Add menu-open class to body
-      document.body.classList.add("menu-open");
-
-      // Record current scroll position
-      const scrollY = window.scrollY;
-      scrollYRef.current = scrollY;
-      
-      // Apply body styles for scroll lock
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
-
-      // Pause GSAP ScrollTriggers
-      try {
-        ScrollTrigger.getAll().forEach((st) => st.disable(false));
-      } catch (e) {
-        console.error("Failed to disable ScrollTriggers", e);
-      }
     } else {
-      // Remove menu-open class from body
-      document.body.classList.remove("menu-open");
-
-      // Determine what to restore
-      let targetScroll = scrollYRef.current;
-      if (routeChangedRef.current) {
-        targetScroll = 0;
-        routeChangedRef.current = false;
-      }
-      
-      // Clean up body styles
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
       document.body.style.overflow = "";
-      
-      // Restore scroll position instantly
-      window.scrollTo({ top: targetScroll, behavior: "instant" });
-
-      // Enable GSAP ScrollTriggers and refresh to sync
-      try {
-        ScrollTrigger.getAll().forEach((st) => st.enable());
-        ScrollTrigger.refresh();
-      } catch (e) {
-        console.error("Failed to enable ScrollTriggers", e);
-      }
     }
-    
     return () => {
-      (window as any).aikoMobileMenuOpen = false;
-      window.dispatchEvent(new CustomEvent("mobileMenuStateChange", { detail: { open: false } }));
-      document.body.classList.remove("menu-open");
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
       document.body.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
@@ -199,7 +120,7 @@ export default function Layout({ children }: LayoutProps) {
   const isHome = location.pathname === "/";
 
   return (
-    <div className="flex flex-col min-h-dvh bg-brand-bg text-brand-dark selection:bg-brand-accent selection:text-brand-bg font-sans">
+    <div className="flex flex-col min-h-screen bg-brand-bg text-brand-dark selection:bg-brand-accent selection:text-brand-bg font-sans">
       
       {/* Sticky Top Navigation Bar */}
       <header className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
@@ -221,8 +142,6 @@ export default function Layout({ children }: LayoutProps) {
                 alt="aiko logo" 
                 loading="lazy"
                 decoding="async"
-                width={144}
-                height={36}
                 className="h-6 sm:h-9 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
@@ -232,8 +151,6 @@ export default function Layout({ children }: LayoutProps) {
                 alt="Raj Shrestha logo" 
                 loading="lazy"
                 decoding="async"
-                width={144}
-                height={36}
                 className="h-6 sm:h-9 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
@@ -331,8 +248,7 @@ export default function Layout({ children }: LayoutProps) {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="md:hidden fixed inset-0 z-[100] w-full h-dvh bg-[#070708]/98 backdrop-blur-2xl text-white flex flex-col justify-between p-6 sm:p-10 md:p-12 overflow-y-auto select-none"
-            style={{ overscrollBehavior: "contain" }}
+            className="md:hidden fixed inset-0 z-[100] w-full h-screen bg-[#070708]/98 backdrop-blur-2xl text-white flex flex-col justify-between p-6 sm:p-10 md:p-12 overflow-y-auto select-none"
           >
             {/* Ambient Background Glows */}
             <div className="absolute inset-0 z-0 opacity-20 pointer-events-none overflow-hidden">
@@ -354,8 +270,6 @@ export default function Layout({ children }: LayoutProps) {
                   alt="aiko logo"
                   loading="lazy"
                   decoding="async"
-                  width={128}
-                  height={32}
                   className="h-8 w-auto object-contain"
                   referrerPolicy="no-referrer"
                 />

@@ -20,7 +20,6 @@ export default function Home() {
   const featuredBlogs = BLOGS.slice(0, 2);
 
   React.useEffect(() => {
-    let isHomeMounted = true;
     // utility: convert vw/vh string to px at call-time
     const vw = (v: number) => (v / 100) * window.innerWidth;
     const vh = (v: number) => (v / 100) * window.innerHeight;
@@ -206,38 +205,17 @@ export default function Home() {
         mm.add("(max-width: 767px)", () => {
           let steps = gsap.utils.toArray(".step-item");
           steps.forEach((step: any) => {
-            gsap.fromTo(step, 
-              { autoAlpha: 0, x: -20 },
-              {
-                autoAlpha: 1,
-                x: 0,
-                duration: 0.6,
-                ease: "power2.out",
-                scrollTrigger: { 
-                  trigger: step, 
-                  start: "top 85%",
-                  toggleActions: "play none none reverse",
-                  invalidateOnRefresh: true
-                },
-              }
-            );
-          });
-
-          // Animate track line drawing vertically on mobile with non-pinned, non-scrubbed entrance animation
-          gsap.fromTo(".track-fill", 
-            { scaleY: 0 },
-            {
-              scaleY: 1,
-              duration: 1.0,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: ".steps-row",
-                start: "top 75%",
+            gsap.from(step, {
+              autoAlpha: 0,
+              x: -vw(5),
+              scrollTrigger: { 
+                trigger: step, 
+                start: "top 85%",
                 toggleActions: "play none none reverse",
                 invalidateOnRefresh: true
-              }
-            }
-          );
+              },
+            });
+          });
         });
 
         // Parallax scroll for hero title is now handled responsively inside matchMedia for !isMobile
@@ -296,45 +274,10 @@ export default function Home() {
       }
     });
 
-    // Listen to mobile menu state change events from Layout.tsx to toggle ScrollTriggers
-    const handleMenuStateChange = (e: Event) => {
-      const customEvent = e as CustomEvent;
-      const isOpen = customEvent.detail?.open;
-      try {
-        if (isOpen) {
-          ScrollTrigger.getAll().forEach((st) => st.disable(false));
-        } else {
-          ScrollTrigger.getAll().forEach((st) => st.enable());
-          ScrollTrigger.refresh();
-        }
-      } catch (err) {
-        console.error("Home: Failed to sync ScrollTriggers on menu state change", err);
-      }
-    };
-    window.addEventListener("mobileMenuStateChange", handleMenuStateChange);
-
     // Trigger initial refresh after render to ensure correct placement calculations
-    // Wait for both fonts (document.fonts.ready) and window load event to avoid layout/font reflow issues
-    const windowLoadPromise = new Promise<void>((resolve) => {
-      if (document.readyState === "complete") {
-        resolve();
-      } else {
-        window.addEventListener("load", () => resolve(), { once: true });
-      }
-    });
-
-    const fontsReadyPromise = (document as any).fonts ? (document as any).fonts.ready : Promise.resolve();
-
-    Promise.all([fontsReadyPromise, windowLoadPromise]).then(() => {
-      if (isHomeMounted && !(window as any).aikoMobileMenuOpen) {
-        ScrollTrigger.refresh();
-      }
-    }).catch((err) => {
-      console.warn("Home: Failed to wait for fonts or load event", err);
-      if (isHomeMounted && !(window as any).aikoMobileMenuOpen) {
-        ScrollTrigger.refresh();
-      }
-    });
+    const mountRefreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
 
     // resize handling — debounce + kill/rebuild, don't just refresh
     let resizeTimer: any;
@@ -347,12 +290,6 @@ export default function Home() {
       if (currentWidth === lastWidth) {
         return;
       }
-
-      // If the mobile menu is open, ignore resize/refresh to prevent layout thrashing and flickering
-      if ((window as any).aikoMobileMenuOpen) {
-        return;
-      }
-
       lastWidth = currentWidth;
 
       clearTimeout(resizeTimer);
@@ -367,23 +304,20 @@ export default function Home() {
     };
 
     const handleOrientationChange = () => {
-      if (!(window as any).aikoMobileMenuOpen) {
-        ScrollTrigger.refresh();
-      }
+      ScrollTrigger.refresh();
     };
 
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", handleOrientationChange);
 
     return () => {
-      isHomeMounted = false;
       if (ctx) {
         ctx.revert();
       }
-      window.removeEventListener("mobileMenuStateChange", handleMenuStateChange);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleOrientationChange);
       clearTimeout(resizeTimer);
+      clearTimeout(mountRefreshTimer);
       hoverCleanups.forEach((cleanup) => cleanup());
     };
   }, []);
@@ -397,7 +331,7 @@ export default function Home() {
       />
 
       {/* 1. HERO SECTION */}
-      <section className="section hero-section relative min-h-dvh md:min-h-[85dvh] lg:min-h-[90dvh] flex flex-col md:flex-row md:items-center justify-between md:justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 pt-24 pb-0 md:py-[clamp(4rem,10vw,12rem)]">
+      <section className="section hero-section relative min-h-screen md:min-h-[85vh] lg:min-h-[90vh] flex flex-col md:flex-row md:items-center justify-between md:justify-start overflow-hidden bg-[#0a0a0a] border-b border-white/5 pt-24 pb-0 md:py-[clamp(4rem,10vw,12rem)]">
         {/* Subtle Ambient Brand Highlight */}
         <div 
           className="absolute inset-0 z-0 opacity-40 pointer-events-none"
@@ -432,12 +366,10 @@ export default function Home() {
           </div>
 
           {/* Centered Mobile Portrait / Artwork matching reference exactly */}
-          <div className="md:hidden w-full flex justify-center items-end relative overflow-hidden mt-8 self-end h-[42dvh] xs:h-[46dvh]">
+          <div className="md:hidden w-full flex justify-center items-end relative overflow-hidden mt-8 self-end h-[42vh] xs:h-[46vh]">
             <img 
               src="/image/myportfolio.png"
               alt="My Portfolio"
-              width={340}
-              height={460}
               className="w-[85%] max-w-[340px] h-full object-cover rounded-t-[2rem] border-t border-x border-white/10 opacity-90 object-top shadow-[0_-20px_50px_rgba(0,0,0,0.85)]"
               referrerPolicy="no-referrer"
             />
@@ -461,17 +393,17 @@ export default function Home() {
       <Marquee />
 
       {/* GSAP Interactive Horizontal Panel Section */}
-      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-auto md:h-dvh flex flex-col justify-between border-t border-white/5 py-12 md:py-0">
+      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-dvh sm:h-screen flex flex-col justify-between border-t border-white/5">
         <div className="absolute inset-0 z-0 bg-radial-gradient from-zinc-900 via-[#0a0a0a] to-[#0a0a0a] opacity-60 pointer-events-none" />
         {/* Subtle Architectural Grid Overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.03] pointer-events-none z-0" />
         
-        <div className="section__inner full-bleed w-full h-full">
-          {/* Horizontal scroll panels wrapper - stacks on mobile */}
-          <div className="panels-container flex flex-col md:flex-row w-full md:w-[200vw] h-auto md:h-full overflow-hidden relative z-10">
+        <div className="section__inner w-full h-full">
+          {/* Horizontal scroll panels wrapper */}
+          <div className="panels-container flex w-[200vw] h-full flex-row overflow-hidden relative z-10">
             
             {/* Panel 1 */}
-            <div className="panel scroll-panel w-full md:w-[100vw] h-auto md:h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(3rem,10dvh,6rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] pb-8 md:pb-0 relative">
+            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative">
               <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   01 // DESIGN & ARCHITECTURE
@@ -487,7 +419,7 @@ export default function Home() {
             </div>
  
             {/* Panel 2 */}
-            <div className="panel scroll-panel w-full md:w-[100vw] h-auto md:h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(3rem,10dvh,6rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] pb-8 md:pb-0 relative bg-[#0d0d0d] border-t border-white/5 md:border-t-0">
+            <div className="panel scroll-panel h-full flex-shrink-0 flex flex-col justify-start pt-[clamp(5rem,15vh,8rem)] md:justify-center md:pt-0 px-[clamp(1.5rem,5vw,6rem)] relative bg-[#0d0d0d]">
               <div className="panel-inner-content max-w-2xl flex flex-col gap-[clamp(1rem,2vw,3rem)] opacity-0">
                 <span className="font-mono text-[clamp(0.6rem,0.85vw,0.75rem)] font-bold tracking-widest text-[#bda881] uppercase block">
                   02 // TRAFFIC & META ADS
@@ -594,7 +526,7 @@ export default function Home() {
               return (
                 <div 
                   key={project.id}
-                  className={`sticky top-[clamp(5.5rem,12dvh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78dvh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
+                  className={`sticky top-[clamp(5.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
                   style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
                 >
                   {/* True Full-Bleed Background Image (Clickable Link to External URL) */}
@@ -608,8 +540,6 @@ export default function Home() {
                     <ImageWithSkeleton 
                       src={project.image} 
                       alt={project.title} 
-                      width={800}
-                      height={600}
                       wrapperClassName="absolute inset-0 w-full h-full"
                       className="w-full h-full object-cover select-none opacity-45 group-hover:opacity-60 group-hover/link:opacity-80 transition-all duration-700 group-hover:scale-105 group-hover/link:scale-110"
                       skeletonClassName="bg-black/45 animate-pulse"
@@ -725,7 +655,7 @@ export default function Home() {
       </section>
 
       {/* 5. WORK PROCESS */}
-      <section className="section steps-track border-b border-brand-border/20 py-24 md:py-0 md:h-dvh md:min-h-dvh flex flex-col justify-center bg-brand-bg">
+      <section className="section steps-track border-b border-brand-border/20 py-24 sm:py-0 sm:h-screen sm:min-h-screen flex flex-col justify-center bg-brand-bg">
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 h-full flex flex-col justify-center w-full">
           
           <ScrollReveal y={20} className="max-w-xl mb-16">
@@ -750,14 +680,14 @@ export default function Home() {
               { num: "03", title: "Launch Pad Setup", desc: "Our team writes lightweight React code and configures Meta Conversions API to establish pristine tracking and millisecond loads." },
               { num: "04", title: "The Scale Engine", desc: "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS." }
             ].map((step) => (
-              <div key={step.num} className="step-item flex flex-row md:flex-col items-center md:justify-center justify-start gap-4 md:gap-0 relative z-10">
-                <div className="step-dot border-2 border-brand-primary bg-brand-bg flex items-center justify-center flex-shrink-0 z-10 md:mx-auto">
+              <div key={step.num} className="step-item flex flex-row sm:flex-col items-center sm:justify-center justify-start gap-4 sm:gap-0 relative z-10">
+                <div className="step-dot border-2 border-brand-primary bg-brand-bg flex items-center justify-center flex-shrink-0 z-10 sm:mx-auto">
                   <div className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
                 </div>
-                <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-0 md:mt-2 text-left md:text-center">
+                <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-0 sm:mt-2 text-left sm:text-center">
                   <span className="block text-[10px] font-mono text-brand-accent mb-0.5">Phase {step.num}</span>
                   {step.title}
-                  <p className="block md:hidden font-sans text-xs text-brand-dark/70 font-light mt-1.5 normal-case leading-relaxed max-w-sm">
+                  <p className="block sm:hidden font-sans text-xs text-brand-dark/70 font-light mt-1.5 normal-case leading-relaxed max-w-sm">
                     {step.desc}
                   </p>
                 </div>
@@ -766,7 +696,7 @@ export default function Home() {
           </div>
 
           {/* Cards container: stacked cards */}
-          <div className="hidden md:block relative max-w-2xl mx-auto w-full min-h-[220px]">
+          <div className="hidden sm:block relative max-w-2xl mx-auto w-full min-h-[220px]">
             {[
               { num: "01", title: "Discovery & Audit", desc: "We deep-dive into your existing analytics, current sales metrics, and market competitors in Kathmandu or overseas to uncover the leaks." },
               { num: "02", title: "AI Blueprinting", desc: "We draft a unified visual interface blueprint, write high-converting copy using proven psychological models, and structure our ad funnel." },
@@ -855,8 +785,6 @@ export default function Home() {
                 <ImageWithSkeleton 
                   src="/image/myportfolio.png" 
                   alt="Raj Shrestha" 
-                  width={400}
-                  height={500}
                   wrapperClassName="absolute inset-0 w-full h-full"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   skeletonClassName="bg-slate-200/50 dark:bg-zinc-800"
