@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, Star, Calendar, User, MapPin, Award } from "lucide-react";
 import SEO from "../components/SEO";
 import ScrollReveal from "../components/ScrollReveal";
@@ -8,20 +8,9 @@ import { PROJECTS } from "../data";
 
 export default function ProjectDetail() {
   const { projectId } = useParams<{ projectId: string }>();
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
   
   // Find project
   const project = PROJECTS.find((p) => p.id === projectId);
-
-  // Simulate remote dynamic fetch to show the skeleton loader
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 550); // fast but visible 550ms perceived latency
-    return () => clearTimeout(timer);
-  }, [projectId]);
 
   // If project not found, redirect to /work
   if (!project) {
@@ -43,76 +32,6 @@ export default function ProjectDetail() {
     location: project.location
   };
 
-  // 1. DYNAMIC HIGH-FIDELITY SKELETON RENDERER
-  if (isLoading) {
-    return (
-      <div className="w-full animate-fadeIn" id="project-detail-skeleton">
-        <SEO 
-          title="Loading Case Study — Raj Shrestha Portfolio"
-          description="Accessing secure database case study metrics..."
-        />
-
-        {/* Header Skeleton */}
-        <section className="section pt-12 pb-16 border-b border-brand-border/20">
-          <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
-            {/* Back Button Placeholder */}
-            <div className="h-4 w-40 bg-slate-100 rounded-md animate-pulse mb-12" />
-
-            {/* Title Grid Placeholder */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              <div className="lg:col-span-8 space-y-4">
-                <div className="h-3 w-48 bg-slate-100 rounded-md animate-pulse" />
-                <div className="h-12 w-3/4 bg-slate-200 rounded-xl animate-pulse" />
-              </div>
-              <div className="lg:col-span-4 lg:text-right">
-                <div className="h-10 w-44 bg-slate-100 border border-slate-200/50 rounded-xl animate-pulse inline-block" />
-              </div>
-            </div>
-
-            {/* Metadata Rows Placeholder */}
-            <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-4 gap-6 border-t border-brand-border/30 pt-10 mt-12">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="h-10 w-10 bg-slate-100 rounded-xl animate-pulse" />
-                  <div className="space-y-2 flex-grow">
-                    <div className="h-2 w-16 bg-slate-100 rounded-md animate-pulse" />
-                    <div className="h-4 w-28 bg-slate-200 rounded-md animate-pulse" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Cover Visual Placeholder */}
-        <section className="section py-8 bg-brand-cream/15">
-          <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
-            <div className="w-full aspect-[16/7] md:aspect-[21/9] rounded-3xl bg-slate-100 border border-slate-200/50 animate-pulse relative" />
-          </div>
-        </section>
-
-        {/* Narrative & Stats Placeholder */}
-        <section className="section py-20">
-          <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-              <div className="lg:col-span-7 space-y-6">
-                <div className="h-6 w-3/4 bg-slate-200 rounded-md animate-pulse" />
-                <div className="h-4 w-full bg-slate-100 rounded-md animate-pulse" />
-                <div className="h-4 w-5/6 bg-slate-100 rounded-md animate-pulse" />
-                <div className="h-4 w-4/5 bg-slate-100 rounded-md animate-pulse" />
-              </div>
-              <div className="lg:col-span-5 space-y-6">
-                <div className="h-40 bg-slate-50 border border-slate-200/50 rounded-2xl animate-pulse" />
-                <div className="h-48 bg-slate-100 rounded-2xl animate-pulse" />
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  // 2. ACTIVE RENDERED VIEW
   return (
     <div className="w-full animate-fadeIn" id="project-detail-content">
       <SEO 
@@ -294,4 +213,3 @@ export default function ProjectDetail() {
     </div>
   );
 }
-

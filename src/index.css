@@ -74,11 +74,19 @@
   overflow: clip; /* restored to clip to prevent horizontal viewport flicker */
 }
 
-/* Allow sections with sticky elements to have overflow: visible to let sticky work */
-.section.overflow-visible,
-.section:has(.sticky),
-.section:has(.md\:sticky) {
+/* Allow sections with sticky elements to have overflow: visible to let sticky work
+   FIX: gated to desktop only — on mobile, .md\:sticky classes still exist in the DOM
+   (even though inactive via `hidden md:flex`) and were matching this selector,
+   forcing overflow:visible on mobile unnecessarily. */
+.section.overflow-visible {
   overflow: visible !important;
+}
+
+@media (min-width: 768px) {
+  .section:has(.sticky),
+  .section:has(.md\:sticky) {
+    overflow: visible !important;
+  }
 }
 
 .section-grid {
@@ -114,21 +122,26 @@
   .hero-grid { grid-template-columns: 1fr 1fr; }
 }
 
-.section, .panel, .asset {
-  will-change: transform;
-  transform: translate3d(0, 0, 0); /* forces own layer pre-animation */
-  backface-visibility: hidden;
-}
+/* FIX: forced GPU compositing layers (will-change + translate3d/translateZ + backface-visibility)
+   were applied sitewide with no breakpoint gate. Mobile GPUs choke on stacking this many
+   forced layers -> visible flash/size-pop during scroll. Now desktop-only (>=768px). */
+@media (min-width: 768px) {
+  .section, .panel, .asset {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
 
-.step-item, .step-card, .system-row, .track-fill {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
+  .step-item, .step-card, .system-row, .track-fill {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
 
-.layer-bg, .layer-mid, .layer-text {
-  will-change: transform, opacity;
-  transform: translateZ(0); /* force own compositor layer */
-  backface-visibility: hidden;
+  .layer-bg, .layer-mid, .layer-text {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
 }
 
 @layer base {
@@ -347,12 +360,15 @@
   .hero-visual { aspect-ratio: 4 / 5; }
 }
 
-.methodology-track,
-.core-systems-list > *,
-.hero-visual {
-  will-change: transform;
-  transform: translateZ(0); /* force own layer, GPU */
-  backface-visibility: hidden;
+/* FIX: same forced-GPU-layer issue — gated to desktop only */
+@media (min-width: 768px) {
+  .methodology-track,
+  .core-systems-list > *,
+  .hero-visual {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
 }
 
 /* Custom color utility classes */
@@ -442,39 +458,22 @@
     animation-play-state: running !important; /* Disable pause-on-touch */
   }
 
-  /* 2. ANIMATION & HOVER OVERRIDES FOR TOUCH SCENARIOS */
-  
-  /* Disable heavy scaling, offsets, and translation animations on hover/touch */
-  *:hover,
-  [class*="group"]:hover *,
-  [class*="group/link"]:hover *,
-  [class*="hover:-translate-y"],
-  [class*="hover:translate-"],
-  [class*="hover:scale-"],
-  [class*="group-hover:scale-"],
-  [class*="group-hover:-translate-y"],
-  [class*="group-hover:translate-"] {
-    transform: none !important;
-    scale: none !important;
-    translate: none !important;
-  }
+  /* 2. ANIMATION & HOVER OVERRIDES FOR TOUCH SCENARIOS
+     FIX: REMOVED the blanket `*:hover ... !important transform:none` block that used to be here.
+     It was fighting Framer Motion's inline-style transforms on ScrollReveal/motion.div elements —
+     tap triggers a lingering :hover state, CSS forces transform:none, then Motion's JS re-asserts
+     its own transform next frame, producing a visible snap/flicker. Mobile browsers clear :hover
+     on touch-end anyway, so this override isn't needed. */
 
   /* Avoid stuck hover arrow translations on touch in the core systems list */
   .system-cta {
     transform: none !important;
   }
 
-  /* Enable GPU rendering on animated layers for fluid rendering */
-  .hero-title,
-  .hero-desc,
-  .panel-inner-content,
-  .asset-card,
-  .step-card,
-  .sticky,
-  .system-row {
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-  }
+  /* FIX: removed will-change/backface-visibility re-declaration for mobile — these were
+     re-forcing GPU layers on hero-title/hero-desc/panel-inner-content/asset-card/step-card/
+     sticky/system-row right after we gated the main rules to desktop-only above. Left off
+     mobile entirely so browser only promotes layers that are actually animating via JS. */
 
   /* Snappier transitions for touch screen interaction, preventing visual delays */
   a, button, [role="button"], select, input, textarea {
@@ -545,4 +544,3 @@
     transition: none !important;
   }
 }
-
