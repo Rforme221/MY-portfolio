@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface ImageWithSkeletonProps {
   src?: string;
@@ -21,10 +21,15 @@ export default function ImageWithSkeleton({
 }: ImageWithSkeletonProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
-  // Reset state if src changes
+  // Reset state if src changes and check if image is already cached/loaded
   useEffect(() => {
-    setIsLoaded(false);
+    if (imgRef.current && imgRef.current.complete) {
+      setIsLoaded(true);
+    } else {
+      setIsLoaded(false);
+    }
     setError(false);
   }, [src]);
 
@@ -71,6 +76,7 @@ export default function ImageWithSkeleton({
 
       {/* The Actual Image element */}
       <img
+        ref={imgRef}
         src={src}
         alt={alt}
         referrerPolicy={referrerPolicy}
