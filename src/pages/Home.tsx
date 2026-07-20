@@ -393,7 +393,7 @@ export default function Home() {
       <Marquee />
 
       {/* GSAP Interactive Horizontal Panel Section */}
-      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-dvh sm:h-screen flex flex-col justify-between border-t border-white/5">
+      <section className="section section-2 relative bg-[#0a0a0a] text-white overflow-hidden w-full h-dvh md:h-screen flex flex-col justify-between border-t border-white/5">
         <div className="absolute inset-0 z-0 bg-radial-gradient from-zinc-900 via-[#0a0a0a] to-[#0a0a0a] opacity-60 pointer-events-none" />
         {/* Subtle Architectural Grid Overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.03] pointer-events-none z-0" />
@@ -526,7 +526,7 @@ export default function Home() {
               return (
                 <div 
                   key={project.id}
-                  className={`sticky top-[clamp(5.5rem,12vh,9rem)] w-full min-h-[460px] sm:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 sm:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
+                  className={`relative md:sticky top-[clamp(5.5rem,12vh,9rem)] w-full min-h-[460px] md:min-h-[clamp(450px,78vh,850px)] rounded-[clamp(1.25rem,3vw,3rem)] overflow-hidden bg-gradient-to-b ${gradient} border border-zinc-800/10 shadow-[0_30px_80px_rgba(0,0,0,0.2)] p-5 md:p-[clamp(1.5rem,4vw,4rem)] flex flex-col justify-between group`}
                   style={{ transform: "translate3d(0, 0, 0)", zIndex: idx + 10 }}
                 >
                   {/* True Full-Bleed Background Image (Clickable Link to External URL) */}
@@ -655,7 +655,7 @@ export default function Home() {
       </section>
 
       {/* 5. WORK PROCESS */}
-      <section className="section steps-track border-b border-brand-border/20 py-24 sm:py-0 sm:h-screen sm:min-h-screen flex flex-col justify-center bg-brand-bg">
+      <section className="section steps-track border-b border-brand-border/20 py-24 md:py-0 md:h-screen md:min-h-screen flex flex-col justify-center bg-brand-bg">
         <div className="section__inner max-w-7xl mx-auto px-6 sm:px-8 h-full flex flex-col justify-center w-full">
           
           <ScrollReveal y={20} className="max-w-xl mb-16">
@@ -680,14 +680,14 @@ export default function Home() {
               { num: "03", title: "Launch Pad Setup", desc: "Our team writes lightweight React code and configures Meta Conversions API to establish pristine tracking and millisecond loads." },
               { num: "04", title: "The Scale Engine", desc: "We launch and optimize our creative ad assets, continually refining interest curves and page flows to squeeze maximum ROAS." }
             ].map((step) => (
-              <div key={step.num} className="step-item flex flex-row sm:flex-col items-center sm:justify-center justify-start gap-4 sm:gap-0 relative z-10">
-                <div className="step-dot border-2 border-brand-primary bg-brand-bg flex items-center justify-center flex-shrink-0 z-10 sm:mx-auto">
+              <div key={step.num} className="step-item flex flex-row md:flex-col items-center md:justify-center justify-start gap-4 md:gap-0 relative z-10">
+                <div className="step-dot border-2 border-brand-primary bg-brand-bg flex items-center justify-center flex-shrink-0 z-10 md:mx-auto">
                   <div className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
                 </div>
-                <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-0 sm:mt-2 text-left sm:text-center">
+                <div className="step-label font-display font-bold uppercase tracking-wider text-brand-dark/80 mt-0 md:mt-2 text-left md:text-center">
                   <span className="block text-[10px] font-mono text-brand-accent mb-0.5">Phase {step.num}</span>
                   {step.title}
-                  <p className="block sm:hidden font-sans text-xs text-brand-dark/70 font-light mt-1.5 normal-case leading-relaxed max-w-sm">
+                  <p className="block md:hidden font-sans text-xs text-brand-dark/70 font-light mt-1.5 normal-case leading-relaxed max-w-sm">
                     {step.desc}
                   </p>
                 </div>
@@ -696,7 +696,7 @@ export default function Home() {
           </div>
 
           {/* Cards container: stacked cards */}
-          <div className="hidden sm:block relative max-w-2xl mx-auto w-full min-h-[220px]">
+          <div className="hidden md:block relative max-w-2xl mx-auto w-full min-h-[220px]">
             {[
               { num: "01", title: "Discovery & Audit", desc: "We deep-dive into your existing analytics, current sales metrics, and market competitors in Kathmandu or overseas to uncover the leaks." },
               { num: "02", title: "AI Blueprinting", desc: "We draft a unified visual interface blueprint, write high-converting copy using proven psychological models, and structure our ad funnel." },
